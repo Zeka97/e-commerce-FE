@@ -1,0 +1,37 @@
+.cart-icon {
+  background-image: url("cart.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 36px;
+  width: 36px;
+}
+.cart-dropdown {
+  visibility: hidden;
+  position: absolute;
+}
+
+.cart-dropdown.active {
+  visibility: visible;
+  position: absolute;
+  padding-top: 20px;
+  height: 400px;
+  width: 500px;
+  right: 150px;
+  background-color: white;
+  justify-content: center;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.cart-dropdown_items {
+  width: 100%;
+  overflow-x: auto;
+  height: 80%;
+}
+
+.empty-message {
+  font-size: 18px;
+  margin: 50px auto;
+  font-weight: bold;
+}

@@ -1,0 +1,20 @@
+.cart_item {
+  display: grid;
+  grid-template-columns: 10% 60% 10% 10% 10%;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  border-bottom: 1px solid rgb(213, 219, 219);
+}
+.cart_item_photo {
+  width: 100%;
+  height: auto;
+}
+
+.cart_item_naziv {
+  font-size: 12px;
+}
+
+.cart_item_kolicina_edit {
+  font-weight: bold;
+}

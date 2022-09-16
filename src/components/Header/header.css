@@ -1,0 +1,14 @@
+.header {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: space-between;
+}
+.searchbar-container {
+  width: 80%;
+}
+
+.dropdown_items {
+  display: flex;
+  align-items: center;
+}
