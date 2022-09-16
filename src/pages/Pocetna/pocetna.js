@@ -10,6 +10,7 @@ import Header from "../../components/Header/header";
 const PocetnaPage = () => {
   const [artikli, setArtikli] = useState(null);
   const state = useSelector((state) => state);
+  console.log(state);
   const getArticles = () => {
     axios
       .get("/artikli")
