@@ -2,9 +2,12 @@ import React from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
+import { useNavigate } from "react-router-dom";
+
 import "./avatar.css";
 
 const Avatar = () => {
+  const navigate = useNavigate();
   const openDropdown = () => {
     let k = document.getElementById("dropdown");
     k.classList.toggle("active");
@@ -42,9 +45,9 @@ const Avatar = () => {
             </div>
           </div>
           <li className="user-menu__item">
-            <a className="user-menu-link" href="#">
+            <a className="user-menu-link" onClick={() => navigate("/")}>
               <img
-                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1604623/trophy.png"
+                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1604623/team.png"
                 alt="trophy_icon"
                 width="20"
                 height="20"
@@ -53,18 +56,7 @@ const Avatar = () => {
             </a>
           </li>
           <li className="user-menu__item">
-            <a className="user-menu-link" href="#">
-              <img
-                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1604623/team.png"
-                alt="team_icon"
-                width="20"
-                height="20"
-              />
-              <div>Korpa</div>
-            </a>
-          </li>
-          <li className="user-menu__item">
-            <a className="user-menu-link" href="#">
+            <a className="user-menu-link" onClick={() => navigate("/narudzbe")}>
               <img
                 src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1604623/book.png"
                 alt="team_icon"

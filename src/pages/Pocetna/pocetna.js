@@ -6,26 +6,38 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "../../components/Axios/axios";
 import Card from "../../components/card/Card";
 import Header from "../../components/Header/header";
+import Searchbar from "../../components/Searchbar/searchbar";
+import KategorijaSelect from "../../components/KategorijaSelect/KategorijaSelect";
 
 const PocetnaPage = () => {
   const [artikli, setArtikli] = useState(null);
+  const [searchValue, setSearchValue] = useState(null);
   const state = useSelector((state) => state);
   console.log(state);
+
   const getArticles = () => {
     axios
-      .get("/artikli")
-      .then((res) => setArtikli(res.data))
+      .get("/artikli", {
+        params: {
+          searchValue: searchValue,
+        },
+      })
+      .then((res) => {
+        setArtikli(res.data);
+        console.log(res.data);
+      })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
     getArticles();
-  }, []);
+  }, [searchValue]);
   console.log(artikli);
-  console.log();
   return (
     <div className="pocetna_page">
       <Header />
+      <Searchbar searchValue={searchValue} setSearchValue={setSearchValue} />
+      <KategorijaSelect />
       <div className="artikli">
         {artikli &&
           artikli.map((item) => {

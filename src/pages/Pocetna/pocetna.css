@@ -1,6 +1,7 @@
 .artikli {
   display: grid;
-  grid-template-columns: 23% 23% 23% 23%;
-  grid-gap: 20px;
+  justify-content: center;
+  grid-template-columns: 20% 20% 20% 20%;
+  grid-gap: 5px;
   width: 100%;
 }

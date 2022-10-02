@@ -7,9 +7,7 @@ import Cart from "../Cart/cart";
 const Header = () => {
   return (
     <div className="header">
-      <div className="searchbar-container">
-        <Searchbar />
-      </div>
+      <div className="searchbar-container"></div>
       <div className="dropdown_items">
         <Cart />
         <Avatar />

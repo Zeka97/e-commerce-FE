@@ -5,6 +5,7 @@ export const addItem = (cart, ukupna_cijena, addedToCart) => {
     (item) => item.artikal_id === addedToCart.artikal_id
   );
   console.log("postojiItem", postojiItem);
+  console.log("addedToCart", addedToCart);
 
   if (postojiItem) {
     return {
@@ -56,12 +57,25 @@ export const decreaseQuantityItem = (cart, ukupna_cijena, removeFromCart) => {
         ? { ...cartItem, kolicina: cartItem.kolicina - 1 }
         : cartItem
     ),
-    ukupna: parseFloat(Number(ukupna_cijena - removeFromCart.cijena)),
+    ukupna: parseFloat(
+      Number(ukupna_cijena - removeFromCart.cijena).toFixed(2)
+    ),
   };
 };
 
-export const removeItemFromCart = (cart, removeItemFromCart) => {
-  return cart.filter(
-    (cartItem) => cartItem.artikal_id !== removeItemFromCart.artikal_id
-  );
+export const removeItemFromCart = (cart, ukupna_cijena, removeItemFromCart) => {
+  let ukupna;
+  cart.map((cartItem) => {
+    if (cartItem.artikal_id === removeItemFromCart.artikal_id) {
+      ukupna = parseFloat(
+        Number(ukupna_cijena - cartItem.cijena * cartItem.kolicina).toFixed(2)
+      );
+    }
+  });
+  return {
+    cart: cart.filter(
+      (cartItem) => cartItem.artikal_id !== removeItemFromCart.artikal_id
+    ),
+    ukupna: ukupna,
+  };
 };

@@ -51,11 +51,11 @@ const Login = () => {
   };
 
   return (
-    <div className="login_page" onSubmit={(e) => onSubmit(e)}>
+    <div className="login_page">
       <div className="image">E-Trgovina</div>
       <div className="sign-in">
         <h1>Sign In</h1>
-        <form>
+        <form onSubmit={(e) => onSubmit(e)}>
           <input type="text" placeholder="Username" />
           <input type="password" placeholder="Password" />
           <a href="#">Forgot password?</a>

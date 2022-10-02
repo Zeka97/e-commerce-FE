@@ -17,4 +17,13 @@
 
 .cart_item_kolicina_edit {
   font-weight: bold;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.cart_item_kolicina_edit:hover {
+  cursor: pointer;
+}
+.cart_item_removeall:hover {
+  cursor: pointer;
 }

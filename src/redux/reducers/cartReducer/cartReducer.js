@@ -29,16 +29,27 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         state.ukupna_cijena,
         action.payload
       ));
-      console.log(cart, ukupna);
       return {
         ...state,
         cart: cart,
         ukupna_cijena: ukupna,
       };
     case CartActionTypes.REMOVE_ITEM:
+      ({ cart, ukupna } = removeItemFromCart(
+        state.cart,
+        state.ukupna_cijena,
+        action.payload
+      ));
       return {
         ...state,
-        cart: removeItemFromCart(state.cart, action.payload),
+        cart: cart,
+        ukupna_cijena: ukupna,
+      };
+    case CartActionTypes.REMOVE_ALL:
+      return {
+        ...state,
+        cart: [],
+        ukupna_cijena: 0,
       };
 
     default:

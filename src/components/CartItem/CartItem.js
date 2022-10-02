@@ -22,20 +22,20 @@ const CartItem = ({ key, item, ...props }) => {
           className="cart_item_kolicina_edit"
           onClick={() => props.decrease(item)}
         >
-          {" "}
-          {"<"}{" "}
+          {"<"}
         </span>
         <span className="cart_item_kolicina_value">{item.kolicina}</span>
         <span
           className="cart_item_kolicina_edit"
-          onClick={() => props.increase(item)}
+          onClick={() => props.increase({ ...item, kolicina: 1 })}
         >
-          {" "}
-          {">"}{" "}
+          {">"}
         </span>
       </div>
       <span className="cart_item_cijena">{item.cijena}</span>
-      <span onClick={() => props.remove(item)}>X</span>
+      <span className="cart_item_removeall" onClick={() => props.remove(item)}>
+        X
+      </span>
     </div>
   );
 };

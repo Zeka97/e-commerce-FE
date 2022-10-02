@@ -6,6 +6,9 @@
   height: 36px;
   width: 36px;
 }
+.cart-icon:hover {
+  cursor: pointer;
+}
 .cart-dropdown {
   visibility: hidden;
   position: absolute;

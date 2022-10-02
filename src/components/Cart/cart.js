@@ -1,6 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch, connect } from "react-redux";
+import { Link } from "react-router-dom";
 import CartItem from "../CartItem/CartItem";
+import CustomLinkButton from "../customLinkButton/customLinkButton";
 
 import "./cart.css";
 
@@ -9,7 +11,6 @@ const Cart = (props) => {
     let element = document.getElementById("cart-dropdown");
     element.classList.toggle("active");
   };
-  console.log("props:", props);
 
   return (
     <div className="cart">
@@ -24,11 +25,14 @@ const Cart = (props) => {
             <span className="empty-message">Your cart is empty</span>
           )}
         </div>
-        {props.cart.length && (
+        {props.cart.length ? (
           <div className="cart-dropdown_checkout">
-            <button>Checkout</button>
+            <CustomLinkButton to="/naplata" className={"linkbutton"}>
+              Checkout
+            </CustomLinkButton>
+            <span>Ukupno: {props.ukupna_cijena}</span>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );
@@ -37,6 +41,7 @@ const Cart = (props) => {
 const mapStateToProps = (state, ownProps) => {
   return {
     ...state.cart,
+    ...state.ukupna_cijena,
   };
 };
 
