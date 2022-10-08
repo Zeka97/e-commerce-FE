@@ -4,27 +4,32 @@ import { Select } from "antd";
 
 import axios from "../../components/Axios/axios";
 
-const { Option } = Select;
+const KategorijaSelect = ({ artikli, setArtikli, searchValue }) => {
+  const { Option } = Select;
 
-const onChange = (value) => {
-  console.log(`selected ${value}`);
-};
+  const [kategorija, setKategorija] = useState([]);
 
-const onSearch = (value) => {
-  console.log("search:", value);
-};
+  const onChange = (value) => {
+    axios
+      .get(`/kategorije/${value}`, {
+        params: {
+          searchValue: searchValue,
+        },
+      })
+      .then((result) => setArtikli(result.data))
+      .catch((err) => console.log(err));
+  };
 
-const KategorijaSelect = (props) => {
-  const [kategorije, setKategorije] = useState([]);
+  const onSearch = (value) => {
+    console.log("search:", value);
+  };
 
   useEffect(() => {
     axios
       .get("/kategorije")
-      .then((result) => setKategorije(result.data))
+      .then((result) => setKategorija(result.data))
       .catch((err) => console.log(err));
   }, []);
-
-  console.log(kategorije);
 
   return (
     <Select
@@ -37,8 +42,8 @@ const KategorijaSelect = (props) => {
         option.children.toLowerCase().includes(input.toLowerCase())
       }
     >
-      {kategorije.length &&
-        kategorije.map((item) => {
+      {kategorija.length &&
+        kategorija.map((item) => {
           return <Option value={item.id}>{item.naziv}</Option>;
         })}
     </Select>

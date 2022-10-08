@@ -37,7 +37,11 @@ const PocetnaPage = () => {
     <div className="pocetna_page">
       <Header />
       <Searchbar searchValue={searchValue} setSearchValue={setSearchValue} />
-      <KategorijaSelect />
+      <KategorijaSelect
+        artikli={artikli}
+        setArtikli={setArtikli}
+        searchValue={searchValue}
+      />
       <div className="artikli">
         {artikli &&
           artikli.map((item) => {
