@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "../Axios/axios";
 import "./searchbar.css";
 
 const Searchbar = ({ searchValue, setSearchValue }) => {

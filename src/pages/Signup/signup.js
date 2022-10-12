@@ -1,12 +1,15 @@
 import React from "react";
 import "./signup.css";
 import { useNavigate } from "react-router-dom";
-
-import Axios from "../../components/Axios/axios";
+import { useMutation } from "react-query";
+import { register } from "../../api";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const register = (e) => {
+
+  const { mutate } = useMutation((params) => register(params));
+
+  const registerProfile = (e) => {
     e.preventDefault();
 
     let ime = e.target[0].value;
@@ -18,24 +21,30 @@ const Signup = () => {
     let adresa = e.target[6].value;
     let brojtelefona = e.target[7].value;
 
-    Axios.post("/register", {
-      ime: ime,
-      prezime: prezime,
-      email: email,
-      username: username,
-      password: password,
-      grad: grad,
-      adresa: adresa,
-      brojtelefona: brojtelefona,
-    })
-      .then((res) => {
-        if (res.status === 200) navigate("/login");
-      })
-      .catch((err) => console.log(err));
+    mutate(
+      {
+        ime,
+        prezime,
+        email,
+        username,
+        password,
+        grad,
+        adresa,
+        brojtelefona,
+      },
+      {
+        onSuccess: () => {
+          navigate("/login");
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    );
   };
 
   return (
-    <div className="signup_page" onSubmit={(e) => register(e)}>
+    <div className="signup_page" onSubmit={(e) => registerProfile(e)}>
       <form>
         <label>Ime</label>
         <input type="text" name="ime" />

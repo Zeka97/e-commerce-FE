@@ -1,35 +1,30 @@
 import React, { useState, useEffect } from "react";
 
 import { Select } from "antd";
+import { connect } from "react-redux";
 
-import axios from "../../components/Axios/axios";
+import { useQuery } from "react-query";
+import { getAllCategories } from "../../api";
 
-const KategorijaSelect = ({ artikli, setArtikli, searchValue }) => {
+import { categorySelect } from "../../redux/actions/search.action";
+
+const KategorijaSelect = (props) => {
   const { Option } = Select;
 
   const [kategorija, setKategorija] = useState([]);
 
+  const { data, error, isError, isFetching, isLoading, isSuccess } = useQuery(
+    "getAllCategories",
+    getAllCategories
+  );
+
   const onChange = (value) => {
-    axios
-      .get(`/kategorije/${value}`, {
-        params: {
-          searchValue: searchValue,
-        },
-      })
-      .then((result) => setArtikli(result.data))
-      .catch((err) => console.log(err));
+    props.select(value);
   };
 
   const onSearch = (value) => {
     console.log("search:", value);
   };
-
-  useEffect(() => {
-    axios
-      .get("/kategorije")
-      .then((result) => setKategorija(result.data))
-      .catch((err) => console.log(err));
-  }, []);
 
   return (
     <Select
@@ -42,12 +37,19 @@ const KategorijaSelect = ({ artikli, setArtikli, searchValue }) => {
         option.children.toLowerCase().includes(input.toLowerCase())
       }
     >
-      {kategorija.length &&
-        kategorija.map((item) => {
+      <Option value={null}>Sve</Option>
+      {isSuccess &&
+        data.map((item) => {
           return <Option value={item.id}>{item.naziv}</Option>;
         })}
     </Select>
   );
 };
 
-export default KategorijaSelect;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    select: (item) => dispatch(categorySelect(item)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(KategorijaSelect);

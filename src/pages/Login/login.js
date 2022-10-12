@@ -1,53 +1,54 @@
-import axios from "../../components/Axios/axios";
 import React, { useState } from "react";
 import { adminLogin, userLogin } from "../../redux/actions/user.action";
 import { useDispatch, useSelector } from "react-redux";
 import "./login.css";
+import { useMutation } from "react-query";
+import { login } from "../../api";
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  console.log(state);
+
+  const { mutate } = useMutation((params) => login(params));
+
   const onSubmit = (e) => {
     e.preventDefault();
     let username = e.target[0].value;
     let password = e.target[1].value;
-    console.log(username, password);
-    axios
-      .post("/login", {
-        username: username,
-        password: password,
-      })
-      .then((res) => {
-        if (res.data.message) {
-          setErrorMessage(res.data.message);
-        } else {
-          if (res.data.user) {
-            dispatch(userLogin(res.data.user));
+
+    mutate(
+      { username, password },
+      {
+        onSuccess: (data) => {
+          if (data.user) {
+            dispatch(userLogin(data.user));
             localStorage.setItem(
               "user",
               JSON.stringify({
                 admin: null,
-                currentUser: res.data.user,
+                currentUser: data.user,
                 isLogged: true,
               })
             );
           } else {
-            dispatch(adminLogin(res.data.admin));
+            dispatch(adminLogin(data.admin));
             localStorage.setItem(
               "user",
               JSON.stringify({
-                admin: res.data.admin,
+                admin: data.admin,
                 currentUser: null,
                 isLogged: true,
               })
             );
           }
-        }
-      })
-      .catch((err) => console.log(err));
+        },
+        onError: (data) => {
+          console.log(data);
+        },
+      }
+    );
   };
 
   return (

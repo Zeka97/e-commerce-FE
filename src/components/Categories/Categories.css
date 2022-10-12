@@ -1,0 +1,15 @@
+.Categories_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.Categories_header span:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.Categories_list {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  grid-gap: 1%;
+}

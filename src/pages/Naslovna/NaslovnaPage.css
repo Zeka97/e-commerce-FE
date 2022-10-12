@@ -1,0 +1,9 @@
+.naslovna_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.naslovna_content {
+  width: 70%;
+}

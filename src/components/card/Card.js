@@ -32,7 +32,7 @@ const Card = ({ item }) => {
   };
 
   return (
-    <div className="card" key={item.artikal_id}>
+    <div className="card" key={item.id}>
       <img src={item.photo} alt={`slika proizvoda ${item.naziv}`} />
       <div className="opis">
         <div className="opis_header">

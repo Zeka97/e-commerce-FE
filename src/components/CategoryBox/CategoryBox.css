@@ -1,0 +1,18 @@
+.CategoryBox {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.CategoryBox_textcontent {
+  width: 60%;
+}
+.CategoryBox_img {
+  width: 40%;
+}
+.CategoryBox_img img {
+  width: 100%;
+  height: 100%;
+}

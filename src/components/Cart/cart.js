@@ -19,7 +19,7 @@ const Cart = (props) => {
         <div className="cart-dropdown_items">
           {props.cart.length ? (
             props.cart.map((item) => {
-              return <CartItem key={item.artikal_id} item={item} />;
+              return <CartItem key={item.id} item={item} />;
             })
           ) : (
             <span className="empty-message">Your cart is empty</span>
