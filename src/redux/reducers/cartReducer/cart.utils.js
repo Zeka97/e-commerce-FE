@@ -16,20 +16,32 @@ export const addItem = (cart, ukupna_cijena, addedToCart) => {
             }
           : { ...cartItem }
       ),
-      ukupna: parseFloat(
-        Number(
-          ukupna_cijena + addedToCart.kolicina * addedToCart.cijena
-        ).toFixed(2)
-      ),
+      ukupna: addedToCart.akcijska_cijena
+        ? parseFloat(
+            Number(
+              ukupna_cijena + addedToCart.kolicina * addedToCart.akcijska_cijena
+            ).toFixed(2)
+          )
+        : parseFloat(
+            Number(
+              ukupna_cijena + addedToCart.kolicina * addedToCart.cijena
+            ).toFixed(2)
+          ),
     };
   } else {
     return {
       cart: [...cart, { ...addedToCart }],
-      ukupna: parseFloat(
-        Number(
-          ukupna_cijena + addedToCart.kolicina * addedToCart.cijena
-        ).toFixed(2)
-      ),
+      ukupna: addedToCart.akcijska_cijena
+        ? parseFloat(
+            Number(
+              ukupna_cijena + addedToCart.kolicina * addedToCart.akcijska_cijena
+            ).toFixed(2)
+          )
+        : parseFloat(
+            Number(
+              ukupna_cijena + addedToCart.kolicina * addedToCart.cijena
+            ).toFixed(2)
+          ),
     };
   }
 };
@@ -40,9 +52,11 @@ export const decreaseQuantityItem = (cart, ukupna_cijena, removeFromCart) => {
   if (postojiItem.kolicina === 1)
     return {
       cart: cart.filter((cartItem) => cartItem.id !== removeFromCart.id),
-      ukupna: parseFloat(
-        Number(ukupna_cijena - removeFromCart.cijena).toFixed(2)
-      ),
+      ukupna: removeFromCart.akcijska_cijena
+        ? parseFloat(
+            Number(ukupna_cijena - removeFromCart.akcijska_cijena).toFixed(2)
+          )
+        : parseFloat(Number(ukupna_cijena - removeFromCart.cijena).toFixed(2)),
     };
 
   return {
@@ -51,9 +65,11 @@ export const decreaseQuantityItem = (cart, ukupna_cijena, removeFromCart) => {
         ? { ...cartItem, kolicina: cartItem.kolicina - 1 }
         : cartItem
     ),
-    ukupna: parseFloat(
-      Number(ukupna_cijena - removeFromCart.cijena).toFixed(2)
-    ),
+    ukupna: removeFromCart.akcijska_cijena
+      ? parseFloat(
+          Number(ukupna_cijena - removeFromCart.akcijska_cijena).toFixed(2)
+        )
+      : parseFloat(Number(ukupna_cijena - removeFromCart.cijena).toFixed(2)),
   };
 };
 
@@ -61,9 +77,17 @@ export const removeItemFromCart = (cart, ukupna_cijena, removeItemFromCart) => {
   let ukupna;
   cart.map((cartItem) => {
     if (cartItem.id === removeItemFromCart.id) {
-      ukupna = parseFloat(
-        Number(ukupna_cijena - cartItem.cijena * cartItem.kolicina).toFixed(2)
-      );
+      ukupna = removeItemFromCart.akcijska_cijena
+        ? parseFloat(
+            Number(
+              ukupna_cijena - cartItem.akcijska_cijena * cartItem.kolicina
+            ).toFixed(2)
+          )
+        : parseFloat(
+            Number(ukupna_cijena - cartItem.cijena * cartItem.kolicina).toFixed(
+              2
+            )
+          );
     }
   });
   return {

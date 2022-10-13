@@ -32,7 +32,10 @@ const Avatar = () => {
 
       <div className="menu-container" id="dropdown">
         <ul className="user-menu">
-          <div className="profile-highlight">
+          <div
+            className="profile-highlight"
+            onClick={() => navigate("/profile")}
+          >
             <img
               src="https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=20&m=1223671392&s=612x612&w=0&h=lGpj2vWAI3WUT1JeJWm1PRoHT3V15_1pdcTn2szdwQ0="
               alt="profile-img"
@@ -44,28 +47,6 @@ const Avatar = () => {
               <div id="profile-footer">{user.email}</div>
             </div>
           </div>
-          <li className="user-menu__item">
-            <a className="user-menu-link" onClick={() => navigate("/")}>
-              <img
-                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1604623/team.png"
-                alt="trophy_icon"
-                width="20"
-                height="20"
-              />
-              <div>Edit Profile</div>
-            </a>
-          </li>
-          <li className="user-menu__item">
-            <a className="user-menu-link" onClick={() => navigate("/narudzbe")}>
-              <img
-                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1604623/book.png"
-                alt="team_icon"
-                width="20"
-                height="20"
-              />
-              <div>Narudzbe History</div>
-            </a>
-          </li>
           <div className="footer">
             <li className="user-menu__item">
               <a className="user-menu-link" onClick={() => Logout()}>

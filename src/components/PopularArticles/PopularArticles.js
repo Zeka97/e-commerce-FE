@@ -13,14 +13,14 @@ const PopularArticles = (props) => {
 
   const { data, error, isError, isSuccess, isFetching, refetch } = useQuery(
     "popular",
-    () => getArticles({ limit: 5, popular: true }),
+    () => getArticles({ limit: 6, popular: true }),
     {
       retry: true,
     }
   );
   const showAllPopular = () => {
     props.selectPopular(true);
-    navigate("/");
+    navigate("/artikli");
   };
 
   return (

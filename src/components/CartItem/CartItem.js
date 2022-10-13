@@ -32,7 +32,10 @@ const CartItem = ({ key, item, ...props }) => {
           {">"}
         </span>
       </div>
-      <span className="cart_item_cijena">{item.cijena}</span>
+      <span className="cart_item_cijena">
+        {" "}
+        {item.akcijska_cijena ? item.akcijska_cijena : item.cijena}
+      </span>
       <span className="cart_item_removeall" onClick={() => props.remove(item)}>
         X
       </span>

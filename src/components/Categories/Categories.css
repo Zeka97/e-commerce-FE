@@ -1,3 +1,7 @@
+.Categories_box {
+  margin-top: 50px;
+}
+
 .Categories_header {
   display: flex;
   justify-content: space-between;

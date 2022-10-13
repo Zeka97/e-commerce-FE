@@ -22,7 +22,7 @@ const DiscountArticles = (props) => {
 
   const showAllDiscount = () => {
     props.selectDiscount(true);
-    navigate("/");
+    navigate("/artikli");
   };
 
   return (

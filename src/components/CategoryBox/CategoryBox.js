@@ -10,7 +10,7 @@ const CategoryBox = (props) => {
   const selectedCategory = (id) => {
     console.log("asd");
     props.select(id);
-    navigate("/");
+    navigate("/artikli");
   };
 
   return (

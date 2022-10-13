@@ -1,0 +1,21 @@
+.Article_content {
+  display: flex;
+}
+
+.Article_info {
+  height: 80%;
+}
+
+.Article_info_header {
+  display: flex;
+  align-items: center;
+}
+.Article_info_price .price-linethrough {
+  text-decoration: line-through;
+}
+
+.footer-popular-articles {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

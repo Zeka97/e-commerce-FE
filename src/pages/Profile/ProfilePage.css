@@ -1,0 +1,29 @@
+.profile_view {
+  display: flex;
+  width: 100%;
+}
+.profile_info {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+.profile_edit {
+  display: flex;
+  width: 30%;
+  justify-content: space-around;
+}
+.profile_user_about {
+  display: flex;
+}
+.user_image {
+  width: 50%;
+}
+.user_description {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.profile_statistic {
+  width: 50%;
+}

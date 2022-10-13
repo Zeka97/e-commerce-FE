@@ -7,7 +7,11 @@ import Cart from "../Cart/cart";
 const Header = () => {
   return (
     <div className="header">
-      <div className="searchbar-container"></div>
+      <div className="navbar-container">
+        <span>Pocetna</span>
+        <span>Kategorija</span>
+        <span>Artikli</span>
+      </div>
       <div className="dropdown_items">
         <Cart />
         <Avatar />

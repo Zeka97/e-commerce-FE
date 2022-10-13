@@ -21,6 +21,13 @@ export const getArticles = async (params) => {
   return data;
 };
 
+export const getArticle = async (params) => {
+  console.log("asdwdasdsa");
+  const { data } = await axios.get("/artikli/artikal", { params });
+  console.log(data);
+  return data;
+};
+
 export const userGetOrders = async (params) => {
   const { data } = await axios.get("users/listanarudzbi", { params });
 
