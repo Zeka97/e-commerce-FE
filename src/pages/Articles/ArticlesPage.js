@@ -19,20 +19,21 @@ const ArticlesPage = (props) => {
 
   console.log(props.filter);
 
-  const { data, error, isError, isSuccess, isFetching, refetch } = useQuery(
-    "articles",
-    () =>
-      getArticles({
-        searchValue,
-        kategorija_id: props.filter.category,
-        discount: props.filter.discount,
-        popular: props.filter.popular,
-        priceRange,
-      }),
-    {
-      retry: true,
-    }
-  );
+  const { data, error, isError, isSuccess, isFetching, isLoading, refetch } =
+    useQuery(
+      "articles",
+      () =>
+        getArticles({
+          searchValue,
+          kategorija_id: props.filter.category,
+          discount: props.filter.discount,
+          popular: props.filter.popular,
+          priceRange,
+        }),
+      {
+        retry: true,
+      }
+    );
 
   useEffect(() => {
     refetch();
@@ -51,7 +52,6 @@ const ArticlesPage = (props) => {
     75: "75",
     100: "100",
   };
-
   return (
     <div className="pocetna_page">
       <Header />

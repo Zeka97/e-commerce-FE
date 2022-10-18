@@ -12,11 +12,13 @@
 .cart-dropdown {
   visibility: hidden;
   position: absolute;
+  display: flex;
 }
 
 .cart-dropdown.active {
   visibility: visible;
   position: absolute;
+  z-index: 5;
   padding-top: 20px;
   height: 400px;
   width: 500px;
@@ -26,11 +28,21 @@
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
+.cart-dropdown .content-box {
+  width: 80%;
+}
 
 .cart-dropdown_items {
   width: 100%;
   overflow-x: auto;
-  height: 80%;
+  height: 65%;
+}
+
+.cart-dropdown_checkout {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 35%;
 }
 
 .empty-message {

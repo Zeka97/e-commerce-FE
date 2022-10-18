@@ -2,8 +2,6 @@ import cart from "../../../components/Cart/cart";
 
 export const addItem = (cart, ukupna_cijena, addedToCart) => {
   let postojiItem = cart.find((item) => item.id === addedToCart.id);
-  console.log("postojiItem", postojiItem);
-  console.log("addedToCart", addedToCart);
 
   if (postojiItem) {
     return {

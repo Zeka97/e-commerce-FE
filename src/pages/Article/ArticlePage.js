@@ -9,6 +9,7 @@ import "./ArticlePage.css";
 import PopularArticles from "../../components/PopularArticles/PopularArticles";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "../../redux/actions/cart.action";
+import CustomLinkButton from "../../components/customLinkButton/customLinkButton";
 
 const ArticlePage = () => {
   const { id } = useParams();
@@ -46,9 +47,7 @@ const ArticlePage = () => {
               {data.cijena} KM/kom
             </span>
             {data.akcijska_cijena && (
-              <span className="discount-price">
-                {data.akcijska_cijena} KM/kom
-              </span>
+              <span className="price">{data.akcijska_cijena} KM/kom</span>
             )}
           </div>
           <div className="Article_info_category_tag">
@@ -57,19 +56,29 @@ const ArticlePage = () => {
           <div className="Article_info_cartadding">
             <span>QTY</span>
             <span>Cijena</span>
-            <span>{kolicina}</span>
+            <span></span>
+            <div>
+              <span>-</span>
+              <span>{kolicina}</span>
+              <span>+</span>
+            </div>
             <span>
               {data.akcijska_cijena
                 ? kolicina * data.akcijska_cijena
                 : kolicina * data.cijena}
+              {" KM"}
             </span>
-            <button onClick={() => dodajUKorpu({ ...data, kolicina })}>
+            <CustomLinkButton
+              onClick={() => dodajUKorpu({ ...data, kolicina })}
+              to="#"
+              className={"dark"}
+            >
               DODAJ
-            </button>
+            </CustomLinkButton>
           </div>
           <div className="Article_info_description">
             <h3>Opis</h3>
-            <span>
+            <div>
               Sed ut perspiciatis unde omnis iste natus error sit voluptatem
               accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
               quae ab illo inventore veritatis et quasi architecto beatae vitae
@@ -84,13 +93,15 @@ const ArticlePage = () => {
               vel eum iure reprehenderit qui in ea voluptate velit esse quam
               nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
               voluptas nulla pariatur?
-            </span>
+            </div>
           </div>
         </div>
       </div>
+      {/*
       <div className="footer-popular-articles">
         <PopularArticles />
       </div>
+              */}
     </div>
   );
 };

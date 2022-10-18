@@ -1,6 +1,6 @@
 .artikli {
-  display: grid;
-  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
   grid-template-columns: 20% 20% 20% 20%;
   grid-gap: 5px;
   width: 100%;

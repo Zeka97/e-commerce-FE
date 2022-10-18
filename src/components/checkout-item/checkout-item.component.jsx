@@ -9,7 +9,7 @@ import {
 import "./checkout-item.css";
 
 const CheckoutItem = ({ cartItem, clearItem, addItem, removeItem }) => {
-  const { naziv, photo, kolicina, cijena } = cartItem;
+  const { naziv, photo, kolicina, cijena, akcijska_cijena } = cartItem;
 
   return (
     <div className="checkout-item">
@@ -27,7 +27,9 @@ const CheckoutItem = ({ cartItem, clearItem, addItem, removeItem }) => {
           &#10095;
         </div>
       </span>
-      <span className="price">{cijena}$</span>
+      <span className="price">
+        {akcijska_cijena ? akcijska_cijena : cijena}$
+      </span>
       <div className="remove-button" onClick={() => clearItem(cartItem)}>
         &#10005;
       </div>

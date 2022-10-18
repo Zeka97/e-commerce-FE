@@ -16,7 +16,10 @@
   display: flex;
 }
 .user_image {
-  width: 50%;
+}
+.user_image img {
+  width: 150px;
+  height: 150px;
 }
 .user_description {
   display: flex;
@@ -26,4 +29,14 @@
 
 .profile_statistic {
   width: 50%;
+}
+.profile_statistic_description {
+  display: flex;
+}
+
+.profile_page .narudzbe {
+  margin-top: 50px;
+}
+.profile_page .narudzbe h3 {
+  margin-bottom: 50px;
 }

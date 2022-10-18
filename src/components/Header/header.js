@@ -4,13 +4,14 @@ import "./header.css";
 import Searchbar from "../Searchbar/searchbar";
 import Avatar from "../Avatar/avatar";
 import Cart from "../Cart/cart";
+import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <div className="header">
       <div className="navbar-container">
-        <span>Pocetna</span>
-        <span>Kategorija</span>
-        <span>Artikli</span>
+        <Link to="/">Pocetna</Link>
+        <Link to="/kategorije">Kategorija</Link>
+        <Link to="/artikli">Artikli</Link>
       </div>
       <div className="dropdown_items">
         <Cart />

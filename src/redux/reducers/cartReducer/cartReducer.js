@@ -5,10 +5,25 @@ import {
   removeItemFromCart,
 } from "./cart.utils";
 
-const INITIAL_STATE = {
-  cart: [],
-  ukupna_cijena: 0,
+const loadCart = () => {
+  try {
+    const storage = localStorage.getItem("cart");
+
+    if (storage) {
+      return JSON.parse(storage);
+    } else {
+      return {
+        cart: [],
+        ukupna_cijena: 0,
+      };
+    }
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
 };
+
+const INITIAL_STATE = loadCart();
 
 const cartReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -17,6 +32,11 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         state.cart,
         state.ukupna_cijena,
         action.payload
+      );
+      console.log(ukupna);
+      localStorage.setItem(
+        "cart",
+        JSON.stringify({ cart, ukupna_cijena: ukupna })
       );
       return {
         ...state,
@@ -29,6 +49,10 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         state.ukupna_cijena,
         action.payload
       ));
+      localStorage.setItem(
+        "cart",
+        JSON.stringify({ cart, ukupna_cijena: ukupna })
+      );
       return {
         ...state,
         cart: cart,
@@ -40,12 +64,17 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         state.ukupna_cijena,
         action.payload
       ));
+      localStorage.setItem(
+        "cart",
+        JSON.stringify({ cart, ukupna_cijena: ukupna })
+      );
       return {
         ...state,
         cart: cart,
         ukupna_cijena: ukupna,
       };
     case CartActionTypes.REMOVE_ALL:
+      localStorage.removeItem("cart");
       return {
         ...state,
         cart: [],

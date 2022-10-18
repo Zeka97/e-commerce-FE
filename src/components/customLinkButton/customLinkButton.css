@@ -6,3 +6,34 @@
 .linkbutton:hover {
   cursor: pointer;
 }
+.dark {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 48px;
+  background-color: #0e1514;
+  color: white;
+  border-radius: 5px;
+}
+.dark:hover {
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
+  opacity: 0.9;
+}
+.light {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 48px;
+  background-color: #989898;
+  color: white;
+  border-radius: 5px;
+}
+.light:hover {
+  color: white;
+  text-decoration: none;
+  opacity: 0.9;
+}

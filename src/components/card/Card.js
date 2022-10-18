@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import "./Card.css";
 
 import { addItemToCart } from "../../redux/actions/cart.action";
 
 const Card = ({ item }) => {
   const [kolicina, setKolicina] = useState(1);
+
+  const navigate = useNavigate();
 
   const state = useSelector((state) => state.cart);
   console.log(state);
@@ -36,18 +39,41 @@ const Card = ({ item }) => {
       <img src={item.photo} alt={`slika proizvoda ${item.naziv}`} />
       <div className="opis">
         <div className="opis_header">
-          <span>{item.naziv}</span>
-          <span>{item.cijena * kolicina} KM</span>
+          <span
+            className="naziv_proizvoda"
+            onClick={() => navigate(`/artikli/${item.id}`)}
+          >
+            {item.naziv.slice(0, 17) + "..."}
+          </span>
+          {item.akcijska_cijena ? (
+            <div className="cijena">
+              <span className="cijena_proizvoda line-throught">
+                {item.cijena} KM
+              </span>
+              <span className="cijena_proizvoda akcija">
+                {item.akcijska_cijena} KM
+              </span>
+            </div>
+          ) : (
+            <span className="cijena_proizvoda">{item.cijena} KM</span>
+          )}
         </div>
         <div className="opis_footer">
-          <span onClick={() => smanjiKolicinu()}>-</span>
-          <span>{kolicina}</span>
-          <span onClick={() => povecajKolicinu()}>+</span>
+          <span className="kolicina_dugme" onClick={() => smanjiKolicinu()}>
+            -
+          </span>
+          <span className="kolicina">{kolicina}</span>
+          <span className="kolicina_dugme" onClick={() => povecajKolicinu()}>
+            +
+          </span>
         </div>
-        <button onClick={() => dodajUKorpu({ ...item, kolicina: kolicina })}>
-          Dodaj u korpu
-        </button>
       </div>
+      <button
+        onClick={() => dodajUKorpu({ ...item, kolicina: kolicina })}
+        className="card-button"
+      >
+        Dodaj u korpu
+      </button>
     </div>
   );
 };
