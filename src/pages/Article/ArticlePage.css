@@ -1,18 +1,26 @@
+.Article_page {
+  height: 100vh;
+}
+
 .Article_content {
   display: flex;
   height: auto;
 }
 
 .Article_content .Article_image {
-  height: 90%;
+  height: 100%;
+  width: 45%;
 }
 
 .Article_content .Article_image img {
   height: 90%;
+  width: 100%;
 }
 
 .Article_content .Article_info {
   height: 80%;
+  width: 55%;
+  margin-left: 20px;
 }
 
 .Article_content .Article_info .Article_info_header {
@@ -60,5 +68,12 @@
 }
 
 .Article_content .Article_info .Article_info_description div {
+  width: 90%;
+}
+
+.admin_buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   width: 70%;
 }

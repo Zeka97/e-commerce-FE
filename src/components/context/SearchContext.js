@@ -6,10 +6,8 @@ export const Context = createContext({});
 
 export const Provider = (props) => {
   const { children } = props;
-  const [searchOrdersDateFrom, setSearchOrdersDateFrom] = useState(
-    subMonths(new Date(), 1)
-  );
-  const [searchOrdersDateTo, setSearchOrdersDateTo] = useState(new Date());
+  const [searchOrdersDateFrom, setSearchOrdersDateFrom] = useState(null);
+  const [searchOrdersDateTo, setSearchOrdersDateTo] = useState(null);
 
   const context = {
     searchOrdersDateFrom,

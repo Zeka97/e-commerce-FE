@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./Card.css";
 
 import { addItemToCart } from "../../redux/actions/cart.action";
+import { startOfWeek } from "date-fns";
 
 const Card = ({ item }) => {
   const [kolicina, setKolicina] = useState(1);
@@ -11,6 +12,7 @@ const Card = ({ item }) => {
   const navigate = useNavigate();
 
   const state = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.auth.currentUser);
   console.log(state);
   const dispatch = useDispatch();
 
@@ -41,7 +43,11 @@ const Card = ({ item }) => {
         <div className="opis_header">
           <span
             className="naziv_proizvoda"
-            onClick={() => navigate(`/artikli/${item.id}`)}
+            onClick={
+              user
+                ? () => navigate(`/artikli/${item.id}`)
+                : () => navigate(`/admin/articles/${item.id}`)
+            }
           >
             {item.naziv.slice(0, 17) + "..."}
           </span>
@@ -58,22 +64,28 @@ const Card = ({ item }) => {
             <span className="cijena_proizvoda">{item.cijena} KM</span>
           )}
         </div>
-        <div className="opis_footer">
-          <span className="kolicina_dugme" onClick={() => smanjiKolicinu()}>
-            -
-          </span>
-          <span className="kolicina">{kolicina}</span>
-          <span className="kolicina_dugme" onClick={() => povecajKolicinu()}>
-            +
-          </span>
-        </div>
+
+        {user && (
+          <div className="opis_footer">
+            <span className="kolicina_dugme" onClick={() => smanjiKolicinu()}>
+              -
+            </span>
+            <span className="kolicina">{kolicina}</span>
+            <span className="kolicina_dugme" onClick={() => povecajKolicinu()}>
+              +
+            </span>
+          </div>
+        )}
       </div>
-      <button
-        onClick={() => dodajUKorpu({ ...item, kolicina: kolicina })}
-        className="card-button"
-      >
-        Dodaj u korpu
-      </button>
+
+      {user && (
+        <button
+          onClick={() => dodajUKorpu({ ...item, kolicina: kolicina })}
+          className="card-button"
+        >
+          Dodaj u korpu
+        </button>
+      )}
     </div>
   );
 };

@@ -5,7 +5,12 @@ import { Link } from "react-router-dom";
 
 const CustomLinkButton = (props) => {
   return (
-    <Link onClick={props.onClick} to={props.to} className={props.className}>
+    <Link
+      style={props.style}
+      onClick={props.onClick}
+      to={props.to}
+      className={props.className}
+    >
       {props.children}
     </Link>
   );

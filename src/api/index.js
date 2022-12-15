@@ -41,7 +41,44 @@ export const login = async (params) => {
 };
 
 export const register = async (params) => {
-  const { status } = await axios.post("/regiter", { params });
+  const { status } = await axios.post("/register", { params });
 
   return status;
+};
+
+export const updateUserProfile = async (params) => {
+  const { data } = await axios.post("/users/updateUserProfile", { params });
+
+  return data;
+};
+
+export const changeUserPassword = async (params) => {
+  const { data } = await axios.post("/users/changePassword", { params });
+
+  return data;
+};
+
+export const getAllTransactions = async (params) => {
+  const { data } = await axios.get("/admin/getAllTransactions", { params });
+  return data;
+};
+
+export const changeArticleVisibility = async (params) => {
+  const { data } = await axios.post("/admin/changeArticleVisibility", {
+    params,
+  });
+
+  return data;
+};
+
+export const setArticleOutOfStock = async (params) => {
+  const { data } = await axios.post("/admin/setArticleOutOfStock", { params });
+
+  return data;
+};
+
+export const updateCategory = async (params) => {
+  const { data } = await axios.post("/admin/updateCategory", { params });
+
+  return data;
 };

@@ -1,12 +1,18 @@
 import React, { useState } from "react";
+import { Form, Input } from "antd";
 import { adminLogin, userLogin } from "../../redux/actions/user.action";
 import { useDispatch, useSelector } from "react-redux";
 import "./login.css";
 import { useMutation } from "react-query";
 import { login } from "../../api";
+import CustomButton from "../../components/CustomButton/CustomButton";
+import CustomLinkButton from "../../components/customLinkButton/customLinkButton";
+import { useForm } from "antd/lib/form/Form";
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
+
+  const [logInForm] = Form.useForm();
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
@@ -15,40 +21,44 @@ const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    let username = e.target[0].value;
-    let password = e.target[1].value;
-
-    mutate(
-      { username, password },
-      {
-        onSuccess: (data) => {
-          if (data.user) {
-            dispatch(userLogin(data.user));
-            localStorage.setItem(
-              "user",
-              JSON.stringify({
-                admin: null,
-                currentUser: data.user,
-                isLogged: true,
-              })
-            );
-          } else {
-            dispatch(adminLogin(data.admin));
-            localStorage.setItem(
-              "user",
-              JSON.stringify({
-                admin: data.admin,
-                currentUser: null,
-                isLogged: true,
-              })
-            );
+    logInForm
+      .validateFields()
+      .then((values) => {
+        mutate(
+          { username: values.username, password: values.password },
+          {
+            onSuccess: (data) => {
+              if (data.user) {
+                dispatch(userLogin(data.user));
+                localStorage.setItem(
+                  "user",
+                  JSON.stringify({
+                    admin: null,
+                    currentUser: data.user,
+                    isLogged: true,
+                  })
+                );
+              } else {
+                dispatch(adminLogin(data.admin));
+                localStorage.setItem(
+                  "user",
+                  JSON.stringify({
+                    admin: data.admin,
+                    currentUser: null,
+                    isLogged: true,
+                  })
+                );
+              }
+            },
+            onError: (data) => {
+              console.log(data);
+            },
           }
-        },
-        onError: (data) => {
-          console.log(data);
-        },
-      }
-    );
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -56,13 +66,53 @@ const Login = () => {
       <div className="image">E-Trgovina</div>
       <div className="sign-in">
         <h1>Sign In</h1>
-        <form onSubmit={(e) => onSubmit(e)}>
-          <input type="text" placeholder="Username" />
-          <input type="password" placeholder="Password" />
-          <a href="#">Forgot password?</a>
-          <input type="submit" value="Sign In" />
-          <input type="submit" value="Sign Up" />
-        </form>
+
+        <Form
+          name="basic"
+          layout="vertical"
+          requiredMark={false}
+          autoComplete="off"
+          form={logInForm}
+        >
+          <Form.Item
+            label="Username"
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: "Niste unijeli username!",
+              },
+            ]}
+          >
+            <Input type="text" name="username" />
+          </Form.Item>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Niste unijeli password!",
+              },
+            ]}
+          >
+            <Input.Password name="password" />
+          </Form.Item>
+          <CustomButton
+            className="light"
+            style={{ marginBottom: "20px", marginTop: "20px" }}
+            onClick={onSubmit}
+          >
+            Log in
+          </CustomButton>
+          <CustomLinkButton
+            style={{ marginTop: "5px" }}
+            className="dark"
+            to="/register"
+          >
+            Sign up
+          </CustomLinkButton>
+        </Form>
       </div>
     </div>
   );

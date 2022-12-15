@@ -1,8 +1,13 @@
 import React, { useState } from "react";
-import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
+import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { Tag } from "antd";
-import { getArticle } from "../../api";
+import { message, Tag } from "antd";
+import {
+  changeArticleVisibility,
+  getArticle,
+  setArticleOutOfStock,
+} from "../../api";
 import Header from "../../components/Header/header";
 
 import "./ArticlePage.css";
@@ -10,12 +15,25 @@ import PopularArticles from "../../components/PopularArticles/PopularArticles";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "../../redux/actions/cart.action";
 import CustomLinkButton from "../../components/customLinkButton/customLinkButton";
+import AdminHeader from "../../components/AdminHeader/AdminHeader";
+import CustomButton from "../../components/CustomButton/CustomButton";
+import { es } from "date-fns/locale";
 
 const ArticlePage = () => {
   const { id } = useParams();
 
   const [kolicina, setKolicina] = useState(1);
   const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.auth.currentUser);
+
+  const { mutate: articleVisibility } = useMutation((params) =>
+    changeArticleVisibility(params)
+  );
+
+  const { mutate: setOutOfStock } = useMutation((params) =>
+    setArticleOutOfStock(params)
+  );
 
   const { data, isFetching, isLoading, isError, refetch } = useQuery(
     "singlearticle",
@@ -27,10 +45,41 @@ const ArticlePage = () => {
     setKolicina(1);
   };
 
+  const changeVisibility = () => {
+    articleVisibility(
+      { id: data.id, visibility: data.visibility },
+      {
+        onSuccess: (data) => {
+          message.success("uspjesno izvrsene promjene", 2);
+          setTimeout(() => window.location.reload(), 2000);
+        },
+        onError: (err) => {
+          console.log("nije uspjelo", err);
+        },
+      }
+    );
+  };
+
+  const articleOutOfStock = () => {
+    setOutOfStock(
+      { id: data.id },
+      {
+        onSuccess: (data) => {
+          message.success("uspjesno izvrsene promjene", 2);
+          setTimeout(() => window.location.reload(), 2000);
+        },
+        onError: (err) => {
+          message.error("greska pri izmjenama");
+          console.log(err);
+        },
+      }
+    );
+  };
+
   if (isLoading) return null;
   return (
     <div className="Article_page">
-      <Header />
+      {user ? <Header /> : <AdminHeader />}
       <div className="Article_content">
         <div className="Article_image">
           <img src={data.photo} alt="slika" />
@@ -38,7 +87,6 @@ const ArticlePage = () => {
         <div className="Article_info">
           <div className="Article_info_header">
             <h3>{data.naziv}</h3>
-            <span>Zalihe: {data.max_kolicina}</span>
           </div>
           <div className="Article_info_price">
             <span
@@ -52,30 +100,78 @@ const ArticlePage = () => {
           </div>
           <div className="Article_info_category_tag">
             <Tag color="green">{data.kategorija_naziv}</Tag>
+            {user ? null : (
+              <>
+                <Tag color="green">
+                  {data.visibility
+                    ? "Visible to customers"
+                    : "Hidden from customers"}
+                </Tag>
+                <Tag color="green">Zalihe: {data.max_kolicina}</Tag>
+              </>
+            )}
           </div>
-          <div className="Article_info_cartadding">
-            <span>QTY</span>
-            <span>Cijena</span>
-            <span></span>
-            <div>
-              <span>-</span>
-              <span>{kolicina}</span>
-              <span>+</span>
+
+          {user ? (
+            <div className="Article_info_cartadding">
+              <span>QTY</span>
+              <span>Cijena</span>
+              <span></span>
+              <div>
+                <span>-</span>
+                <span>{kolicina}</span>
+                <span>+</span>
+              </div>
+              <span>
+                {data.akcijska_cijena
+                  ? kolicina * data.akcijska_cijena
+                  : kolicina * data.cijena}
+                {" KM"}
+              </span>
+              <CustomLinkButton
+                onClick={() => dodajUKorpu({ ...data, kolicina })}
+                to="#"
+                className={"dark"}
+              >
+                DODAJ
+              </CustomLinkButton>
             </div>
-            <span>
-              {data.akcijska_cijena
-                ? kolicina * data.akcijska_cijena
-                : kolicina * data.cijena}
-              {" KM"}
-            </span>
-            <CustomLinkButton
-              onClick={() => dodajUKorpu({ ...data, kolicina })}
-              to="#"
-              className={"dark"}
-            >
-              DODAJ
-            </CustomLinkButton>
-          </div>
+          ) : (
+            <div className="admin_buttons">
+              <CustomButton
+                className="black"
+                style={{ width: "200px", marginBottom: "10px" }}
+              >
+                Obriši
+              </CustomButton>
+              <CustomButton
+                className="black"
+                style={{ width: "200px", marginBottom: "10px" }}
+                onClick={changeVisibility}
+              >
+                Promjeni vidljivost
+              </CustomButton>
+              <CustomButton
+                className="black"
+                style={{ width: "200px", marginBottom: "10px" }}
+                onClick={articleOutOfStock}
+              >
+                Nema na stanju
+              </CustomButton>
+              <CustomButton
+                className="black"
+                style={{ width: "200px", marginBottom: "10px" }}
+              >
+                Akcija
+              </CustomButton>
+              <CustomButton
+                className="black"
+                style={{ width: "200px", marginBottom: "10px" }}
+              >
+                Uredi
+              </CustomButton>
+            </div>
+          )}
           <div className="Article_info_description">
             <h3>Opis</h3>
             <div>

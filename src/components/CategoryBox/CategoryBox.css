@@ -1,6 +1,6 @@
 .CategoryBox {
-  width: 100%;
-  height: 100%;
+  width: 400px;
+  height: 200px;
   display: flex;
   border: 1px solid black;
   border-radius: 5px;
@@ -8,7 +8,11 @@
 }
 
 .CategoryBox_textcontent {
-  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+  margin-left: 30px;
 }
 .CategoryBox_textcontent h3 {
   color: white;
@@ -16,17 +20,16 @@
 
 .CategoryBox_textcontent button {
   color: black;
+  width: 100px;
+  border-radius: 10px;
 }
 
 .CategoryBox_img {
   width: 40%;
-  background-image: radial-gradient(
-    42.16% 165.25% at 19.02% 48.33%,
-    rgba(70, 191, 169, 0.88) 0%,
-    rgba(70, 192, 133, 0.88) 100%
-  );
 }
 .CategoryBox_img img {
   width: 100%;
   height: 100%;
+  border-radius: 100px;
+  filter: drop-shadow(-10px 0px 30px #4cd5e4);
 }

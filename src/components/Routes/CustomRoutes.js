@@ -13,6 +13,9 @@ import Signup from "../../pages/Signup/signup";
 import NaslovnaPage from "../../pages/Naslovna/NaslovnaPage";
 import ArticlePage from "../../pages/Article/ArticlePage";
 import ProfilePage from "../../pages/Profile/ProfilePage";
+import CategoriesPage from "../../pages/Categories/CategoriesPage";
+import AdminArticles from "../../pages/Admin/Articles/AdminArticles";
+import AdminCategoriesPage from "../../pages/Admin/Categories/AdminCategories";
 
 const CustomRoutes = () => {
   const user = useSelector((state) => state.auth);
@@ -28,6 +31,9 @@ const CustomRoutes = () => {
         </Route>
         <Route path="/artikli/:id" element={<UserPrivateRoute />}>
           <Route path="/artikli/:id" element={<ArticlePage />} />
+        </Route>
+        <Route path="/kategorije" element={<UserPrivateRoute />}>
+          <Route path="/kategorije" element={<CategoriesPage />} />
         </Route>
         <Route path="/profile" element={<UserPrivateRoute />}>
           <Route path="/profile" element={<ProfilePage />} />
@@ -61,6 +67,15 @@ const CustomRoutes = () => {
         />
         <Route path="/admin/dashboard/" element={<AdminPrivateRoute />}>
           <Route path="/admin/dashboard/" element={<Dashboard />} />
+        </Route>
+        <Route path="/admin/articles" element={<AdminPrivateRoute />}>
+          <Route path="/admin/articles" element={<AdminArticles />} />
+        </Route>
+        <Route path="/admin/articles/:id" element={<AdminPrivateRoute />}>
+          <Route path="/admin/articles/:id" element={<ArticlePage />} />
+        </Route>
+        <Route path="/admin/categories" element={<AdminPrivateRoute />}>
+          <Route path="/admin/categories" element={<AdminCategoriesPage />} />
         </Route>
         <Route path="*" element={<div>ERROR 404 Page not Found</div>} />
       </Routes>

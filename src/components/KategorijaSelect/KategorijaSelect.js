@@ -28,6 +28,7 @@ const KategorijaSelect = (props) => {
 
   return (
     <Select
+      style={{ width: 200 }}
       showSearch
       placeholder="Izaberite kategoriju"
       optionFilterProp="children"

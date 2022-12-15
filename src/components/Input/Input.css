@@ -1,0 +1,11 @@
+input.light {
+  padding: 12px 14px 12px 12px;
+  gap: 10px;
+  width: 530px;
+  height: 48px;
+  border: none;
+  border-bottom: 1.3px solid black;
+  outline: none;
+  background-color: #fafafa;
+  letter-spacing: 1px;
+}

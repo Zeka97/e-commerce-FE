@@ -1,3 +1,26 @@
+.articles_page .filter {
+  margin-top: 50px;
+  display: flex;
+  margin-left: 15px;
+}
+
+.articles_page .filter .select {
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+}
+.articles_page .filter .select label {
+  margin-bottom: 5px;
+}
+
+.articles_list {
+  margin-top: 100px;
+}
+
+.articles_list h3 {
+  margin-bottom: 50px;
+}
+
 .artikli {
   display: flex;
   flex-wrap: wrap;

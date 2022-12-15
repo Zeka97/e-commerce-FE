@@ -1,0 +1,15 @@
+.categories_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.content_box {
+  margin-top: 100px;
+  width: 90%;
+}
+
+.categories_page .content_box .categories_list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}

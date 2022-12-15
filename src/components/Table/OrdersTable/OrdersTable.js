@@ -6,7 +6,7 @@ import { orderColumns, articlesColumns } from "./columns";
 const OrdersTable = (props) => {
   return (
     <Table
-      columns={orderColumns}
+      columns={props.columns || orderColumns}
       expandable={{
         expandedRowRender: (record) => (
           <Table

@@ -12,12 +12,14 @@ import { useQuery } from "react-query";
 import { getArticles } from "../../api";
 import DiscountSelect from "../../components/DiscountSelect/DiscountSelect";
 import PopularSelect from "../../components/PopularSelect/PopularSelect";
+import AdminHeader from "../../components/AdminHeader/AdminHeader";
 
 const ArticlesPage = (props) => {
   const [searchValue, setSearchValue] = useState("");
   const [priceRange, setPriceRange] = useState([0, 100]);
 
   console.log(props.filter);
+  console.log(props.user);
 
   const { data, error, isError, isSuccess, isFetching, isLoading, refetch } =
     useQuery(
@@ -53,29 +55,52 @@ const ArticlesPage = (props) => {
     100: "100",
   };
   return (
-    <div className="pocetna_page">
-      <Header />
-      <Searchbar searchValue={searchValue} setSearchValue={setSearchValue} />
-      <KategorijaSelect />
-      <DiscountSelect />
-      <PopularSelect />
-      <Slider
-        defaultValue={[0, 100]}
-        range
-        style={{
-          width: "300px",
-          margin: 0,
-          display: "inline-block",
-          marginLeft: " 100px",
-        }}
-        marks={marks}
-        onChange={(value) => setPriceRange(value)}
-      />
-      <div className="artikli">
-        {isSuccess &&
-          data.map((item) => {
-            return <Card item={item} key={item.id} />;
-          })}
+    <div className="articles_page">
+      {props.user ? <Header /> : <AdminHeader />}
+      <div className="filter">
+        <div className="select">
+          <label>Kljucna rijec</label>
+          <Searchbar
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+          />
+        </div>
+        <div className="select">
+          <label>Kategorija</label>
+          <KategorijaSelect />
+        </div>
+        <div className="select">
+          <label>Akcija</label>
+          <DiscountSelect />
+        </div>
+        <div className="select">
+          <label>Popular</label>
+          <PopularSelect />
+        </div>
+        <div className="select">
+          <label style={{ marginLeft: "50px" }}>Cijena</label>
+          <Slider
+            defaultValue={[0, 100]}
+            range
+            style={{
+              width: "300px",
+              margin: 0,
+              display: "inline-block",
+              marginLeft: "60px",
+            }}
+            marks={marks}
+            onChange={(value) => setPriceRange(value)}
+          />
+        </div>
+      </div>
+      <div className="articles_list">
+        <h3>Svi artikli</h3>
+        <div className="artikli">
+          {isSuccess &&
+            data.map((item) => {
+              return <Card item={item} key={item.id} />;
+            })}
+        </div>
       </div>
     </div>
   );
@@ -84,6 +109,7 @@ const ArticlesPage = (props) => {
 const mapStateToProps = (state) => {
   return {
     filter: state.filter,
+    user: state.auth.currentUser,
   };
 };
 

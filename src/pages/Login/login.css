@@ -31,61 +31,10 @@ h1 {
   margin-bottom: 30px;
 }
 
-form {
+.sign-in form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-}
-
-input[type="text"],
-input[type="password"] {
-  padding: 10px;
-  font-size: 1.2rem;
-  border: none;
-  border-bottom: solid 1px #000;
-  outline: none;
-}
-
-input[type="text"]::placeholder,
-input[type="password"]::placeholder {
-  letter-spacing: 2px;
-  transition: all 0.3s ease;
-}
-
-input[type="text"]:hover::placeholder,
-input[type="password"]:hover::placeholder {
-  color: #000;
-}
-
-input[type="submit"] {
-  background-color: #000;
-  color: #fff;
-  padding: 10px;
-  font-size: 1.3rem;
-  cursor: pointer;
-  border: none;
-  transition: all 0.3s ease;
-  border-radius: 15px;
-}
-
-input[type="submit"]:hover {
-  background-color: #eee;
-  color: #000;
-}
-
-a {
-  color: #424242;
-  text-decoration: none;
-  align-self: flex-end;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-::selection {
-  color: #fff;
-  background-color: #000;
+  width: 60%;
 }
 
 @media screen and (max-width: 786px) {
