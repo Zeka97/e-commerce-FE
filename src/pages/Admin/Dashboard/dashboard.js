@@ -13,7 +13,15 @@ const Dashboard = () => {
   const [rowsLimit, setRowsLimit] = useState(10);
   const [totalItems, setTotalItems] = useState(0);
 
-  const { searchOrdersDateFrom, searchOrdersDateTo } = useSearchContext();
+  const {
+    searchOrdersDateFrom,
+    searchOrdersDateTo,
+    searchByCustomer,
+    searchByCity,
+    priceSort,
+  } = useSearchContext();
+
+  console.log(priceSort);
 
   const { data, isLoading, isFetching, refetch } = useQuery(
     "transactions",
@@ -23,6 +31,9 @@ const Dashboard = () => {
         page,
         dateFrom: searchOrdersDateFrom,
         dateTo: searchOrdersDateTo,
+        customer: searchByCustomer,
+        city: searchByCity,
+        priceOrder: priceSort,
       })
   );
 
@@ -43,7 +54,7 @@ const Dashboard = () => {
     } else {
       setPage(1);
     }
-  }, [searchOrdersDateTo]);
+  }, [searchOrdersDateTo, priceSort, searchByCustomer, searchByCity]);
 
   useEffect(() => {
     refetch();

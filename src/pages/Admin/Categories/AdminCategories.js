@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { getAllCategories } from "../../../api";
+import AddCategoryBox from "../../../components/AddCategoryBox/AddCategoryBox";
 import AdminHeader from "../../../components/AdminHeader/AdminHeader";
 import CategoryBox from "../../../components/CategoryBox/CategoryBox";
 
@@ -21,6 +22,7 @@ const AdminCategoriesPage = () => {
       <div className="content_box">
         <h3>Sve kategorije</h3>
         <div className="categories_list">
+          <AddCategoryBox />
           {isSuccess && data.map((category) => <CategoryBox {...category} />)}
         </div>
       </div>

@@ -9,13 +9,15 @@ const OrdersTable = (props) => {
       columns={props.columns || orderColumns}
       expandable={{
         expandedRowRender: (record) => (
-          <Table
-            columns={articlesColumns}
-            dataSource={record.artikli}
-            rowKey="id"
-            size="small"
-            pagination={false}
-          />
+          <div className>
+            <Table
+              columns={articlesColumns}
+              dataSource={record.artikli}
+              rowKey="id"
+              size="small"
+              pagination={false}
+            />
+          </div>
         ),
       }}
       dataSource={props.data}

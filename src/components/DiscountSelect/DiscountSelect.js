@@ -21,6 +21,7 @@ const DiscountSelect = (props) => {
       placeholder="Akcija"
       optionFilterProp="children"
       onChange={onChange}
+      defaultValue={props.defaultValue}
     >
       <Option value={true}>DA</Option>
       <Option value={null}>NE</Option>

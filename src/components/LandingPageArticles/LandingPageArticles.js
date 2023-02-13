@@ -12,7 +12,7 @@ const LandingPageArticles = (props) => {
       </div>
       <div className="Landing_articles_list">
         {props.isSuccess &&
-          props.data.map((item) => <Card id={item.id} item={item} />)}
+          props.data.articles.map((item) => <Card id={item.id} item={item} />)}
       </div>
     </div>
   );

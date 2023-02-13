@@ -15,7 +15,6 @@ const CategoryBox = (props) => {
   const [updateCategoryForm] = Form.useForm();
 
   const selectedCategory = (id) => {
-    console.log("asd");
     props.select(id);
     navigate("/artikli");
   };
@@ -31,6 +30,7 @@ const CategoryBox = (props) => {
             message.success("Uspjesno sacuvane izmjene", 2);
             setEditCategoryModal(false);
             updateCategoryForm.resetFields();
+            setTimeout(() => window.location.reload(), 1000);
           },
           onError: (err) => {
             message.error("Greska pri izmjenama", 2);

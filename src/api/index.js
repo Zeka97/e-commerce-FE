@@ -82,3 +82,39 @@ export const updateCategory = async (params) => {
 
   return data;
 };
+
+export const updateDiscountPrice = async (params) => {
+  const { data } = await axios.post("/admin/updateArticleDiscountPrice", {
+    params,
+  });
+  return data;
+};
+
+export const removeDiscountPrice = async (params) => {
+  const { data } = await axios.post("/admin/removeArticleDiscountPrice", {
+    params,
+  });
+  return data;
+};
+
+export const editArticle = async (params) => {
+  const { data } = await axios.post("/admin/editArticle", {
+    params,
+  });
+  return data;
+};
+
+export const addNewCategory = async (params) => {
+  const { data } = await axios.post("/admin/addNewCategory", {
+    params,
+  });
+
+  return data;
+};
+
+export const getAllUsers = async (params) => {
+  const { data } = await axios.get("/admin/getAllUsers", {
+    params,
+  });
+  return data;
+};

@@ -11,8 +11,6 @@ import { categorySelect } from "../../redux/actions/search.action";
 const KategorijaSelect = (props) => {
   const { Option } = Select;
 
-  const [kategorija, setKategorija] = useState([]);
-
   const { data, error, isError, isFetching, isLoading, isSuccess } = useQuery(
     "getAllCategories",
     getAllCategories
@@ -34,6 +32,7 @@ const KategorijaSelect = (props) => {
       optionFilterProp="children"
       onChange={onChange}
       onSearch={onSearch}
+      defaultValue={props.defaultValue}
       filterOption={(input, option) =>
         option.children.toLowerCase().includes(input.toLowerCase())
       }

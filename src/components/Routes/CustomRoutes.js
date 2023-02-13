@@ -16,6 +16,7 @@ import ProfilePage from "../../pages/Profile/ProfilePage";
 import CategoriesPage from "../../pages/Categories/CategoriesPage";
 import AdminArticles from "../../pages/Admin/Articles/AdminArticles";
 import AdminCategoriesPage from "../../pages/Admin/Categories/AdminCategories";
+import AdminUsersPage from "../../pages/Admin/Users/AdminUsersPage";
 
 const CustomRoutes = () => {
   const user = useSelector((state) => state.auth);
@@ -67,6 +68,9 @@ const CustomRoutes = () => {
         />
         <Route path="/admin/dashboard/" element={<AdminPrivateRoute />}>
           <Route path="/admin/dashboard/" element={<Dashboard />} />
+        </Route>
+        <Route path="/admin/users" element={<AdminPrivateRoute />}>
+          <Route path="/admin/users" element={<AdminUsersPage />} />
         </Route>
         <Route path="/admin/articles" element={<AdminPrivateRoute />}>
           <Route path="/admin/articles" element={<AdminArticles />} />

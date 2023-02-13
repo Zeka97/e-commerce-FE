@@ -26,7 +26,11 @@ const StripeCheckoutButton = ({ price, length }) => {
       let obj = {};
       obj.naziv = cart[i].naziv;
       obj.kolicina = cart[i].kolicina;
-      obj.cijena = cart[i].cijena;
+      if (cart[i].akcijska_cijena) {
+        obj.cijena = cart[i].akcijska_cijena;
+      } else {
+        obj.cijena = cart[i].cijena;
+      }
       artikli.push(obj);
     }
 

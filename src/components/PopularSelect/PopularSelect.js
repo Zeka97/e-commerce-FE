@@ -19,6 +19,7 @@ const PopularSelect = (props) => {
       placeholder="Popularni"
       optionFilterProp="children"
       onChange={onChange}
+      defaultValue={props.defaultValue}
     >
       <Option value={true}>DA</Option>
       <Option value={null}>NE</Option>

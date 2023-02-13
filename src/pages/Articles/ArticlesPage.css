@@ -14,7 +14,14 @@
 }
 
 .articles_list {
-  margin-top: 100px;
+  margin-top: 70px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.articles_list .pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .articles_list h3 {
@@ -25,6 +32,7 @@
   display: flex;
   flex-wrap: wrap;
   grid-template-columns: 20% 20% 20% 20%;
-  grid-gap: 5px;
+  grid-gap: 1%;
   width: 100%;
+  padding-bottom: 20px;
 }

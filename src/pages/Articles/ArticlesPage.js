@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./ArticlesPage.css";
 
 import { connect } from "react-redux";
-import { Slider } from "antd";
+import { Slider, Pagination } from "antd";
 
 import Card from "../../components/card/Card";
 import Header from "../../components/Header/header";
@@ -13,13 +13,13 @@ import { getArticles } from "../../api";
 import DiscountSelect from "../../components/DiscountSelect/DiscountSelect";
 import PopularSelect from "../../components/PopularSelect/PopularSelect";
 import AdminHeader from "../../components/AdminHeader/AdminHeader";
+import CustomButton from "../../components/CustomButton/CustomButton";
 
 const ArticlesPage = (props) => {
   const [searchValue, setSearchValue] = useState("");
   const [priceRange, setPriceRange] = useState([0, 100]);
-
-  console.log(props.filter);
-  console.log(props.user);
+  const [page, setPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(null);
 
   const { data, error, isError, isSuccess, isFetching, isLoading, refetch } =
     useQuery(
@@ -31,14 +31,19 @@ const ArticlesPage = (props) => {
           discount: props.filter.discount,
           popular: props.filter.popular,
           priceRange,
+          page,
+          limit: 12,
         }),
       {
         retry: true,
       }
     );
 
+  const { total, articles } = data || { total: null, articles: [] };
+
   useEffect(() => {
-    refetch();
+    if (page == 1) refetch();
+    else setPage(1);
   }, [
     searchValue,
     props.filter.category,
@@ -46,6 +51,13 @@ const ArticlesPage = (props) => {
     props.filter.discount,
     priceRange,
   ]);
+
+  useEffect(() => {
+    if (page == 1) {
+      setTotalItems(total);
+    }
+    refetch();
+  }, [page, total]);
 
   const marks = {
     0: "0",
@@ -67,15 +79,15 @@ const ArticlesPage = (props) => {
         </div>
         <div className="select">
           <label>Kategorija</label>
-          <KategorijaSelect />
+          <KategorijaSelect defaultValue={props.filter.category} />
         </div>
         <div className="select">
           <label>Akcija</label>
-          <DiscountSelect />
+          <DiscountSelect defaultValue={props.filter.discount} />
         </div>
         <div className="select">
           <label>Popular</label>
-          <PopularSelect />
+          <PopularSelect defaultValue={props.filter.popular} />
         </div>
         <div className="select">
           <label style={{ marginLeft: "50px" }}>Cijena</label>
@@ -94,10 +106,37 @@ const ArticlesPage = (props) => {
         </div>
       </div>
       <div className="articles_list">
-        <h3>Svi artikli</h3>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <span
+            style={{
+              fontSize: "18px",
+              fontWeight: "bold",
+              marginRight: "40px",
+            }}
+          >
+            Svi artikli
+          </span>
+          <CustomButton
+            className="black"
+            style={{ marginBottom: "10px", height: "50px" }}
+          >
+            Dodaj artikal
+          </CustomButton>
+        </div>
+        <div className="pagination">
+          <h4>
+            Broj pronadjenih artikala je: <b>{totalItems}</b>
+          </h4>
+          <Pagination
+            defaultCurrent={1}
+            total={totalItems}
+            onChange={(page) => setPage(page)}
+            pageSize={12}
+          />
+        </div>
         <div className="artikli">
           {isSuccess &&
-            data.map((item) => {
+            articles.map((item) => {
               return <Card item={item} key={item.id} />;
             })}
         </div>
