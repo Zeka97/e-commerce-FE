@@ -1,10 +1,10 @@
-import { Table, Drawer } from "antd";
+import { Table, Drawer, message } from "antd";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 
-import { useQuery } from "react-query";
-import { getAllUsers } from "../../../api";
+import { useMutation, useQuery } from "react-query";
+import { blockUser, getAllUsers } from "../../../api";
 
 import AdminHeader from "../../../components/AdminHeader/AdminHeader";
 import CustomButton from "../../../components/CustomButton/CustomButton";
@@ -24,6 +24,18 @@ const AdminUsersPage = () => {
     () => getAllUsers({ page, limit: rowsLimit })
   );
 
+  const {mutate: blockUserMutate} = useMutation(blockUser,{
+    onSuccess:() => {
+      message.success(`U have successfuly ${userDetails.blocked_forever ? " unblocked " : " blocked "} ${userDetails.ime_i_prezime}`)
+      setOpenDrawer(false);
+      refetch();
+    },
+    onError:(error) => {
+      message.error(`There was an error while blocking a user`);
+      console.log(error);
+    }
+  })
+
   const { rows, total } = data || { rows: [], total: 0 };
 
   useEffect(() => {
@@ -39,7 +51,7 @@ const AdminUsersPage = () => {
     }
   }, [rowsLimit]);
 
-  console.log(data);
+  console.log(userDetails);
   return (
     <>
       <div className="UsersPage">
@@ -90,8 +102,8 @@ const AdminUsersPage = () => {
           <img src={userDetails?.slika} alt="slika" width={150} height={150} />
           <div className="user_description">
             <div className="user_actions">
-              <CustomButton className="black" width={50} height={50}>
-                Block
+              <CustomButton className="black" width={50} height={50} onClick={() => blockUserMutate(userDetails?.id)}>
+                {userDetails?.blocked_forever ? "Unblock" : "Block"}
               </CustomButton>
               <CustomButton className="black">Delete</CustomButton>
             </div>

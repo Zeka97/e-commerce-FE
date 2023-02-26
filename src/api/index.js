@@ -118,3 +118,9 @@ export const getAllUsers = async (params) => {
   });
   return data;
 };
+
+export const blockUser = async (id) => {
+  const { status } = await axios.post(`/admin/blockUser/${id}`);
+
+  return status;
+}
