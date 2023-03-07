@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Form, Input, message } from "antd";
+import { Modal, Form, Input, notification } from "antd";
 import { useMutation } from "react-query";
 
 import "./EditArticleModal.css";
@@ -21,12 +21,19 @@ const EditArticleModal = (props) => {
         },
         {
           onSuccess: (data) => {
-            message.success("Uspjesno izvrsene promjene", 2);
+            notification.success({
+              message: "Edit Article",
+              description: "Succesfully edited article",
+            });
+            props.setArticleModal(false);
             setTimeout(() => window.location.reload(), 2000);
           },
           onError: (error) => {
             console.log(error);
-            message.error("Greska pri editovanju", 2);
+            notification.error({
+              message: "Edit Article",
+              description: "Succesfully edited article",
+            });
           },
         }
       );

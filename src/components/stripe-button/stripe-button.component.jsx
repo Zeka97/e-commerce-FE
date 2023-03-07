@@ -4,7 +4,7 @@ import { useMutation } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { removeAlItemsFromCart } from "../../redux/actions/cart.action";
 import { useNavigate } from "react-router-dom";
-import { message } from "antd";
+import { notification } from "antd";
 import { userCreateOrder } from "../../api";
 
 const StripeCheckoutButton = ({ price, length }) => {
@@ -40,11 +40,13 @@ const StripeCheckoutButton = ({ price, length }) => {
         onSuccess: () => {
           dispatch(removeAlItemsFromCart());
           navigate("/");
-          message.success("Uspjesno ste izvrsili narudzbu", 2);
+          notification.success({message:'Order',
+          description: "You have successfully placed your order"});
         },
         onError: (error) => {
           console.log(error);
-          message.error("Greska pri narudzbi, pokusajte ponovo.", 2);
+          notification.success({message:'Order',
+          description: "There was an error with placing your order"});
         },
       }
     );

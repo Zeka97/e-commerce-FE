@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useMutation, useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { message, Tag, Modal, Form, Input, Button } from "antd";
+import { notification, Tag, Modal, Form, Input, Button } from "antd";
 import {
   changeArticleVisibility,
   getArticle,
@@ -66,11 +66,19 @@ const ArticlePage = () => {
       { id: data.id, visibility: data.visibility },
       {
         onSuccess: (data) => {
-          message.success("uspjesno izvrsene promjene", 2);
+          notification.success({
+            message: "Article visibilty",
+            description: `Article visibility successfully changed to ${
+              data.visibility ? "hidden" : "visible"
+            }`,
+          });
           setTimeout(() => window.location.reload(), 2000);
         },
         onError: (err) => {
-          console.log("nije uspjelo", err);
+          notification.error({
+            message: "Article visibilty",
+            description: `There was an error with changing article visibility`,
+          });
         },
       }
     );
@@ -81,11 +89,17 @@ const ArticlePage = () => {
       { id: data.id },
       {
         onSuccess: (data) => {
-          message.success("uspjesno izvrsene promjene", 2);
+          notification.success({
+            message: "Article Stock",
+            description: `Article successfully changed to out of stock`,
+          });
           setTimeout(() => window.location.reload(), 2000);
         },
         onError: (err) => {
-          message.error("greska pri izmjenama");
+          notification.error({
+            message: "Article Stock",
+            description: `There was an error`,
+          });
           console.log(err);
         },
       }
@@ -100,11 +114,18 @@ const ArticlePage = () => {
         { discount: values.discount, id: data.id },
         {
           onSuccess: (data) => {
-            message.success("Uspjesno izvrsene promjene", 2);
+            notification.success({
+              message: "Article Discount",
+              description: `U have been succesfully set article on discount`,
+            });
+            setDiscountModal(false);
             setTimeout(() => window.location.reload(), 2000);
           },
           onError: (err) => {
-            message.error("Greska pri izmjenama");
+            notification.err({
+              message: "Article Discount",
+              description: `There was an error with changing discount price`,
+            });
             console.log(err);
           },
         }
@@ -117,11 +138,18 @@ const ArticlePage = () => {
       { id: data.id },
       {
         onSuccess: (data) => {
-          message.success("Uspjesno izvrsene promjene", 2);
+          notification.success({
+            message: "Article Discount",
+            description: `U have  succesfully removed discount price`,
+          });
+          setDiscountModal(false);
           setTimeout(() => window.location.reload(), 2000);
         },
         onError: (err) => {
-          message.error("Greska pri izmjenama", 2);
+          notification.error({
+            message: "Article Discount",
+            description: `There was an error with changing discount price`,
+          });
           console.log(err);
         },
       }

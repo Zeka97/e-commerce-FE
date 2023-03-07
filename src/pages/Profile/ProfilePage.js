@@ -5,7 +5,7 @@ import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
 import Header from "../../components/Header/header";
 import { useMutation, useQuery } from "react-query";
-import { Modal, Form, Input, Button } from "antd";
+import { Modal, Form, Input, Button, notification, message } from "antd";
 import { updateUserProfile, userGetOrders } from "../../api";
 import StatisticBox from "../../components/StatisticBox/StatisticBox";
 import OrdersTable from "../../components/Table/OrdersTable/OrdersTable";
@@ -69,7 +69,7 @@ const ProfilePage = () => {
       { values, id: user.id },
       {
         onSuccess: (data) => {
-          console.log("uspjelo", data);
+          notification.success({message:'Edit profile', description:'U have sucessfully updated your profile'})
           localStorage.removeItem("user");
           dispatch(userLogin(data));
           localStorage.setItem(
@@ -82,7 +82,8 @@ const ProfilePage = () => {
           );
         },
         onError: (err) => {
-          console.log("nije uspjelo", err);
+          notification.error({message:'Edit profile', description:'There was an error with updating profile'});
+          console.log(err);
         },
       }
     );
@@ -93,6 +94,7 @@ const ProfilePage = () => {
       .validateFields()
       .then((values) => {
         updateProfile(values);
+        editProfileForm.resetFields();
       })
       .catch((err) => err);
   };

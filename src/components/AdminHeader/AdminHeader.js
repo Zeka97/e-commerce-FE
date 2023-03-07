@@ -11,14 +11,22 @@ const AdminHeader = () => {
 
   return (
     <div className="header">
-      <div className="navbar-container">
-        <Link to="/admin/dashboard">Statistika</Link>
-        <Link to="/admin/users">Kupci</Link>
-        <Link to="/admin/articles">Artikli</Link>
-        <Link to="/admin/categories">Kategorije</Link>
-        <Link to="#" onClick={logOut}>
-          Log out
-        </Link>
+      <div className="admin-navbar-container">
+        <img
+          src="../logoshop.png"
+          width="100px"
+          style={{ objectFit: "contain", marginLeft: "60px" }}
+          alt="logo"
+        />
+        <div className="admin-routes">
+          <Link to="/admin/dashboard">Statistika</Link>
+          <Link to="/admin/users">Kupci</Link>
+          <Link to="/admin/articles">Artikli</Link>
+          <Link to="/admin/categories">Kategorije</Link>
+          <Link to="#" onClick={logOut}>
+            Log out
+          </Link>
+        </div>
       </div>
     </div>
   );

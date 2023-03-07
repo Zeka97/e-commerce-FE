@@ -24,7 +24,17 @@ const Cart = (props) => {
                 return <CartItem key={item.id} item={item} />;
               })
             ) : (
-              <span className="empty-message">Your cart is empty</span>
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <span className="empty-message">Your cart is empty</span>
+              </div>
             )}
           </div>
           {props.cart.length ? (

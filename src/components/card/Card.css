@@ -10,9 +10,11 @@
   border-radius: 8px;
 }
 .card img {
-  width: 100%;
+  display: flex;
+  width: 60%;
   height: 60%;
   background-size: cover;
+  margin: auto;
 }
 .opis {
   display: flex;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Modal, Form, Input, message } from "antd";
+import { Modal, Form, Input, notification } from "antd";
 
 import { useMutation } from "react-query";
 
@@ -21,11 +21,12 @@ const AddCategoryBox = () => {
         console.log(values);
         mutate(values, {
           onSuccess: (data) => {
-            message.success("Uspjesno dodana kategorija", 2);
+            notification.success({message:'Add Category', description:'Successfully added Category'});
             setTimeout(() => window.location.reload(), 1000);
           },
           onError: (error) => {
-            message.error("Greska pri dodavanju kategorije");
+            notification.error({message: 'Add Category',
+            description: "There was an error with adding Category"});
             console.log(error);
           },
         });

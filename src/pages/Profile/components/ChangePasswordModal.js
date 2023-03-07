@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
-import { message } from "antd";
+import { message, notification } from "antd";
 
 import { Modal, Form, Input } from "antd";
 import { changeUserPassword, userCreateOrder } from "../../../api";
@@ -15,14 +15,18 @@ const ChangePasswordModal = ({ changePassword, setChangePassword, userId }) => {
       { values, userId },
       {
         onSuccess: (data) => {
-          message.success("Uspjesno ste promjenili lozinku", 5);
+          notification.success({message: "Change password",
+          description: 'Succesfully changed password'
+        });
           localStorage.removeItem("user");
           setTimeout(() => {
             window.location.reload();
           }, 2000);
         },
         onError: (err) => {
-          message.error("Greska pri izmjeni lozinke");
+          notification.error({message: "Change password",
+          description: 'There was an error while changing the password'
+        })
         },
       }
     );

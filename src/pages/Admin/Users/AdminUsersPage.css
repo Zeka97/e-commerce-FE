@@ -1,8 +1,14 @@
 .user_box {
   display: flex;
+  margin-bottom: 20px;
+  width: 100%;
+}
+.user_description {
+  width: 320px;
 }
 .user_actions {
   display: flex;
+  justify-content: space-between;
 }
 .user_description div span:last-child {
   margin-left: 20px;

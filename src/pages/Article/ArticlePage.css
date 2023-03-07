@@ -4,17 +4,20 @@
 
 .Article_content {
   display: flex;
-  height: auto;
+  height: 90%;
 }
 
 .Article_content .Article_image {
   height: 100%;
   width: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .Article_content .Article_image img {
-  height: 90%;
-  width: 100%;
+  height: 600px;
+  width: 70%;
 }
 
 .Article_content .Article_info {

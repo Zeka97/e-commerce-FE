@@ -21,7 +21,7 @@
 .CategoryBox_textcontent button {
   color: black;
   width: 100px;
-  border-radius: 10px;
+  border-radius: 6px;
 }
 
 .CategoryBox_textcontent button:hover {
@@ -30,10 +30,12 @@
 
 .CategoryBox_img {
   width: 40%;
+  display: flex;
+  align-items: center;
 }
 .CategoryBox_img img {
   width: 100%;
-  height: 100%;
+  height: 80%;
   border-radius: 100px;
   filter: drop-shadow(-10px 0px 30px #4cd5e4);
 }

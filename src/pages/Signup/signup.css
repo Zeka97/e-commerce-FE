@@ -4,9 +4,8 @@
 }
 
 .signup_page .image {
-  background: url(https://images.unsplash.com/photo-1656267124947-39f3a2102d85?crop=entropy&cs=tinysrgb&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NTY4MDMzODY&ixlib=rb-1.2.1&q=80)
-    rgba(255, 255, 255, 0.3);
-  background-size: cover;
+  background: url("../../../public/login.png");
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   background-blend-mode: lighten;
@@ -15,6 +14,8 @@
   justify-content: center;
   align-items: center;
   font-size: 50px;
+  height: 95%;
+  margin: auto;
 }
 
 .signup_page .content_box {

@@ -50,8 +50,9 @@ const Login = () => {
                 );
               }
             },
-            onError: (data) => {
-              console.log(data);
+            onError: (error) => {
+              console.log(error);
+              setErrorMessage(error.response.data.message);
             },
           }
         );
@@ -63,7 +64,7 @@ const Login = () => {
 
   return (
     <div className="login_page">
-      <div className="image">E-Trgovina</div>
+      <div className="image"></div>
       <div className="sign-in">
         <h1>Sign In</h1>
 
@@ -98,6 +99,12 @@ const Login = () => {
           >
             <Input.Password name="password" />
           </Form.Item>
+          {errorMessage && (
+            <p>
+              <b>{errorMessage}</b>
+            </p>
+          )}
+
           <CustomButton
             className="light"
             style={{ marginBottom: "20px", marginTop: "20px" }}

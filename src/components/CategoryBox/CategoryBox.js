@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Modal, Form, Input, message } from "antd";
+import { Modal, Form, Input, notification } from "antd";
 import { useNavigate } from "react-router-dom";
 import { categorySelectOnly } from "../../redux/actions/search.action";
 import "./CategoryBox.css";
@@ -27,13 +27,17 @@ const CategoryBox = (props) => {
         { values, id: props.id },
         {
           onSuccess: (data) => {
-            message.success("Uspjesno sacuvane izmjene", 2);
+            notification.success({
+              message:'Edit Category',
+              description: "Successfully edited Category"});
             setEditCategoryModal(false);
             updateCategoryForm.resetFields();
             setTimeout(() => window.location.reload(), 1000);
           },
           onError: (err) => {
-            message.error("Greska pri izmjenama", 2);
+            notification.error({
+              message:'Edit Category',
+              description: "There was an error with editing category"});
           },
         }
       );

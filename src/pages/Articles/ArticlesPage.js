@@ -116,12 +116,14 @@ const ArticlesPage = (props) => {
           >
             Svi artikli
           </span>
-          <CustomButton
-            className="black"
-            style={{ marginBottom: "10px", height: "50px" }}
-          >
-            Dodaj artikal
-          </CustomButton>
+          {props.user === null &&
+            <CustomButton
+              className="black"
+              style={{ marginBottom: "10px", height: "50px" }}
+            >
+              Dodaj artikal
+            </CustomButton>
+          }
         </div>
         <div className="pagination">
           <h4>

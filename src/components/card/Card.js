@@ -57,11 +57,13 @@ const Card = ({ item }) => {
                 {item.cijena} KM
               </span>
               <span className="cijena_proizvoda akcija">
-                {item.akcijska_cijena} KM
+                <b>{item.akcijska_cijena} KM</b>
               </span>
             </div>
           ) : (
-            <span className="cijena_proizvoda">{item.cijena} KM</span>
+            <span className="cijena_proizvoda">
+              <b>{item.cijena} KM</b>
+            </span>
           )}
         </div>
 

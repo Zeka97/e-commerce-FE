@@ -2,7 +2,7 @@ import React from "react";
 import "./signup.css";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
-import { Form, Input } from "antd";
+import { Form, Input, message, notification } from "antd";
 import { register } from "../../api";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomLinkButton from "../../components/customLinkButton/customLinkButton";
@@ -22,9 +22,17 @@ const Signup = () => {
       .then((values) => {
         mutate(values, {
           onSuccess: () => {
+            notification.success({
+              message: "Signup",
+              description: "You have succesfully created a new account",
+            });
             navigate("/login");
           },
           onError: (error) => {
+            notification.error({
+              message: "Signup",
+              description: "Error while  making an  account",
+            });
             console.log(error);
           },
         });
@@ -137,7 +145,11 @@ const Signup = () => {
           >
             <Input type="text" name="telefon" />
           </Form.Item>
-          <CustomButton className="black" onClick={registerProfile}>
+          <CustomButton
+            className="black"
+            onClick={registerProfile}
+            style={{ marginBottom: "10px" }}
+          >
             Registruj se
           </CustomButton>
           <CustomLinkButton className="light" to="/login">
