@@ -123,4 +123,16 @@ export const blockUser = async (id) => {
   const { status } = await axios.post(`/admin/blockUser/${id}`);
 
   return status;
-}
+};
+
+export const getUserDetails = async (id) => {
+  const { data } = await axios.get(`/admin/getUserDetails/${id}`);
+
+  return data;
+};
+
+export const getStatistic = async (id) => {
+  const { data } = await axios.get(`/admin/statistics`);
+
+  return data;
+};

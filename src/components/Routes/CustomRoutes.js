@@ -22,7 +22,7 @@ const CustomRoutes = () => {
   const user = useSelector((state) => state.auth);
 
   return (
-    <BrowserRouter>
+    <>
       <Routes>
         <Route path="/" element={<UserPrivateRoute />}>
           <Route path="/" element={<NaslovnaPage />} />
@@ -83,7 +83,7 @@ const CustomRoutes = () => {
         </Route>
         <Route path="*" element={<div>ERROR 404 Page not Found</div>} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 };
 

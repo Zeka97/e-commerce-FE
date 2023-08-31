@@ -7,7 +7,7 @@ import Header from "../../components/Header/header";
 import { useMutation, useQuery } from "react-query";
 import { Modal, Form, Input, Button, notification, message } from "antd";
 import { updateUserProfile, userGetOrders } from "../../api";
-import StatisticBox from "../../components/StatisticBox/StatisticBox";
+import StatisticCard from "../../components/StatisticCard/StatisticCard";
 import OrdersTable from "../../components/Table/OrdersTable/OrdersTable";
 import { useSearchContext } from "../../components/context/SearchContext";
 import { userLogin } from "../../redux/actions/user.action";
@@ -28,16 +28,22 @@ const ProfilePage = () => {
 
   const dispatch = useDispatch();
 
-  const { data, isLoading, isSuccess, isError, isFetching, refetch } = useQuery(
-    "orders",
-    () =>
-      userGetOrders({
-        user_id: user.id,
-        limit: rowsLimit,
-        page,
-        dateFrom: searchOrdersDateFrom,
-        dateTo: searchOrdersDateTo,
-      })
+  const {
+    data,
+    isLoading,
+    isSuccess,
+    isError,
+    isFetching,
+    refetch,
+    isFetched,
+  } = useQuery("orders", () =>
+    userGetOrders({
+      user_id: user.id,
+      limit: rowsLimit,
+      page,
+      dateFrom: searchOrdersDateFrom,
+      dateTo: searchOrdersDateTo,
+    })
   );
 
   const { mutate } = useMutation((params) => updateUserProfile(params));
@@ -69,7 +75,10 @@ const ProfilePage = () => {
       { values, id: user.id },
       {
         onSuccess: (data) => {
-          notification.success({message:'Edit profile', description:'U have sucessfully updated your profile'})
+          notification.success({
+            message: "Edit profile",
+            description: "U have sucessfully updated your profile",
+          });
           localStorage.removeItem("user");
           dispatch(userLogin(data));
           localStorage.setItem(
@@ -82,7 +91,10 @@ const ProfilePage = () => {
           );
         },
         onError: (err) => {
-          notification.error({message:'Edit profile', description:'There was an error with updating profile'});
+          notification.error({
+            message: "Edit profile",
+            description: "There was an error with updating profile",
+          });
           console.log(err);
         },
       }
@@ -104,7 +116,6 @@ const ProfilePage = () => {
   return (
     <>
       <div className="profile_page">
-        <Header />
         <div className="profile_view">
           <div className="profile_edit">
             <h3>Profil</h3>
@@ -130,11 +141,16 @@ const ProfilePage = () => {
             <div className="profile_statistic">
               <h3>Statistika</h3>
               <div className="profile_statistic_description">
-                <StatisticBox
-                  header={user.potrosen_novac}
-                  desc={"KM potroseno"}
+                <StatisticCard
+                  header={"Spendings"}
+                  desc={user.potrosen_novac}
+                  isFetched={true}
                 />
-                <StatisticBox header={totalItems} desc={"izvresnih narudzbi"} />
+                <StatisticCard
+                  header={"Orders"}
+                  desc={total}
+                  isFetched={isFetched}
+                />
               </div>
             </div>
           </div>

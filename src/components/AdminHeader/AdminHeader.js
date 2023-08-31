@@ -1,3 +1,4 @@
+import { UserOutlined } from "@ant-design/icons";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -6,7 +7,7 @@ import "./AdminHeader.css";
 const AdminHeader = () => {
   const logOut = () => {
     localStorage.removeItem("user");
-    window.location.reload();
+    window.location.href("/login");
   };
 
   return (
@@ -20,7 +21,10 @@ const AdminHeader = () => {
         />
         <div className="admin-routes">
           <Link to="/admin/dashboard">Statistika</Link>
-          <Link to="/admin/users">Kupci</Link>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <UserOutlined style={{ color: "white" }} />
+            <Link to="/admin/users">Kupci</Link>
+          </div>
           <Link to="/admin/articles">Artikli</Link>
           <Link to="/admin/categories">Kategorije</Link>
           <Link to="#" onClick={logOut}>

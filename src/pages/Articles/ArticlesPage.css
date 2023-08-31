@@ -31,7 +31,7 @@
 .artikli {
   display: flex;
   flex-wrap: wrap;
-  grid-gap: 20px;
+  grid-gap: 15px;
   width: 100%;
   padding-bottom: 20px;
 }

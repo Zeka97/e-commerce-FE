@@ -16,8 +16,6 @@ const CategoriesPage = () => {
 
   return (
     <div className="categories_page">
-      <Header />
-
       <div className="content_box">
         <h3>Sve kategorije</h3>
         <div className="categories_list">

@@ -32,7 +32,6 @@ const ArticlePage = () => {
   const dispatch = useDispatch();
 
   const [discountForm] = Form.useForm();
-  const [editArticleForm] = Form.useForm();
   const user = useSelector((state) => state.auth.currentUser);
 
   const { mutate: articleVisibility } = useMutation((params) =>
@@ -55,6 +54,9 @@ const ArticlePage = () => {
     "singlearticle",
     () => getArticle({ id })
   );
+
+  console.log(data);
+
   const dodajUKorpu = (item) => {
     console.log("item:", item);
     dispatch(addItemToCart(item));
@@ -156,11 +158,24 @@ const ArticlePage = () => {
     );
   };
 
+  const handleIncreaseQuantity = () => {
+    setKolicina((prevState) => {
+      console.log(prevState);
+      return (prevState += 1);
+    });
+  };
+
+  const handleDecreaseQuantity = () => {
+    if (kolicina > 1)
+      setKolicina((prevState) => {
+        return (prevState -= 1);
+      });
+  };
+
   if (isLoading) return null;
   return (
     <>
       <div className="Article_page">
-        {user ? <Header /> : <AdminHeader />}
         <div className="Article_content">
           <div className="Article_image">
             <img src={data.photo} alt="slika" />
@@ -199,9 +214,19 @@ const ArticlePage = () => {
                 <span>Cijena</span>
                 <span></span>
                 <div>
-                  <span>-</span>
+                  <span
+                    onClick={handleDecreaseQuantity}
+                    className="decrease_quantity"
+                  >
+                    -
+                  </span>
                   <span>{kolicina}</span>
-                  <span>+</span>
+                  <span
+                    onClick={handleIncreaseQuantity}
+                    className="increase_quantity"
+                  >
+                    +
+                  </span>
                 </div>
                 <span>
                   {data.akcijska_cijena
@@ -332,13 +357,13 @@ const ArticlePage = () => {
       </Modal>
       <EditArticleModal
         editArticleModal={isOpenEditArticleModal}
-        editArticleForm={editArticleForm}
         setArticleModal={setIsOpenEditArticleModal}
         articleId={data.id}
         articleName={data.naziv}
         articlePrice={data.cijena}
         articleQuantity={data.max_kolicina}
         articleDescription={data.description}
+        kategorijaId={data.kategorija_id}
       />
     </>
   );

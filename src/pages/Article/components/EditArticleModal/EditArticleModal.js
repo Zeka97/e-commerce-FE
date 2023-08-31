@@ -1,17 +1,28 @@
 import React from "react";
-import { Modal, Form, Input, notification } from "antd";
-import { useMutation } from "react-query";
+import { Modal, Form, Input, notification, Select } from "antd";
+import { useMutation, useQuery } from "react-query";
 
 import "./EditArticleModal.css";
-import { editArticle } from "../../../../api";
+import { editArticle, getAllCategories } from "../../../../api";
 
 const EditArticleModal = (props) => {
+  const { Option } = Select;
+
+  const [editArticleForm] = Form.useForm();
+
   console.log(props);
 
   const { mutate } = useMutation((params) => editArticle(params));
 
+  const { data, isSuccess, isFetching, isLoading, isError, refetch } = useQuery(
+    "Categories",
+    getAllCategories
+  );
+
+  console.log("data:", data);
+
   const handleEditArticle = () => {
-    props.editArticleForm.validateFields().then((values) => {
+    editArticleForm.validateFields().then((values) => {
       console.log(values);
 
       mutate(
@@ -47,7 +58,7 @@ const EditArticleModal = (props) => {
       open={props.editArticleModal}
       onOk={handleEditArticle}
       onCancel={() => {
-        props.editArticleForm.resetFields();
+        editArticleForm.resetFields();
         props.setArticleModal(false);
       }}
       width={700}
@@ -58,7 +69,7 @@ const EditArticleModal = (props) => {
         wrapperCol={{ span: 16 }}
         initialValues={{ remember: true }}
         autoComplete="off"
-        form={props.editArticleForm}
+        form={editArticleForm}
       >
         <Form.Item
           label="Name"
@@ -110,6 +121,22 @@ const EditArticleModal = (props) => {
             placeholder="Max length 255 characters..."
             maxLength={1200}
           />
+        </Form.Item>
+        <Form.Item
+          label="Category"
+          name="articleCategory"
+          initialValue={props.kategorijaId}
+        >
+          <Select>
+            {isSuccess &&
+              data.map((item) => {
+                return (
+                  <Option key={item.id} value={item.id}>
+                    {item.naziv}
+                  </Option>
+                );
+              })}
+          </Select>
         </Form.Item>
       </Form>
     </Modal>

@@ -39,7 +39,11 @@ const Cart = (props) => {
           </div>
           {props.cart.length ? (
             <div className="cart-dropdown_checkout">
-              <CustomLinkButton to="/naplata" className={"dark"}>
+              <CustomLinkButton
+                to="/naplata"
+                className={"dark"}
+                onClick={() => openDropdown()}
+              >
                 Plaćanje
               </CustomLinkButton>
               <CustomLinkButton

@@ -68,7 +68,6 @@ const ArticlesPage = (props) => {
   };
   return (
     <div className="articles_page">
-      {props.user ? <Header /> : <AdminHeader />}
       <div className="filter">
         <div className="select">
           <label>Kljucna rijec</label>
@@ -116,14 +115,14 @@ const ArticlesPage = (props) => {
           >
             Svi artikli
           </span>
-          {props.user === null &&
+          {props.user === null && (
             <CustomButton
               className="black"
               style={{ marginBottom: "10px", height: "50px" }}
             >
               Dodaj artikal
             </CustomButton>
-          }
+          )}
         </div>
         <div className="pagination">
           <h4>

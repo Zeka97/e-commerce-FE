@@ -11,7 +11,6 @@ import "./NaslovnaPage.css";
 const NaslovnaPage = () => {
   return (
     <div class="naslovna_page">
-      <Header />
       <div className="naslovna_content">
         <DiscountArticles />
         <Categories />
