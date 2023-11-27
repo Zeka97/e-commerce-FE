@@ -11,21 +11,14 @@
 .navbar-container {
   height: 60px;
   border-radius: 15px;
-  width: 80%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #0286b1;
 }
 .user-routes {
   margin-left: 60px;
   display: flex;
   gap: 80px;
-}
-.user-routes a {
-  color: white;
-  display: flex;
-  align-items: center;
 }
 
 .dropdown_items {

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 
-import { Select } from "antd";
 import { connect } from "react-redux";
 
 import { useQuery } from "react-query";
 import { getAllCategories } from "../../api";
 
 import { categorySelect } from "../../redux/actions/search.action";
+import { CustomSelect } from "../../styledComponents/styled";
 
 const KategorijaSelect = (props) => {
-  const { Option } = Select;
+  const { Option } = CustomSelect;
 
   const { data, error, isError, isFetching, isLoading, isSuccess } = useQuery(
     "getAllCategories",
@@ -25,10 +25,10 @@ const KategorijaSelect = (props) => {
   };
 
   return (
-    <Select
-      style={{ width: 200 }}
+    <CustomSelect
       showSearch
       placeholder="Izaberite kategoriju"
+      className="w-[274px]"
       optionFilterProp="children"
       onChange={onChange}
       onSearch={onSearch}
@@ -42,7 +42,7 @@ const KategorijaSelect = (props) => {
         data.map((item) => {
           return <Option value={item.id}>{item.naziv}</Option>;
         })}
-    </Select>
+    </CustomSelect>
   );
 };
 

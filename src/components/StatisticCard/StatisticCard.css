@@ -1,12 +1,11 @@
 .statistic-box {
-  width: 300px;
-  height: 120px;
+  width: 190px;
+  height: 190px;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin-left: 15px;
   padding-left: 20px;
 }
 

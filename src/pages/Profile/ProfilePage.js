@@ -116,42 +116,50 @@ const ProfilePage = () => {
   return (
     <>
       <div className="profile_page">
-        <div className="profile_view">
-          <div className="profile_edit">
-            <h3>Profil</h3>
-            <button onClick={() => setEditProfile(true)}>Uredi Profil</button>
-            <button onClick={() => setChangePassword(true)}>
-              Change password
-            </button>
-          </div>
-          <div className="profile_desc">
-            <div className="profile_info">
-              <div className="profile_user_about">
-                <div className="user_image">
-                  <img src={user.slika} alt="slika" />
-                </div>
-                <div className="user_description">
-                  <h3>{user.ime + " " + user.prezime} </h3>
-                  <p>{user.grad}</p>
-                  <p>{user.email}</p>
-                  <p>{user.telefon}</p>
-                </div>
+        <div className="flex mx-5 mt-10">
+          <div className="flex flex-col w-1/2 gap-20">
+            <div className="flex items-center gap-4">
+              <h3 className="font-bold text-[24px]">Profil</h3>
+              <button
+                className="px-[48px] py-[12px] bg-[#989898] text-white w-auto rounded-[5px]"
+                onClick={() => setEditProfile(true)}
+              >
+                Uredi Profil
+              </button>
+              <button
+                className="border-[1px] border-[#989898] px-[48px] py-[12px] text-[#989898] rounded-[5px]"
+                onClick={() => setChangePassword(true)}
+              >
+                Change password
+              </button>
+            </div>
+            <div className="flex">
+              <div className="user_image">
+                <img className="rounded-[10px]" src={user.slika} alt="slika" />
+              </div>
+              <div className="user_description">
+                <h3 className="font-bold text-[32px]">
+                  {user.ime + " " + user.prezime}{" "}
+                </h3>
+                <p>{user.grad}</p>
+                <p>{user.email}</p>
+                <p>{user.telefon}</p>
               </div>
             </div>
-            <div className="profile_statistic">
-              <h3>Statistika</h3>
-              <div className="profile_statistic_description">
-                <StatisticCard
-                  header={"Spendings"}
-                  desc={user.potrosen_novac}
-                  isFetched={true}
-                />
-                <StatisticCard
-                  header={"Orders"}
-                  desc={total}
-                  isFetched={isFetched}
-                />
-              </div>
+          </div>
+          <div className="flex flex-col gap-20">
+            <h3 className="font-bold text-[24px]">Statistika</h3>
+            <div className="flex gap-5">
+              <StatisticCard
+                header={"Spendings"}
+                desc={user.potrosen_novac}
+                isFetched={true}
+              />
+              <StatisticCard
+                header={"Orders"}
+                desc={total}
+                isFetched={isFetched}
+              />
             </div>
           </div>
         </div>

@@ -11,7 +11,7 @@ const StatisticCard = (props) => {
   return (
     <div className="statistic-box">
       <div className="statistic-box_header">
-        <h3>{props.header}</h3>
+        <h3 className="font-bold text-[20px]">{props.header}</h3>
       </div>
       {props.isFetched ? (
         <div className="description">
@@ -19,7 +19,7 @@ const StatisticCard = (props) => {
             <NumberCounter end={parseInt(props.desc)} delay={0.2} />
           </b>
           {props.statisticChange >= 0 ? (
-            <div className="statistic">
+            <div className="flex">
               <Tag color="green">
                 <ArrowUpOutlined />
                 <span>
@@ -29,7 +29,7 @@ const StatisticCard = (props) => {
               <span>since last month</span>
             </div>
           ) : (
-            <div className="statistic">
+            <div className="flex mt-12">
               <Tag color="red">
                 <ArrowDownOutlined />
                 <span>

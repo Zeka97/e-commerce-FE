@@ -28,16 +28,18 @@ const CategoryBox = (props) => {
         {
           onSuccess: (data) => {
             notification.success({
-              message:'Edit Category',
-              description: "Successfully edited Category"});
+              message: "Edit Category",
+              description: "Successfully edited Category",
+            });
             setEditCategoryModal(false);
             updateCategoryForm.resetFields();
             setTimeout(() => window.location.reload(), 1000);
           },
           onError: (err) => {
             notification.error({
-              message:'Edit Category',
-              description: "There was an error with editing category"});
+              message: "Edit Category",
+              description: "There was an error with editing category",
+            });
           },
         }
       );
@@ -48,9 +50,14 @@ const CategoryBox = (props) => {
     <>
       <div className="CategoryBox" id={props.id}>
         <div className="CategoryBox_textcontent">
-          <h3>{props.naziv}</h3>
+          <h3 className="text-[22px]">{props.naziv}</h3>
           {props.user ? (
-            <button onClick={() => selectedCategory(props.id)}>Pogledaj</button>
+            <button
+              className="bg-white px-4 py-1"
+              onClick={() => selectedCategory(props.id)}
+            >
+              Pogledaj
+            </button>
           ) : (
             <button onClick={() => setEditCategoryModal(true)}>Uredi </button>
           )}

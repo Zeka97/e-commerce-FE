@@ -42,7 +42,7 @@ const ArticlesPage = (props) => {
   const { total, articles } = data || { total: null, articles: [] };
 
   useEffect(() => {
-    if (page == 1) refetch();
+    if (page == 1) setTimeout(() => refetch(), 1000);
     else setPage(1);
   }, [
     searchValue,
@@ -90,18 +90,20 @@ const ArticlesPage = (props) => {
         </div>
         <div className="select">
           <label style={{ marginLeft: "50px" }}>Cijena</label>
-          <Slider
-            defaultValue={[0, 100]}
-            range
-            style={{
-              width: "300px",
-              margin: 0,
-              display: "inline-block",
-              marginLeft: "60px",
-            }}
-            marks={marks}
-            onChange={(value) => setPriceRange(value)}
-          />
+          <div className="flex items-center h-full">
+            <Slider
+              defaultValue={[0, 100]}
+              range
+              style={{
+                width: "300px",
+                margin: 0,
+                display: "inline-block",
+                marginLeft: "60px",
+              }}
+              marks={marks}
+              onChange={(value) => setPriceRange(value)}
+            />
+          </div>
         </div>
       </div>
       <div className="articles_list">

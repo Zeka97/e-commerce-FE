@@ -1,5 +1,5 @@
 .user-menu-wrap {
-  width: 150px;
+  width: auto;
   display: flex;
   justify-content: center;
   z-index: 4;
