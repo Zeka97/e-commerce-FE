@@ -16,7 +16,6 @@ import AdminHeader from "../../components/AdminHeader/AdminHeader";
 import CustomButton from "../../components/CustomButton/CustomButton";
 
 const ArticlesPage = (props) => {
-  const [searchValue, setSearchValue] = useState("");
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [page, setPage] = useState(1);
   const [totalItems, setTotalItems] = useState(null);
@@ -26,7 +25,6 @@ const ArticlesPage = (props) => {
       "articles",
       () =>
         getArticles({
-          searchValue,
           kategorija_id: props.filter.category,
           discount: props.filter.discount,
           popular: props.filter.popular,
@@ -41,11 +39,11 @@ const ArticlesPage = (props) => {
 
   const { total, articles } = data || { total: null, articles: [] };
 
+  console.log(articles);
   useEffect(() => {
     if (page == 1) setTimeout(() => refetch(), 1000);
     else setPage(1);
   }, [
-    searchValue,
     props.filter.category,
     props.filter.popular,
     props.filter.discount,
@@ -69,13 +67,6 @@ const ArticlesPage = (props) => {
   return (
     <div className="articles_page">
       <div className="filter">
-        <div className="select">
-          <label>Kljucna rijec</label>
-          <Searchbar
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-          />
-        </div>
         <div className="select">
           <label>Kategorija</label>
           <KategorijaSelect defaultValue={props.filter.category} />

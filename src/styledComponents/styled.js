@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { Input, Select } from "antd";
+import { AutoComplete, Select } from "antd";
 
 export const CustomSelect = styled(Select)`
   &.ant-select > .ant-select-selector {
@@ -14,26 +14,20 @@ export const CustomSelect = styled(Select)`
   }
 `;
 
-export const CustomInput = styled(Input)`
-  border-radius: 25px;
-  background-color: #f0f0f0;
-  border: none;
-  width: 577px;
-  height: 40px;
-  &:hover {
-    border: none;
-  }
-  &:focus {
+export const CustomAutocomplete = styled(AutoComplete)`
+  .ant-select-selector {
+    border-radius: 25px !important;
+    background-color: #f0f0f0 !important;
+    border: none !important;
+    width: 577px !important;
+    height: 40px !important;
     box-shadow: none !important;
-    border: none;
-    outline: none !important;
   }
-  &.ant-input-affix-wrapper-focused {
-    box-shadow: none !important;
-    border: none;
-    outline: none !important;
+  .ant-select-selection-search-input {
+    height: 100% !important;
   }
-  & > input {
-    background-color: #f0f0f0;
+  .ant-select-selection-placeholder {
+    display: flex;
+    align-items: center;
   }
 `;

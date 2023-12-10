@@ -41,53 +41,40 @@ const Card = ({ item }) => {
       <img src={item.photo} alt={`slika proizvoda ${item.naziv}`} />
       <div className="opis">
         <div className="opis_header">
-          <span
-            className="naziv_proizvoda"
-            onClick={
-              user
-                ? () => navigate(`/artikli/${item.id}`)
-                : () => navigate(`/admin/articles/${item.id}`)
-            }
-          >
-            {item.naziv.slice(0, 17) + "..."}
+          <span className="naziv_proizvoda">
+            {item.naziv.slice(0, 20) + "..."}
           </span>
           {item.akcijska_cijena ? (
             <div className="cijena">
               <span className="cijena_proizvoda line-throught">
-                {item.cijena} KM
+                {item.cijena}$
               </span>
               <span className="cijena_proizvoda akcija">
-                <b>{item.akcijska_cijena} KM</b>
+                <b>{item.akcijska_cijena}$</b>
               </span>
             </div>
           ) : (
             <span className="cijena_proizvoda">
-              <b>{item.cijena} KM</b>
+              <b>{item.cijena}$</b>
             </span>
           )}
         </div>
 
         {user && (
           <div className="opis_footer">
-            <span className="kolicina_dugme" onClick={() => smanjiKolicinu()}>
-              -
-            </span>
-            <span className="kolicina">{kolicina}</span>
-            <span className="kolicina_dugme" onClick={() => povecajKolicinu()}>
+            <span
+              className="kolicina_dugme"
+              onClick={
+                user
+                  ? () => navigate(`/artikli/${item.id}`)
+                  : () => navigate(`/admin/articles/${item.id}`)
+              }
+            >
               +
             </span>
           </div>
         )}
       </div>
-
-      {user && (
-        <button
-          onClick={() => dodajUKorpu({ ...item, kolicina: kolicina })}
-          className="card-button"
-        >
-          Dodaj u korpu
-        </button>
-      )}
     </div>
   );
 };
