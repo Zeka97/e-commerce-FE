@@ -19,7 +19,7 @@ const PopularSelect = (props) => {
       showSearch
       placeholder="Popularni"
       optionFilterProp="children"
-      className="w-[274px]"
+      className="w-full"
       onChange={onChange}
       defaultValue={props.defaultValue}
     >

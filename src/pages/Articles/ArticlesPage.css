@@ -1,13 +1,15 @@
+.articles_page{
+  max-width: 1500px;
+}
 .articles_page .filter {
-  margin-top: 50px;
   display: flex;
-  margin-left: 15px;
+  gap: 10px;
 }
 
 .articles_page .filter .select {
   display: flex;
   flex-direction: column;
-  margin-left: 15px;
+  width: 25%;
 }
 .articles_page .filter .select label {
   margin-bottom: 5px;
@@ -15,8 +17,6 @@
 
 .articles_list {
   margin-top: 70px;
-  margin-left: 20px;
-  margin-right: 20px;
 }
 .articles_list .pagination {
   display: flex;
@@ -29,9 +29,9 @@
 }
 
 .artikli {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(300px, 1fr));
+  gap: 10px;
   width: 100%;
   padding-bottom: 20px;
 }

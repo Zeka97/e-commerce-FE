@@ -65,7 +65,7 @@ const ArticlesPage = (props) => {
     100: "100",
   };
   return (
-    <div className="articles_page">
+    <div className="articles_page mx-32 pt-16">
       <div className="filter">
         <div className="select">
           <label>Kategorija</label>
@@ -80,16 +80,15 @@ const ArticlesPage = (props) => {
           <PopularSelect defaultValue={props.filter.popular} />
         </div>
         <div className="select">
-          <label style={{ marginLeft: "50px" }}>Cijena</label>
+          <label>Cijena</label>
           <div className="flex items-center h-full">
             <Slider
               defaultValue={[0, 100]}
               range
               style={{
-                width: "300px",
+                width: "100%",
                 margin: 0,
                 display: "inline-block",
-                marginLeft: "60px",
               }}
               marks={marks}
               onChange={(value) => setPriceRange(value)}
@@ -130,8 +129,8 @@ const ArticlesPage = (props) => {
         </div>
         <div className="artikli">
           {isSuccess &&
-            articles.map((item) => {
-              return <Card item={item} key={item.id} />;
+            articles.map((item,index) => {
+              return <Card item={item} key={item.id} index={index} arrLen={articles.length} />;
             })}
         </div>
       </div>

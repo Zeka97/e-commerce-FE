@@ -17,7 +17,7 @@ const DiscountSelect = (props) => {
     <CustomSelect
       showSearch
       placeholder="Akcija"
-      className="w-[274px]"
+      className="w-full"
       optionFilterProp="children"
       onChange={onChange}
       defaultValue={props.defaultValue}

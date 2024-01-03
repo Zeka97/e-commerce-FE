@@ -28,7 +28,7 @@ const KategorijaSelect = (props) => {
     <CustomSelect
       showSearch
       placeholder="Izaberite kategoriju"
-      className="w-[274px]"
+      className="w-full"
       optionFilterProp="children"
       onChange={onChange}
       onSearch={onSearch}

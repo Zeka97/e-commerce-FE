@@ -6,7 +6,7 @@ import "./Card.css";
 import { addItemToCart } from "../../redux/actions/cart.action";
 import { startOfWeek } from "date-fns";
 
-const Card = ({ item }) => {
+const Card = ({ item, index, arrLen }) => {
   const [kolicina, setKolicina] = useState(1);
 
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const Card = ({ item }) => {
   };
 
   return (
-    <div className="card" key={item.id}>
+    <div className="card grow" key={item.id}>
       <img src={item.photo} alt={`slika proizvoda ${item.naziv}`} />
       <div className="opis">
         <div className="opis_header">
@@ -59,8 +59,6 @@ const Card = ({ item }) => {
             </span>
           )}
         </div>
-
-        {user && (
           <div className="opis_footer">
             <span
               className="kolicina_dugme"
@@ -73,7 +71,6 @@ const Card = ({ item }) => {
               +
             </span>
           </div>
-        )}
       </div>
     </div>
   );
