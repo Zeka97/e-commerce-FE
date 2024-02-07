@@ -73,10 +73,10 @@ const Dashboard = () => {
   console.log(data);
 
   return (
-    <div>
-      <div className="statistika">
-        <h3>Statistika</h3>
-        <div className="statistika-boxes">
+    <div className="max-w-[1400px] flex flex-col items-center mx-32">
+      <div className="statistika w-full">
+        <h3 className="text-xl font-bold">Statistika</h3>
+        <div className="flex gap-16">
           <StatisticCard
             header="Earnings"
             desc={statistic?.totalEarnings}
@@ -97,8 +97,8 @@ const Dashboard = () => {
           />
         </div>
       </div>
-      <div className="transakcije">
-        <h3>Transakcije</h3>
+      <div className="transakcije w-full">
+        <h3 className="text-xl font-bold">Transakcije</h3>
         <OrdersTable
           data={rows}
           columns={orderColumns}

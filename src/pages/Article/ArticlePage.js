@@ -178,7 +178,7 @@ const ArticlePage = () => {
       <div className="Article_page">
         <div className="Article_content">
           <div className="Article_image">
-            <img src={data.photo} alt="slika" />
+            <img src={data.photo} alt="slika" className="h-fit" />
           </div>
           <div className="Article_info">
             <div className="Article_info_header">
@@ -209,11 +209,8 @@ const ArticlePage = () => {
             </div>
 
             {user ? (
-              <div className="Article_info_cartadding">
-                <span>QTY</span>
-                <span>Cijena</span>
-                <span></span>
-                <div>
+              <div className="flex items-center gap-24 pb-64">
+                <div className="flex gap-8 cursor-pointer">
                   <span
                     onClick={handleDecreaseQuantity}
                     className="decrease_quantity"
@@ -228,16 +225,10 @@ const ArticlePage = () => {
                     +
                   </span>
                 </div>
-                <span>
-                  {data.akcijska_cijena
-                    ? kolicina * data.akcijska_cijena
-                    : kolicina * data.cijena}
-                  {" KM"}
-                </span>
                 <CustomLinkButton
                   onClick={() => dodajUKorpu({ ...data, kolicina })}
                   to="#"
-                  className={"dark"}
+                  className="dark !w-fit"
                 >
                   DODAJ
                 </CustomLinkButton>

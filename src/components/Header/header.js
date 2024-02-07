@@ -12,11 +12,11 @@ const Header = () => {
 
   const { data, error, isError, isSuccess, isFetching, isFetched, refetch } =
     useQuery(
-      "articles",
+      "searchArticles",
       () =>
         getArticles({
           searchValue,
-          page: 0,
+          page: 1,
           limit: 100,
         }),
       {

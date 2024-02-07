@@ -115,9 +115,9 @@ const ProfilePage = () => {
 
   return (
     <>
-      <div className="profile_page">
-        <div className="flex mx-5 mt-10">
-          <div className="flex flex-col w-1/2 gap-20">
+      <div className="flex items-center flex-col max-w-[1400px] mx-32 mt-32 gap-32">
+        <div className="flex mx-5 mt-10 w-full justify-between">
+          <div className="flex flex-col w-1/2 gap-16">
             <div className="flex items-center gap-4">
               <h3 className="font-bold text-[24px]">Profil</h3>
               <button
@@ -147,9 +147,9 @@ const ProfilePage = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-20">
+          <div className="flex flex-col gap-16">
             <h3 className="font-bold text-[24px]">Statistika</h3>
-            <div className="flex gap-5">
+            <div className="flex gap-16">
               <StatisticCard
                 header={"Spendings"}
                 desc={user.potrosen_novac}
@@ -163,7 +163,7 @@ const ProfilePage = () => {
             </div>
           </div>
         </div>
-        <div className="narudzbe">
+        <div className="w-full">
           <h3>Historija narudzbi</h3>
           <OrdersTable
             data={rows}
