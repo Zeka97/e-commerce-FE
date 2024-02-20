@@ -115,66 +115,72 @@ const ProfilePage = () => {
 
   return (
     <>
-      <div className="flex items-center flex-col max-w-[1400px] mx-32 mt-32 gap-32">
-        <div className="flex mx-5 mt-10 w-full justify-between">
-          <div className="flex flex-col w-1/2 gap-16">
-            <div className="flex items-center gap-4">
-              <h3 className="font-bold text-[24px]">Profil</h3>
-              <button
-                className="px-[48px] py-[12px] bg-[#989898] text-white w-auto rounded-[5px]"
-                onClick={() => setEditProfile(true)}
-              >
-                Uredi Profil
-              </button>
-              <button
-                className="border-[1px] border-[#989898] px-[48px] py-[12px] text-[#989898] rounded-[5px]"
-                onClick={() => setChangePassword(true)}
-              >
-                Change password
-              </button>
-            </div>
-            <div className="flex">
-              <div className="user_image">
-                <img className="rounded-[10px]" src={user.slika} alt="slika" />
+      <div className=" flex justify-center w-full">
+        <div className="flex items-center flex-col max-w-[1400px] w-[1400px] mx-32 mt-32 gap-32">
+          <div className="flex mx-5 mt-10 w-full justify-between">
+            <div className="flex flex-col w-1/2 gap-16">
+              <div className="flex items-center gap-4">
+                <h3 className="font-bold text-[24px]">Profil</h3>
+                <button
+                  className="px-[48px] py-[12px] bg-[#989898] text-white w-auto rounded-[5px]"
+                  onClick={() => setEditProfile(true)}
+                >
+                  Uredi Profil
+                </button>
+                <button
+                  className="border-[1px] border-[#989898] px-[48px] py-[12px] text-[#989898] rounded-[5px]"
+                  onClick={() => setChangePassword(true)}
+                >
+                  Change password
+                </button>
               </div>
-              <div className="user_description">
-                <h3 className="font-bold text-[32px]">
-                  {user.ime + " " + user.prezime}{" "}
-                </h3>
-                <p>{user.grad}</p>
-                <p>{user.email}</p>
-                <p>{user.telefon}</p>
+              <div className="flex">
+                <div className="user_image">
+                  <img
+                    className="rounded-[10px]"
+                    src={user.slika}
+                    alt="slika"
+                  />
+                </div>
+                <div className="user_description">
+                  <h3 className="font-bold text-[32px]">
+                    {user.ime + " " + user.prezime}{" "}
+                  </h3>
+                  <p>{user.grad}</p>
+                  <p>{user.email}</p>
+                  <p>{user.telefon}</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col gap-16">
+              <h3 className="font-bold text-[24px]">Statistika</h3>
+              <div className="flex gap-16">
+                <StatisticCard
+                  header={"Spendings"}
+                  desc={user.potrosen_novac}
+                  isFetched={true}
+                />
+                <StatisticCard
+                  header={"Orders"}
+                  desc={total}
+                  isFetched={isFetched}
+                />
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-16">
-            <h3 className="font-bold text-[24px]">Statistika</h3>
-            <div className="flex gap-16">
-              <StatisticCard
-                header={"Spendings"}
-                desc={user.potrosen_novac}
-                isFetched={true}
-              />
-              <StatisticCard
-                header={"Orders"}
-                desc={total}
-                isFetched={isFetched}
-              />
-            </div>
+          <div className="w-full">
+            <h3>Historija narudzbi</h3>
+            <OrdersTable
+              data={rows}
+              isLoading={isLoading}
+              isFetching={isFetching}
+              total={totalItems}
+              rowsLimit={rowsLimit}
+              setRowsLimit={setRowsLimit}
+              setPage={setPage}
+              page={page}
+            />
           </div>
-        </div>
-        <div className="w-full">
-          <h3>Historija narudzbi</h3>
-          <OrdersTable
-            data={rows}
-            isLoading={isLoading}
-            isFetching={isFetching}
-            total={totalItems}
-            rowsLimit={rowsLimit}
-            setRowsLimit={setRowsLimit}
-            setPage={setPage}
-            page={page}
-          />
         </div>
       </div>
 
