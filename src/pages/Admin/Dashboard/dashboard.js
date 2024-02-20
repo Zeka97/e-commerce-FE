@@ -73,43 +73,47 @@ const Dashboard = () => {
   console.log(data);
 
   return (
-    <div className="max-w-[1400px] flex flex-col items-center mx-32">
-      <div className="statistika w-full">
-        <h3 className="text-xl font-bold">Statistika</h3>
-        <div className="flex gap-16">
-          <StatisticCard
-            header="Earnings"
-            desc={statistic?.totalEarnings}
-            isFetched={isFetched}
-            statisticChange={statistic?.lastMonthEarningsPercentage}
-          />
-          <StatisticCard
-            header="Users"
-            desc={statistic?.numberOfUsers}
-            isFetched={isFetched}
-            statisticChange={statistic?.lastMonthNewUsersPercentage}
-          />
-          <StatisticCard
-            header="Transactions"
-            desc={statistic?.numberOfTransactions}
-            isFetched={isFetched}
-            statisticChange={statistic?.lastMonthNumberOfTransactionsPercentage}
+    <div className="w-full flex justify-center">
+      <div className="max-w-[1400px] w-[1400px] flex flex-col items-center mx-32">
+        <div className="statistika w-full">
+          <h3 className="text-xl font-bold">Statistika</h3>
+          <div className="flex gap-16">
+            <StatisticCard
+              header="Earnings"
+              desc={statistic?.totalEarnings}
+              isFetched={isFetched}
+              statisticChange={statistic?.lastMonthEarningsPercentage}
+            />
+            <StatisticCard
+              header="Users"
+              desc={statistic?.numberOfUsers}
+              isFetched={isFetched}
+              statisticChange={statistic?.lastMonthNewUsersPercentage}
+            />
+            <StatisticCard
+              header="Transactions"
+              desc={statistic?.numberOfTransactions}
+              isFetched={isFetched}
+              statisticChange={
+                statistic?.lastMonthNumberOfTransactionsPercentage
+              }
+            />
+          </div>
+        </div>
+        <div className="transakcije w-full">
+          <h3 className="text-xl font-bold">Transakcije</h3>
+          <OrdersTable
+            data={rows}
+            columns={orderColumns}
+            isLoading={isLoading}
+            isFetching={isFetching}
+            total={totalItems}
+            rowsLimit={rowsLimit}
+            setRowsLimit={setRowsLimit}
+            setPage={setPage}
+            page={page}
           />
         </div>
-      </div>
-      <div className="transakcije w-full">
-        <h3 className="text-xl font-bold">Transakcije</h3>
-        <OrdersTable
-          data={rows}
-          columns={orderColumns}
-          isLoading={isLoading}
-          isFetching={isFetching}
-          total={totalItems}
-          rowsLimit={rowsLimit}
-          setRowsLimit={setRowsLimit}
-          setPage={setPage}
-          page={page}
-        />
       </div>
     </div>
   );

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useMutation, useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { notification, Tag, Modal, Form, Input, Button } from "antd";
 import {
   changeArticleVisibility,
+  deleteArticle,
   getArticle,
   removeDiscountPrice,
   setArticleOutOfStock,
@@ -24,10 +25,13 @@ import EditArticleModal from "./components/EditArticleModal/EditArticleModal";
 const ArticlePage = () => {
   const { id } = useParams();
 
+  const navigate = useNavigate();
+
   const [kolicina, setKolicina] = useState(1);
   const [discountModal, setDiscountModal] = useState(false);
   const [editDiscount, setEditDiscount] = useState(null);
   const [isOpenEditArticleModal, setIsOpenEditArticleModal] = useState(false);
+  const [deleteArticleState, setDeleteArticleState] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -48,6 +52,10 @@ const ArticlePage = () => {
 
   const { mutate: mutateRemoveDiscountPrice } = useMutation((params) =>
     removeDiscountPrice(params)
+  );
+
+  const { mutate: mutateRemoveArticle } = useMutation((id) =>
+    deleteArticle(id)
   );
 
   const { data, isFetching, isLoading, isError, refetch } = useQuery(
@@ -172,6 +180,26 @@ const ArticlePage = () => {
       });
   };
 
+  const handleDeleteArticle = (id) => {
+    mutateRemoveArticle(id, {
+      onSuccess: () => {
+        notification.success({
+          message: "Article Deleted",
+          description: `U have  succesfully removed Article`,
+        });
+        setDeleteArticleState(false);
+        setTimeout(() => navigate(-1), 2000);
+      },
+      onError: (err) => {
+        notification.error({
+          message: "Article Delete",
+          description: `There was an error with deleting article`,
+        });
+        console.log(err);
+      },
+    });
+  };
+
   if (isLoading) return null;
   return (
     <>
@@ -238,6 +266,7 @@ const ArticlePage = () => {
                 <CustomButton
                   className="black"
                   style={{ width: "200px", marginBottom: "10px" }}
+                  onClick={() => setDeleteArticleState(true)}
                 >
                   Obriši
                 </CustomButton>
@@ -285,10 +314,23 @@ const ArticlePage = () => {
       </div>
 
       <Modal
+        title="Are you sure you want to delete this Article?"
+        centered
+        open={deleteArticleState}
+        width={700}
+        onCancel={() => setDeleteArticleState(false)}
+        onOk={() => handleDeleteArticle(id)}
+      />
+
+      <Modal
         title={`Regularna cijena proizvoda je ${data?.cijena || 0} KM`}
         centered
         footer={[
-          <Button key="3" type="primary" onClick={handleRemoveDiscountPrice}>
+          <Button
+            key="3"
+            type="primary"
+            onClick={() => handleRemoveDiscountPrice()}
+          >
             Remove discount
           </Button>,
           <Button
@@ -300,7 +342,7 @@ const ArticlePage = () => {
           >
             Cancel
           </Button>,
-          <Button key="1" type="primary" onClick={handleDiscountPrice}>
+          <Button key="1" type="primary" onClick={() => handleDiscountPrice()}>
             Save
           </Button>,
         ]}

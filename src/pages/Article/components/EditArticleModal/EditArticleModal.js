@@ -3,29 +3,35 @@ import { Modal, Form, Input, notification, Select } from "antd";
 import { useMutation, useQuery } from "react-query";
 
 import "./EditArticleModal.css";
-import { editArticle, getAllCategories } from "../../../../api";
+import { addArticle, editArticle, getAllCategories } from "../../../../api";
+import { useNavigate } from "react-router-dom";
 
 const EditArticleModal = (props) => {
   const { Option } = Select;
 
   const [editArticleForm] = Form.useForm();
+  const [addArticleForm] = Form.useForm();
 
   console.log(props);
 
-  const { mutate } = useMutation((params) => editArticle(params));
+  const { mutate: mutateEditArticle } = useMutation((params) =>
+    editArticle(params)
+  );
+
+  const { mutate: mutateAddArticle } = useMutation((params) =>
+    addArticle(params)
+  );
 
   const { data, isSuccess, isFetching, isLoading, isError, refetch } = useQuery(
     "Categories",
     getAllCategories
   );
 
-  console.log("data:", data);
-
   const handleEditArticle = () => {
     editArticleForm.validateFields().then((values) => {
       console.log(values);
 
-      mutate(
+      mutateEditArticle(
         {
           id: props.articleId,
           values,
@@ -51,12 +57,35 @@ const EditArticleModal = (props) => {
     });
   };
 
+  const handleAddArticle = () => {
+    addArticleForm.validateFields().then((values) => {
+      console.log(values);
+      mutateAddArticle(values, {
+        onSuccess: (data) => {
+          notification.success({
+            message: "Add Article",
+            description: "Succesfully added new article",
+          });
+          props.setArticleModal(false);
+          setTimeout(() => window.location.reload(), 2000);
+        },
+        onError: (error) => {
+          console.log(error);
+          notification.error({
+            message: "Add Article",
+            description: "Error while adding article",
+          });
+        },
+      });
+    });
+  };
+
   return (
     <Modal
       title={`Edit article`}
       centered
       open={props.editArticleModal}
-      onOk={handleEditArticle}
+      onOk={props.newArticle ? handleAddArticle : handleEditArticle}
       onCancel={() => {
         editArticleForm.resetFields();
         props.setArticleModal(false);
@@ -69,7 +98,7 @@ const EditArticleModal = (props) => {
         wrapperCol={{ span: 16 }}
         initialValues={{ remember: true }}
         autoComplete="off"
-        form={editArticleForm}
+        form={props.newArticle ? addArticleForm : editArticleForm}
       >
         <Form.Item
           label="Name"
@@ -80,10 +109,24 @@ const EditArticleModal = (props) => {
               message: "Article name is required",
             },
           ]}
-          initialValue={props.articleName}
+          initialValue={props.articleName || ""}
         >
           <Input name="articleName" />
         </Form.Item>
+        {props.newArticle && (
+          <Form.Item
+            label="Photo"
+            name="articlePhoto"
+            rules={[
+              {
+                required: true,
+                message: "Article photo is required",
+              },
+            ]}
+          >
+            <Input name="articleName" />
+          </Form.Item>
+        )}
 
         <Form.Item
           label="Price"
@@ -94,7 +137,7 @@ const EditArticleModal = (props) => {
               message: "Price is required",
             },
           ]}
-          initialValue={props.articlePrice}
+          initialValue={props.articlePrice || ""}
         >
           <Input min={0.1} name="articlePrice" />
         </Form.Item>
@@ -107,14 +150,14 @@ const EditArticleModal = (props) => {
               message: "Quantity is required",
             },
           ]}
-          initialValue={props.articleQuantity}
+          initialValue={props.articleQuantity || ""}
         >
           <Input min={1} name="articleQuantity" />
         </Form.Item>
         <Form.Item
           label="Description"
           name="articleDescription"
-          initialValue={props.articleDescription}
+          initialValue={props.articleDescription || ""}
         >
           <Input.TextArea
             rows={4}
@@ -125,7 +168,7 @@ const EditArticleModal = (props) => {
         <Form.Item
           label="Category"
           name="articleCategory"
-          initialValue={props.kategorijaId}
+          initialValue={props.kategorijaId || ""}
         >
           <Select>
             {isSuccess &&
