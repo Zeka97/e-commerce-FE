@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import AdminHeader from "../../../components/AdminHeader/AdminHeader";
-import StatisticBox from "../../../components/StatisticBox/StatisticBox";
+import StatisticCard from "../../../components/StatisticCard/StatisticCard";
 import { Table } from "antd";
 import "./dashboard.css";
 import { useQuery } from "react-query";
-import { getAllTransactions } from "../../../api";
+import { getAllTransactions, getStatistic } from "../../../api";
 import OrdersTable from "../../../components/Table/OrdersTable/OrdersTable";
 import { useSearchContext } from "../../../components/context/SearchContext";
 import { orderColumns } from "./columns";
@@ -23,7 +23,7 @@ const Dashboard = () => {
 
   console.log(priceSort);
 
-  const { data, isLoading, isFetching, refetch } = useQuery(
+  const { data, isLoading, isFetching, isFetched, refetch } = useQuery(
     "transactions",
     () =>
       getAllTransactions({
@@ -36,6 +36,10 @@ const Dashboard = () => {
         priceOrder: priceSort,
       })
   );
+
+  const { data: statistic } = useQuery("statistic", getStatistic);
+
+  console.log("statistic", statistic);
 
   const { total, rows } = data || { total: 0, rows: [] };
 
@@ -54,36 +58,62 @@ const Dashboard = () => {
     } else {
       setPage(1);
     }
-  }, [searchOrdersDateTo, priceSort, searchByCustomer, searchByCity]);
+  }, [
+    searchOrdersDateTo,
+    priceSort,
+    searchByCustomer,
+    searchByCity,
+    searchOrdersDateFrom,
+  ]);
 
   useEffect(() => {
     refetch();
   }, [page, rowsLimit]);
 
   console.log(data);
+
   return (
-    <div>
-      <AdminHeader />
-      <div className="statistika">
-        <h3>Statistika</h3>
-        <div className="statistika-boxes">
-          <StatisticBox header="Ukupna zarada" desc={0} />
-          <StatisticBox header="Broj kupaca" desc={0} />
+    <div className="w-full flex justify-center">
+      <div className="max-w-[1400px] w-[1400px] flex flex-col items-center mx-32">
+        <div className="statistika w-full">
+          <h3 className="text-xl font-bold">Statistika</h3>
+          <div className="flex gap-16">
+            <StatisticCard
+              header="Earnings"
+              desc={statistic?.totalEarnings}
+              isFetched={isFetched}
+              statisticChange={statistic?.lastMonthEarningsPercentage}
+            />
+            <StatisticCard
+              header="Users"
+              desc={statistic?.numberOfUsers}
+              isFetched={isFetched}
+              statisticChange={statistic?.lastMonthNewUsersPercentage}
+            />
+            <StatisticCard
+              header="Transactions"
+              desc={statistic?.numberOfTransactions}
+              isFetched={isFetched}
+              statisticChange={
+                statistic?.lastMonthNumberOfTransactionsPercentage
+              }
+            />
+          </div>
         </div>
-      </div>
-      <div className="transakcije">
-        <h3>Transakcije</h3>
-        <OrdersTable
-          data={rows}
-          columns={orderColumns}
-          isLoading={isLoading}
-          isFetching={isFetching}
-          total={totalItems}
-          rowsLimit={rowsLimit}
-          setRowsLimit={setRowsLimit}
-          setPage={setPage}
-          page={page}
-        />
+        <div className="transakcije w-full">
+          <h3 className="text-xl font-bold">Transakcije</h3>
+          <OrdersTable
+            data={rows}
+            columns={orderColumns}
+            isLoading={isLoading}
+            isFetching={isFetching}
+            total={totalItems}
+            rowsLimit={rowsLimit}
+            setRowsLimit={setRowsLimit}
+            setPage={setPage}
+            page={page}
+          />
+        </div>
       </div>
     </div>
   );

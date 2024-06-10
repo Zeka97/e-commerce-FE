@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: 10% 60% 10% 10% 10%;
   align-items: center;
+  justify-items: center;
   height: 50px;
   width: 100%;
   border-bottom: 1px solid rgb(213, 219, 219);

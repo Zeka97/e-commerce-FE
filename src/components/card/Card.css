@@ -1,6 +1,6 @@
 .card {
   display: flex;
-  width: 24%;
+  width: 100%;
   height: auto;
   flex-direction: column;
   justify-content: space-between;
@@ -11,14 +11,15 @@
 }
 .card img {
   display: flex;
-  width: 60%;
-  height: 60%;
+  width: 150px;
+  height: 150px;
   background-size: cover;
   margin: auto;
 }
 .opis {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   padding: 12px 20px 12px 20px;
 }
 .opis .opis_header {
@@ -26,12 +27,8 @@
   flex-direction: column;
 }
 .opis .opis_header .naziv_proizvoda {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
-}
-.opis .opis_header .naziv_proizvoda:hover {
-  cursor: pointer;
-  text-decoration: underline;
 }
 
 .opis .opis_header .cijena_proizvoda {
@@ -40,7 +37,6 @@
 }
 
 .opis .opis_footer {
-  margin: 12px auto 0px auto;
   font-weight: 500;
   font-size: 16px;
   display: flex;
@@ -54,11 +50,11 @@
 }
 
 .opis .opis_footer .kolicina_dugme {
-  background-color: rgb(254, 254, 254);
+  background-color: black;
   border-radius: 8px;
-  border: 0.5px solid rgb(231, 231, 231);
+  border: 0.5px solid black;
   padding: 8px 16px 8px 16px;
-  color: black;
+  color: white;
   cursor: pointer;
 }
 

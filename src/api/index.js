@@ -97,10 +97,20 @@ export const removeDiscountPrice = async (params) => {
   return data;
 };
 
+export const deleteArticle = async (id) => {
+  await axios.delete(`/admin/article/${id}`);
+};
+
 export const editArticle = async (params) => {
   const { data } = await axios.post("/admin/editArticle", {
     params,
   });
+  return data;
+};
+
+export const addArticle = async (params) => {
+  const { data } = await axios.post("/admin/addArticle", params);
+
   return data;
 };
 
@@ -123,4 +133,16 @@ export const blockUser = async (id) => {
   const { status } = await axios.post(`/admin/blockUser/${id}`);
 
   return status;
-}
+};
+
+export const getUserDetails = async (id) => {
+  const { data } = await axios.get(`/admin/getUserDetails/${id}`);
+
+  return data;
+};
+
+export const getStatistic = async (id) => {
+  const { data } = await axios.get(`/admin/statistics`);
+
+  return data;
+};

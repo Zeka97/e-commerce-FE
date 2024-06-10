@@ -21,12 +21,17 @@ const AddCategoryBox = () => {
         console.log(values);
         mutate(values, {
           onSuccess: (data) => {
-            notification.success({message:'Add Category', description:'Successfully added Category'});
+            notification.success({
+              message: "Add Category",
+              description: "Successfully added Category",
+            });
             setTimeout(() => window.location.reload(), 1000);
           },
           onError: (error) => {
-            notification.error({message: 'Add Category',
-            description: "There was an error with adding Category"});
+            notification.error({
+              message: "Add Category",
+              description: "There was an error with adding Category",
+            });
             console.log(error);
           },
         });

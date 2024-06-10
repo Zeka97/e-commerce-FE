@@ -1,11 +1,14 @@
 .statistic-box {
-  width: 100px;
-  height: 100px;
+  width: 190px;
+  height: 190px;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: center;
-  margin-left: 15px;
+  padding-left: 20px;
+}
+
+.statistic-box .description span {
+  font-size: 10px;
 }

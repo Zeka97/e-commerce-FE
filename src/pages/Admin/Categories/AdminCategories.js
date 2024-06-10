@@ -17,8 +17,6 @@ const AdminCategoriesPage = () => {
 
   return (
     <div className="categories_page">
-      <AdminHeader />
-
       <div className="content_box">
         <h3>Sve kategorije</h3>
         <div className="categories_list">

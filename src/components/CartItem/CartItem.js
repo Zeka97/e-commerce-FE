@@ -16,7 +16,7 @@ const CartItem = ({ key, item, ...props }) => {
         src={item.photo}
         alt={`slika ${item.photo}`}
       />
-      <span className="cart_item_naziv">{item.naziv}</span>
+      <div className="cart_item_naziv flex justify-center">{item.naziv}</div>
       <div className="cart_item_kolicina">
         <span
           className="cart_item_kolicina_edit"

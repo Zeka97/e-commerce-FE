@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useMutation, useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { notification, Tag, Modal, Form, Input, Button } from "antd";
 import {
   changeArticleVisibility,
+  deleteArticle,
   getArticle,
   removeDiscountPrice,
   setArticleOutOfStock,
@@ -24,15 +25,17 @@ import EditArticleModal from "./components/EditArticleModal/EditArticleModal";
 const ArticlePage = () => {
   const { id } = useParams();
 
+  const navigate = useNavigate();
+
   const [kolicina, setKolicina] = useState(1);
   const [discountModal, setDiscountModal] = useState(false);
   const [editDiscount, setEditDiscount] = useState(null);
   const [isOpenEditArticleModal, setIsOpenEditArticleModal] = useState(false);
+  const [deleteArticleState, setDeleteArticleState] = useState(false);
 
   const dispatch = useDispatch();
 
   const [discountForm] = Form.useForm();
-  const [editArticleForm] = Form.useForm();
   const user = useSelector((state) => state.auth.currentUser);
 
   const { mutate: articleVisibility } = useMutation((params) =>
@@ -51,10 +54,17 @@ const ArticlePage = () => {
     removeDiscountPrice(params)
   );
 
+  const { mutate: mutateRemoveArticle } = useMutation((id) =>
+    deleteArticle(id)
+  );
+
   const { data, isFetching, isLoading, isError, refetch } = useQuery(
     "singlearticle",
     () => getArticle({ id })
   );
+
+  console.log(data);
+
   const dodajUKorpu = (item) => {
     console.log("item:", item);
     dispatch(addItemToCart(item));
@@ -156,14 +166,47 @@ const ArticlePage = () => {
     );
   };
 
+  const handleIncreaseQuantity = () => {
+    setKolicina((prevState) => {
+      console.log(prevState);
+      return (prevState += 1);
+    });
+  };
+
+  const handleDecreaseQuantity = () => {
+    if (kolicina > 1)
+      setKolicina((prevState) => {
+        return (prevState -= 1);
+      });
+  };
+
+  const handleDeleteArticle = (id) => {
+    mutateRemoveArticle(id, {
+      onSuccess: () => {
+        notification.success({
+          message: "Article Deleted",
+          description: `U have  succesfully removed Article`,
+        });
+        setDeleteArticleState(false);
+        setTimeout(() => navigate(-1), 2000);
+      },
+      onError: (err) => {
+        notification.error({
+          message: "Article Delete",
+          description: `There was an error with deleting article`,
+        });
+        console.log(err);
+      },
+    });
+  };
+
   if (isLoading) return null;
   return (
     <>
       <div className="Article_page">
-        {user ? <Header /> : <AdminHeader />}
         <div className="Article_content">
           <div className="Article_image">
-            <img src={data.photo} alt="slika" />
+            <img src={data.photo} alt="slika" className="h-fit" />
           </div>
           <div className="Article_info">
             <div className="Article_info_header">
@@ -194,25 +237,26 @@ const ArticlePage = () => {
             </div>
 
             {user ? (
-              <div className="Article_info_cartadding">
-                <span>QTY</span>
-                <span>Cijena</span>
-                <span></span>
-                <div>
-                  <span>-</span>
+              <div className="flex items-center gap-24 pb-64">
+                <div className="flex gap-8 cursor-pointer">
+                  <span
+                    onClick={handleDecreaseQuantity}
+                    className="decrease_quantity"
+                  >
+                    -
+                  </span>
                   <span>{kolicina}</span>
-                  <span>+</span>
+                  <span
+                    onClick={handleIncreaseQuantity}
+                    className="increase_quantity"
+                  >
+                    +
+                  </span>
                 </div>
-                <span>
-                  {data.akcijska_cijena
-                    ? kolicina * data.akcijska_cijena
-                    : kolicina * data.cijena}
-                  {" KM"}
-                </span>
                 <CustomLinkButton
                   onClick={() => dodajUKorpu({ ...data, kolicina })}
                   to="#"
-                  className={"dark"}
+                  className="dark !w-fit"
                 >
                   DODAJ
                 </CustomLinkButton>
@@ -222,6 +266,7 @@ const ArticlePage = () => {
                 <CustomButton
                   className="black"
                   style={{ width: "200px", marginBottom: "10px" }}
+                  onClick={() => setDeleteArticleState(true)}
                 >
                   Obriši
                 </CustomButton>
@@ -269,10 +314,23 @@ const ArticlePage = () => {
       </div>
 
       <Modal
+        title="Are you sure you want to delete this Article?"
+        centered
+        open={deleteArticleState}
+        width={700}
+        onCancel={() => setDeleteArticleState(false)}
+        onOk={() => handleDeleteArticle(id)}
+      />
+
+      <Modal
         title={`Regularna cijena proizvoda je ${data?.cijena || 0} KM`}
         centered
         footer={[
-          <Button key="3" type="primary" onClick={handleRemoveDiscountPrice}>
+          <Button
+            key="3"
+            type="primary"
+            onClick={() => handleRemoveDiscountPrice()}
+          >
             Remove discount
           </Button>,
           <Button
@@ -284,7 +342,7 @@ const ArticlePage = () => {
           >
             Cancel
           </Button>,
-          <Button key="1" type="primary" onClick={handleDiscountPrice}>
+          <Button key="1" type="primary" onClick={() => handleDiscountPrice()}>
             Save
           </Button>,
         ]}
@@ -332,13 +390,13 @@ const ArticlePage = () => {
       </Modal>
       <EditArticleModal
         editArticleModal={isOpenEditArticleModal}
-        editArticleForm={editArticleForm}
         setArticleModal={setIsOpenEditArticleModal}
         articleId={data.id}
         articleName={data.naziv}
         articlePrice={data.cijena}
         articleQuantity={data.max_kolicina}
         articleDescription={data.description}
+        kategorijaId={data.kategorija_id}
       />
     </>
   );

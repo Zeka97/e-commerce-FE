@@ -4,6 +4,8 @@ import "antd/dist/antd.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import CustomRoutes from "./components/Routes/CustomRoutes";
 import ContextProvider from "./components/context/Provider";
+import Layout from "./components/Layout/Layout";
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
   const queryClient = new QueryClient();
@@ -11,7 +13,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ContextProvider>
-        <CustomRoutes />
+        <BrowserRouter>
+          <Layout>
+            <CustomRoutes />
+          </Layout>
+        </BrowserRouter>
       </ContextProvider>
     </QueryClientProvider>
   );

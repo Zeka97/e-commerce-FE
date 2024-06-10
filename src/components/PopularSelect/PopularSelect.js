@@ -5,25 +5,27 @@ import { connect } from "react-redux";
 
 import "./PopularSelect.css";
 import { popularSelect } from "../../redux/actions/search.action";
+import { CustomSelect } from "../../styledComponents/styled";
 
 const PopularSelect = (props) => {
-  const { Option } = Select;
+  const { Option } = CustomSelect;
 
   const onChange = (value) => {
     props.select(value);
   };
 
   return (
-    <Select
+    <CustomSelect
       showSearch
       placeholder="Popularni"
       optionFilterProp="children"
+      className="w-full"
       onChange={onChange}
       defaultValue={props.defaultValue}
     >
       <Option value={true}>DA</Option>
       <Option value={null}>NE</Option>
-    </Select>
+    </CustomSelect>
   );
 };
 
