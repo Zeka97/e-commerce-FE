@@ -59,18 +59,18 @@ const Card = ({ item, index, arrLen }) => {
             </span>
           )}
         </div>
-          <div className="opis_footer">
-            <span
-              className="kolicina_dugme"
-              onClick={
-                user
-                  ? () => navigate(`/artikli/${item.id}`)
-                  : () => navigate(`/admin/articles/${item.id}`)
-              }
-            >
-              +
-            </span>
-          </div>
+        <div className="opis_footer">
+          <span
+            className="kolicina_dugme"
+            onClick={
+              user
+                ? () => navigate(`/artikli/${item.id}`)
+                : () => navigate(`/admin/articles/${item.id}`)
+            }
+          >
+            +
+          </span>
+        </div>
       </div>
     </div>
   );

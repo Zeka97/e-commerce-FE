@@ -8,19 +8,22 @@ import {
 const loadCart = () => {
   try {
     const storage = localStorage.getItem("cart");
-
     if (storage) {
-      return JSON.parse(storage);
-    } else {
-      return {
-        cart: [],
-        ukupna_cijena: 0,
-      };
+      const parsedStorage = JSON.parse(storage);
+      // Ensure the parsed storage has the correct structure
+      if (parsedStorage && Array.isArray(parsedStorage.cart)) {
+        return parsedStorage;
+      }
     }
   } catch (err) {
-    console.log(err);
-    return null;
+    console.log("Error loading cart from localStorage:", err);
   }
+
+  // Return default state if storage is empty, invalid, or there was an error
+  return {
+    cart: [],
+    ukupna_cijena: 0,
+  };
 };
 
 const INITIAL_STATE = loadCart();

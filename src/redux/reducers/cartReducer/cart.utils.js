@@ -1,11 +1,9 @@
-import cart from "../../../components/Cart/cart";
-
-export const addItem = (cart, ukupna_cijena, addedToCart) => {
-  let postojiItem = cart.find((item) => item.id === addedToCart.id);
+export const addItem = (cartItems, ukupna_cijena, addedToCart) => {
+  let postojiItem = cartItems.find((item) => item.id === addedToCart.id);
 
   if (postojiItem) {
     return {
-      cart: cart.map((cartItem) =>
+      cart: cartItems.map((cartItem) =>
         cartItem.id === addedToCart.id &&
         cartItem.max_kolicina - 1 > cartItem.kolicina
           ? {
@@ -28,7 +26,7 @@ export const addItem = (cart, ukupna_cijena, addedToCart) => {
     };
   } else {
     return {
-      cart: [...cart, { ...addedToCart }],
+      cart: [...cartItems, { ...addedToCart }],
       ukupna: addedToCart.akcijska_cijena
         ? parseFloat(
             Number(

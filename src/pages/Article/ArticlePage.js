@@ -253,13 +253,13 @@ const ArticlePage = () => {
                     +
                   </span>
                 </div>
-                <CustomLinkButton
+                <CustomButton
                   onClick={() => dodajUKorpu({ ...data, kolicina })}
-                  to="#"
-                  className="dark !w-fit"
+                  className="black"
+                  style={{ width: "200px", marginBottom: "10px" }}
                 >
                   DODAJ
-                </CustomLinkButton>
+                </CustomButton>
               </div>
             ) : (
               <div className="admin_buttons">

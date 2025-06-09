@@ -40,13 +40,17 @@ const StripeCheckoutButton = ({ price, length }) => {
         onSuccess: () => {
           dispatch(removeAlItemsFromCart());
           navigate("/");
-          notification.success({message:'Order',
-          description: "You have successfully placed your order"});
+          notification.success({
+            message: "Order",
+            description: "You have successfully placed your order",
+          });
         },
         onError: (error) => {
           console.log(error);
-          notification.success({message:'Order',
-          description: "There was an error with placing your order"});
+          notification.success({
+            message: "Order",
+            description: "There was an error with placing your order",
+          });
         },
       }
     );

@@ -10,7 +10,7 @@ import "./NaslovnaPage.css";
 
 const NaslovnaPage = () => {
   return (
-    <div class="naslovna_page">
+    <div className="naslovna_page">
       <div className="naslovna_content">
         <DiscountArticles />
         <Categories />
