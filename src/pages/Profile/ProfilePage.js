@@ -226,6 +226,9 @@ const ProfilePage = () => {
           >
             <Input type="text" name="prezime" />
           </Form.Item>
+          <Form.Item label="Slika" name="slika" initialValue={user.slika}>
+            <Input type="text" name="slika" />
+          </Form.Item>
           <Form.Item
             label="Grad"
             name="grad"
