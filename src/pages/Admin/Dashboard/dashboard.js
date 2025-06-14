@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AdminHeader from "../../../components/AdminHeader/AdminHeader";
 import StatisticCard from "../../../components/StatisticCard/StatisticCard";
-import { Table } from "antd";
+import { Spin, Table } from "antd";
 import "./dashboard.css";
 import { useQuery } from "react-query";
 import { getAllTransactions, getStatistic } from "../../../api";
@@ -21,8 +21,6 @@ const Dashboard = () => {
     priceSort,
   } = useSearchContext();
 
-  console.log(priceSort);
-
   const { data, isLoading, isFetching, isFetched, refetch } = useQuery(
     "transactions",
     () =>
@@ -39,11 +37,7 @@ const Dashboard = () => {
 
   const { data: statistic } = useQuery("statistic", getStatistic);
 
-  console.log("statistic", statistic);
-
   const { total, rows } = data || { total: 0, rows: [] };
-
-  console.log(rows);
 
   useEffect(() => {
     if (page == 1 && data) {
@@ -64,13 +58,15 @@ const Dashboard = () => {
     searchByCustomer,
     searchByCity,
     searchOrdersDateFrom,
+    page,
+    refetch,
   ]);
 
   useEffect(() => {
     refetch();
-  }, [page, rowsLimit]);
+  }, [page, rowsLimit, refetch]);
 
-  console.log(data);
+  if (isLoading || isFetching) return <Spin />;
 
   return (
     <div className="w-full flex justify-center">

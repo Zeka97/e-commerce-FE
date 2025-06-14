@@ -1,24 +1,21 @@
-import React, { useReducer } from "react";
+import React from "react";
 import StripeCheckout from "react-stripe-checkout";
+import { useCart } from "../../context/CartContext";
 import { useMutation } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
-import { removeAlItemsFromCart } from "../../redux/actions/cart.action";
+import { userCreateOrder } from "../../api";
+import { useUser } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { notification } from "antd";
-import { userCreateOrder } from "../../api";
 
-const StripeCheckoutButton = ({ price, length }) => {
+const StripeCheckoutButton = ({ price }) => {
+  const { clearCart, cart, totalPrice } = useCart();
+  const navigate = useNavigate();
   const priceForStripe = price * 100;
   const publishableKey = "pk_test_afksYxpqmYrwJ0iAgmoQf1xK00yqZMA1yJ";
   const { mutate } = useMutation((params) => userCreateOrder(params), {
     retry: false,
   });
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const cart = useSelector((state) => state.cart.cart);
-  const ukupna = useSelector((state) => state.cart.ukupna_cijena);
-  const user = useSelector((state) => state.auth.currentUser);
+  const { user } = useUser();
 
   const onToken = (token) => {
     let artikli = [];
@@ -35,10 +32,10 @@ const StripeCheckoutButton = ({ price, length }) => {
     }
 
     mutate(
-      { artikli, user_id: user.id, ukupna },
+      { artikli, user_id: user.id, ukupna: totalPrice },
       {
         onSuccess: () => {
-          dispatch(removeAlItemsFromCart());
+          clearCart();
           navigate("/");
           notification.success({
             message: "Order",
@@ -46,7 +43,6 @@ const StripeCheckoutButton = ({ price, length }) => {
           });
         },
         onError: (error) => {
-          console.log(error);
           notification.success({
             message: "Order",
             description: "There was an error with placing your order",
@@ -59,19 +55,15 @@ const StripeCheckoutButton = ({ price, length }) => {
   return (
     <StripeCheckout
       label="Pay Now"
-      name="E-Trgovina"
+      name="E-Commerce Shop"
       billingAddress
+      shippingAddress
       image="https://svgshare.com/i/CUz.svg"
-      description={`Your total is ${price} KM`}
+      description={`Your total is $${price}`}
       amount={priceForStripe}
-      panelLabel="PAY Now"
+      panelLabel="Pay Now"
       token={onToken}
       stripeKey={publishableKey}
-      {...(!length
-        ? {
-            disabled: true,
-          }
-        : null)}
     />
   );
 };

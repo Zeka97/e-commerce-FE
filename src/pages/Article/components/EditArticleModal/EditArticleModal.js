@@ -1,18 +1,18 @@
-import React from "react";
-import { Modal, Form, Input, notification, Select } from "antd";
+import React, { useEffect, useState } from "react";
+import { Modal, Form, Input, notification, Select, message } from "antd";
 import { useMutation, useQuery } from "react-query";
 
 import "./EditArticleModal.css";
 import { addArticle, editArticle, getAllCategories } from "../../../../api";
 import { useNavigate } from "react-router-dom";
+import FileUpload from "../../../../components/FileUpload/FileUpload";
 
 const EditArticleModal = (props) => {
   const { Option } = Select;
+  const [articlePhoto, setArticlePhoto] = useState(null);
 
   const [editArticleForm] = Form.useForm();
   const [addArticleForm] = Form.useForm();
-
-  console.log(props);
 
   const { mutate: mutateEditArticle } = useMutation((params) =>
     editArticle(params)
@@ -22,25 +22,87 @@ const EditArticleModal = (props) => {
     addArticle(params)
   );
 
-  const { data, isSuccess, isFetching, isLoading, isError, refetch } = useQuery(
-    "Categories",
-    getAllCategories
-  );
+  const {
+    data,
+    isSuccess,
+    isFetching,
+    isLoading,
+    isError,
+    isFetched,
+    refetch,
+  } = useQuery("Categories", getAllCategories);
+
+  useEffect(() => {
+    if (isFetched) {
+      editArticleForm.setFieldsValue({
+        articleCategory: props.kategorijaId || "",
+        articleName: props.articleName || "",
+        articlePrice: props.articlePrice || "",
+        articleQuantity: props.articleQuantity || "",
+        articleDescription: props.articleDescription || "",
+      });
+    }
+  }, [isFetched]);
 
   const handleEditArticle = () => {
-    editArticleForm.validateFields().then((values) => {
-      console.log(values);
+    editArticleForm.validateFields().then(async (values) => {
+      try {
+        const data = {
+          ...values,
+          articlePhoto,
+        };
 
-      mutateEditArticle(
-        {
-          id: props.articleId,
-          values,
-        },
-        {
+        mutateEditArticle(
+          {
+            id: props.articleId,
+            ...data,
+          },
+          {
+            onSuccess: (data) => {
+              notification.success({
+                message: "Edit Article",
+                description: "Successfully edited article",
+              });
+              props.setArticleModal(false);
+              setTimeout(() => window.location.reload(), 2000);
+            },
+            onError: (error) => {
+              console.log(error);
+              notification.error({
+                message: "Edit Article",
+                description: "Error while editing article",
+              });
+            },
+          }
+        );
+      } catch (error) {
+        console.error("Error:", error);
+        notification.error({
+          message: "Error",
+          description: "Error processing the image",
+        });
+      }
+    });
+  };
+
+  const handleAddArticle = () => {
+    addArticleForm.validateFields().then(async (values) => {
+      if (!articlePhoto) {
+        message.error("Please upload an article photo");
+        return;
+      }
+
+      try {
+        const data = {
+          ...values,
+          articlePhoto,
+        };
+
+        mutateAddArticle(data, {
           onSuccess: (data) => {
             notification.success({
-              message: "Edit Article",
-              description: "Succesfully edited article",
+              message: "Add Article",
+              description: "Successfully added new article",
             });
             props.setArticleModal(false);
             setTimeout(() => window.location.reload(), 2000);
@@ -48,41 +110,24 @@ const EditArticleModal = (props) => {
           onError: (error) => {
             console.log(error);
             notification.error({
-              message: "Edit Article",
-              description: "Succesfully edited article",
+              message: "Add Article",
+              description: "Error while adding article",
             });
           },
-        }
-      );
-    });
-  };
-
-  const handleAddArticle = () => {
-    addArticleForm.validateFields().then((values) => {
-      console.log(values);
-      mutateAddArticle(values, {
-        onSuccess: (data) => {
-          notification.success({
-            message: "Add Article",
-            description: "Succesfully added new article",
-          });
-          props.setArticleModal(false);
-          setTimeout(() => window.location.reload(), 2000);
-        },
-        onError: (error) => {
-          console.log(error);
-          notification.error({
-            message: "Add Article",
-            description: "Error while adding article",
-          });
-        },
-      });
+        });
+      } catch (error) {
+        console.error("Error:", error);
+        notification.error({
+          message: "Error",
+          description: "Error processing the image",
+        });
+      }
     });
   };
 
   return (
     <Modal
-      title={`Edit article`}
+      title="Edit article"
       centered
       open={props.editArticleModal}
       onOk={props.newArticle ? handleAddArticle : handleEditArticle}
@@ -109,24 +154,25 @@ const EditArticleModal = (props) => {
               message: "Article name is required",
             },
           ]}
-          initialValue={props.articleName || ""}
         >
           <Input name="articleName" />
         </Form.Item>
-        {props.newArticle && (
-          <Form.Item
-            label="Photo"
-            name="articlePhoto"
-            rules={[
-              {
-                required: true,
-                message: "Article photo is required",
-              },
-            ]}
-          >
-            <Input name="articleName" />
-          </Form.Item>
-        )}
+        <Form.Item
+          label="Photo"
+          name="articlePhoto"
+          rules={[
+            {
+              required: true,
+              message: "Article photo is required",
+            },
+          ]}
+          getValueProps={(e) => console.log(e)}
+        >
+          <FileUpload
+            initialImageUrl={props.articlePhoto}
+            onFileChange={setArticlePhoto}
+          />
+        </Form.Item>
 
         <Form.Item
           label="Price"
@@ -137,7 +183,6 @@ const EditArticleModal = (props) => {
               message: "Price is required",
             },
           ]}
-          initialValue={props.articlePrice || ""}
         >
           <Input min={0.1} name="articlePrice" />
         </Form.Item>
@@ -150,26 +195,17 @@ const EditArticleModal = (props) => {
               message: "Quantity is required",
             },
           ]}
-          initialValue={props.articleQuantity || ""}
         >
           <Input min={1} name="articleQuantity" />
         </Form.Item>
-        <Form.Item
-          label="Description"
-          name="articleDescription"
-          initialValue={props.articleDescription || ""}
-        >
+        <Form.Item label="Description" name="articleDescription">
           <Input.TextArea
             rows={4}
             placeholder="Max length 255 characters..."
             maxLength={1200}
           />
         </Form.Item>
-        <Form.Item
-          label="Category"
-          name="articleCategory"
-          initialValue={props.kategorijaId || ""}
-        >
+        <Form.Item label="Category" name="articleCategory">
           <Select>
             {isSuccess &&
               data.map((item) => {

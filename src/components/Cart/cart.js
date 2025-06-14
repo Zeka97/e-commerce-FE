@@ -1,84 +1,85 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch, connect } from "react-redux";
+import { useCart } from "../../context/CartContext";
 import CartItem from "../CartItem/CartItem";
-import { removeAlItemsFromCart } from "../../redux/actions/cart.action";
-import CustomLinkButton from "../customLinkButton/customLinkButton";
+import { useNavigate } from "react-router-dom";
+import CustomButton from "../CustomButton/CustomButton";
 
-import "./cart.css";
 import { Drawer } from "antd";
 
-const Cart = (props) => {
+const Cart = () => {
+  const { cart, totalPrice, clearCart } = useCart();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+
   const openDropdown = () => {
-    console.log("1231231");
-    setOpen(!open);
+    setOpen(true);
+  };
+
+  const closeDropdown = () => {
+    setOpen(false);
   };
 
   return (
-    <>
-      <div className="cart">
-        <div className="cart-icon" onClick={() => openDropdown()}></div>
+    <div className="flex items-center justify-cente">
+      <div
+        className="flex justify-center items-center h-[36px] w-[36px] bg-center bg-no-repeat bg-cover bg-cart-icon relative"
+        onClick={openDropdown}
+      >
+        <span className="flex items-center justify-center rounded-full bg-red-500 text-white text-sm h-[24px] w-[24px] absolute -top-8 -right-4">
+          {cart.length}
+        </span>
       </div>
       <Drawer
-        title="Cart"
+        title="Shopping Cart"
         placement="right"
-        onClose={openDropdown}
+        onClose={closeDropdown}
         open={open}
-        width={500}
+        width={600}
       >
         <div className="h-full">
-          <div className="cart-dropdown_items">
-            {props.cart?.length ? (
+          <div className="flex flex-col gap-4">
+            {cart.length ? (
               <>
-                {props.cart.map((item) => {
-                  return <CartItem key={item.id} item={item} />;
-                })}
+                {cart.map((item) => (
+                  <CartItem key={item.id} item={item} />
+                ))}
                 <div className="flex justify-end mt-8 gap-16 font-bold text-xl mr-4">
                   <span>TOTAL:</span>
-                  <span>{props.ukupna_cijena}$</span>
+                  <span>{totalPrice}$</span>
                 </div>
               </>
             ) : (
-              <div className="w-full h-full flex justify-center items-center">
-                <span className="empty-message">Your cart is empty</span>
-              </div>
+              <span className="text-center text-gray-500">
+                Your cart is empty
+              </span>
             )}
           </div>
-          {props.cart?.length && (
-            <div className="flex flex-col gap-8">
-              <CustomLinkButton
-                to="/naplata"
-                className={"dark"}
-                onClick={() => openDropdown()}
+          {cart.length > 0 && (
+            <div className="flex flex-col gap-8 mt-8 w-full">
+              <CustomButton
+                onClick={() => {
+                  navigate("/naplata");
+                  closeDropdown();
+                }}
+                type="black"
               >
-                Plaćanje
-              </CustomLinkButton>
-              <CustomLinkButton
-                className={"light"}
-                to={"#"}
-                onClick={props.removeAllFromCart}
+                Checkout
+              </CustomButton>
+              <CustomButton
+                onClick={() => {
+                  clearCart();
+                  closeDropdown();
+                }}
+                type="light"
               >
-                Očisti korpu
-              </CustomLinkButton>
+                Clear Cart
+              </CustomButton>
             </div>
           )}
         </div>
       </Drawer>
-    </>
+    </div>
   );
 };
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...state.cart,
-    ...state.ukupna_cijena,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    removeAllFromCart: () => dispatch(removeAlItemsFromCart()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+export default Cart;

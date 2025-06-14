@@ -4,11 +4,12 @@ import { Modal, Form, Input, notification } from "antd";
 
 import { useMutation } from "react-query";
 
-import "./AddCategoryBox.css";
 import { addNewCategory } from "../../api";
+import FileUpload from "../FileUpload/FileUpload";
 
 const AddCategoryBox = () => {
   const [addCategoryModal, setAddCategoryModal] = useState(false);
+  const [categoryPicture, setCategoryPicture] = useState(null);
 
   const [addCategoryForm] = Form.useForm();
 
@@ -19,30 +20,36 @@ const AddCategoryBox = () => {
       .validateFields()
       .then((values) => {
         console.log(values);
-        mutate(values, {
-          onSuccess: (data) => {
-            notification.success({
-              message: "Add Category",
-              description: "Successfully added Category",
-            });
-            setTimeout(() => window.location.reload(), 1000);
-          },
-          onError: (error) => {
-            notification.error({
-              message: "Add Category",
-              description: "There was an error with adding Category",
-            });
-            console.log(error);
-          },
-        });
+        mutate(
+          { ...values, categoryPicture },
+          {
+            onSuccess: (data) => {
+              notification.success({
+                message: "Add Category",
+                description: "Successfully added Category",
+              });
+              setTimeout(() => window.location.reload(), 1000);
+            },
+            onError: (error) => {
+              notification.error({
+                message: "Add Category",
+                description: "There was an error with adding Category",
+              });
+              console.log(error);
+            },
+          }
+        );
       })
       .catch((err) => console.log(err));
   };
 
   return (
     <>
-      <div className="addCategoryBox" onClick={() => setAddCategoryModal(true)}>
-        <div className="plus">+</div>
+      <div
+        className="w-auto h-[200px] flex border-none flex-col justify-center items-center rounded-[5px] bg-[#efefef] hover:cursor-pointer"
+        onClick={() => setAddCategoryModal(true)}
+      >
+        <div className="text-[20px] font-bold">+</div>
         <div>Dodaj Kategoriju</div>
       </div>
 
@@ -71,14 +78,9 @@ const AddCategoryBox = () => {
           <Form.Item
             label="Slika Kategorije(link)"
             name="categoryPicture"
-            rules={[
-              {
-                required: true,
-                message: "Polje ne smije biti prazno!",
-              },
-            ]}
+            getValueProps={(e) => console.log(e)}
           >
-            <Input name="categoryPicture" />
+            <FileUpload onFileChange={setCategoryPicture} />
           </Form.Item>
         </Form>
       </Modal>

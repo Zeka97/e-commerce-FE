@@ -1,7 +1,6 @@
 import axios from "./axios";
 
 export const userCreateOrder = async (params) => {
-  console.log(params);
   const { status } = await axios.post("/users/kreirajnarudzbu", {
     params,
   });
@@ -22,9 +21,8 @@ export const getArticles = async (params) => {
 };
 
 export const getArticle = async (params) => {
-  console.log("asdwdasdsa");
   const { data } = await axios.get("/artikli/artikal", { params });
-  console.log(data);
+
   return data;
 };
 
@@ -34,13 +32,13 @@ export const userGetOrders = async (params) => {
   return data;
 };
 
-export const login = async (params) => {
+export const loginUser = async (params) => {
   const { data } = await axios.post("/login", { params });
 
   return data;
 };
 
-export const register = async (params) => {
+export const registerUser = async (params) => {
   const { status } = await axios.post("/register", { params });
 
   return status;
@@ -103,7 +101,7 @@ export const deleteArticle = async (id) => {
 
 export const editArticle = async (params) => {
   const { data } = await axios.post("/admin/editArticle", {
-    params,
+    ...params,
   });
   return data;
 };

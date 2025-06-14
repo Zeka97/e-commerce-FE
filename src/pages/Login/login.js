@@ -1,23 +1,20 @@
 import React, { useState } from "react";
 import { Form, Input } from "antd";
-import { adminLogin, userLogin } from "../../redux/actions/user.action";
-import { useDispatch, useSelector } from "react-redux";
 import "./login.css";
 import { useMutation } from "react-query";
-import { login } from "../../api";
+import { login, loginUser } from "../../api";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomLinkButton from "../../components/customLinkButton/customLinkButton";
 import { useForm } from "antd/lib/form/Form";
+import { useUser } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
-
+  const navigate = useNavigate();
   const [logInForm] = Form.useForm();
-
-  const dispatch = useDispatch();
-  const state = useSelector((state) => state);
-
-  const { mutate } = useMutation((params) => login(params));
+  const { mutate } = useMutation((params) => loginUser(params));
+  const { login } = useUser();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -29,25 +26,13 @@ const Login = () => {
           {
             onSuccess: (data) => {
               if (data.user) {
-                dispatch(userLogin(data.user));
-                localStorage.setItem(
-                  "user",
-                  JSON.stringify({
-                    admin: null,
-                    currentUser: data.user,
-                    isLogged: true,
-                  })
-                );
+                login(data.user);
+                localStorage.setItem("user", JSON.stringify(data.user));
+                navigate("/");
               } else {
-                dispatch(adminLogin(data.admin));
-                localStorage.setItem(
-                  "user",
-                  JSON.stringify({
-                    admin: data.admin,
-                    currentUser: null,
-                    isLogged: true,
-                  })
-                );
+                login(data.admin);
+                localStorage.setItem("user", JSON.stringify(data.admin));
+                navigate("/admin/dashboard");
               }
             },
             onError: (error) => {
@@ -63,10 +48,10 @@ const Login = () => {
   };
 
   return (
-    <div className="login_page">
-      <div className="image"></div>
-      <div className="sign-in">
-        <h1>Sign In</h1>
+    <div className="w-full h-screen flex">
+      <div className="w-1/2 flex justify-center items-center text-5xl h-full m-auto bg-login bg-contain bg-center bg-no-repeat bg-blend-lighten" />
+      <div className="flex items-center justify-center flex-col w-1/2">
+        <h1 className="text-[64px]">Sign In</h1>
 
         <Form
           name="basic"
@@ -74,6 +59,7 @@ const Login = () => {
           requiredMark={false}
           autoComplete="off"
           form={logInForm}
+          className="flex flex-col w-[400px]"
         >
           <Form.Item
             label="Username"
@@ -105,18 +91,8 @@ const Login = () => {
             </p>
           )}
 
-          <CustomButton
-            className="light"
-            style={{ marginBottom: "20px", marginTop: "20px" }}
-            onClick={onSubmit}
-          >
-            Log in
-          </CustomButton>
-          <CustomLinkButton
-            style={{ marginTop: "5px" }}
-            className="dark"
-            to="/register"
-          >
+          <CustomButton onClick={onSubmit}>Log in</CustomButton>
+          <CustomLinkButton className="dark" to="/register">
             Sign up
           </CustomLinkButton>
         </Form>

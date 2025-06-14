@@ -1,35 +1,35 @@
 import React, { useEffect, useState } from "react";
-import "./ArticlesPage.css";
-
-import { connect } from "react-redux";
 import { Slider, Pagination } from "antd";
 
 import Card from "../../components/card/Card";
-import Header from "../../components/Header/header";
-import Searchbar from "../../components/Searchbar/searchbar";
 import KategorijaSelect from "../../components/KategorijaSelect/KategorijaSelect";
 import { useQuery } from "react-query";
 import { getArticles } from "../../api";
 import DiscountSelect from "../../components/DiscountSelect/DiscountSelect";
 import PopularSelect from "../../components/PopularSelect/PopularSelect";
-import AdminHeader from "../../components/AdminHeader/AdminHeader";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import EditArticleModal from "../Article/components/EditArticleModal/EditArticleModal";
+import { useFilter } from "../../context/FilterContext";
+import { useUser } from "../../context/UserContext";
 
-const ArticlesPage = (props) => {
+const ArticlesPage = () => {
   const [priceRange, setPriceRange] = useState([0, 100]);
   const [page, setPage] = useState(1);
   const [totalItems, setTotalItems] = useState(null);
   const [isOpenAddArticleModal, setIsOpenAddArticleModal] = useState(false);
+
+  const { category, discount, popular, setCategory, setDiscount, setPopular } =
+    useFilter();
+  const { user } = useUser();
 
   const { data, error, isError, isSuccess, isFetching, isLoading, refetch } =
     useQuery(
       "articles",
       () =>
         getArticles({
-          kategorija_id: props.filter.category,
-          discount: props.filter.discount,
-          popular: props.filter.popular,
+          kategorija_id: category,
+          discount: discount,
+          popular: popular,
           priceRange,
           page,
           limit: 12,
@@ -41,19 +41,13 @@ const ArticlesPage = (props) => {
 
   const { total, articles } = data || { total: null, articles: [] };
 
-  console.log(articles);
   useEffect(() => {
-    if (page == 1) setTimeout(() => refetch(), 1000);
+    if (page === 1) setTimeout(() => refetch(), 1000);
     else setPage(1);
-  }, [
-    props.filter.category,
-    props.filter.popular,
-    props.filter.discount,
-    priceRange,
-  ]);
+  }, [category, popular, discount, priceRange]);
 
   useEffect(() => {
-    if (page == 1) {
+    if (page === 1) {
       setTotalItems(total);
     }
     refetch();
@@ -68,21 +62,21 @@ const ArticlesPage = (props) => {
   };
   return (
     <>
-      <div className="articles_page mx-32 pt-16">
-        <div className="filter">
-          <div className="select">
+      <div className="flex  flex-col pt-64 gap-24">
+        <div className="flex gap-16">
+          <div className="flex flex-col w-full">
             <label>Kategorija</label>
-            <KategorijaSelect defaultValue={props.filter.category} />
+            <KategorijaSelect value={category} onChange={setCategory} />
           </div>
-          <div className="select">
+          <div className="flex flex-col w-full">
             <label>Akcija</label>
-            <DiscountSelect defaultValue={props.filter.discount} />
+            <DiscountSelect value={discount} onChange={setDiscount} />
           </div>
-          <div className="select">
+          <div className="flex flex-col w-full">
             <label>Popular</label>
-            <PopularSelect defaultValue={props.filter.popular} />
+            <PopularSelect value={popular} onChange={setPopular} />
           </div>
-          <div className="select">
+          <div className="flex flex-col w-full">
             <label>Cijena</label>
             <div className="flex items-center h-full">
               <Slider
@@ -99,28 +93,18 @@ const ArticlesPage = (props) => {
             </div>
           </div>
         </div>
-        <div className="articles_list">
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <span
-              style={{
-                fontSize: "18px",
-                fontWeight: "bold",
-                marginRight: "40px",
-              }}
-            >
-              Svi artikli
-            </span>
-            {props.user === null && (
+        <div>
+          <div className="flex items-center gap-16">
+            {user.isAdmin && (
               <CustomButton
-                className="black"
-                style={{ marginBottom: "10px", height: "50px" }}
+                type="black"
                 onClick={() => setIsOpenAddArticleModal(true)}
               >
                 Dodaj artikal
               </CustomButton>
             )}
           </div>
-          <div className="pagination">
+          <div className="flex justify-between">
             <h4>
               Broj pronadjenih artikala je: <b>{totalItems}</b>
             </h4>
@@ -131,19 +115,19 @@ const ArticlesPage = (props) => {
               pageSize={12}
             />
           </div>
-          <div className="artikli">
-            {isSuccess &&
-              articles.map((item, index) => {
-                return (
-                  <Card
-                    item={item}
-                    key={item.id}
-                    index={index}
-                    arrLen={articles.length}
-                  />
-                );
-              })}
-          </div>
+        </div>
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-[10px] w-full pb-5">
+          {isSuccess &&
+            articles.map((item, index) => {
+              return (
+                <Card
+                  item={item}
+                  key={item.id}
+                  index={index}
+                  arrLen={articles.length}
+                />
+              );
+            })}
         </div>
       </div>
 
@@ -156,11 +140,4 @@ const ArticlesPage = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    filter: state.filter,
-    user: state.auth.currentUser,
-  };
-};
-
-export default connect(mapStateToProps)(ArticlesPage);
+export default ArticlesPage;

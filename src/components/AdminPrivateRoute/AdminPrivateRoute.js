@@ -1,11 +1,24 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
+import { Spin } from "antd";
 
 const AdminPrivateRoute = () => {
-  const user = useSelector((state) => state.auth);
+  const { user, isLoading } = useUser();
 
-  return !user.admin ? <Navigate to="/login" /> : <Outlet />;
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spin size="large" />
+      </div>
+    );
+  }
+
+  if (!user || !user.isAdmin) {
+    return <Navigate to="/login" />;
+  }
+
+  return <Outlet />;
 };
 
 export default AdminPrivateRoute;

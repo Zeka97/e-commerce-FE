@@ -1,16 +1,14 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { connect } from "react-redux";
+import { useFilter } from "../../context/FilterContext";
 import { useNavigate } from "react-router-dom";
 
 import { getArticles } from "../../api";
-import { discountSelectOnly } from "../../redux/actions/search.action";
 import LandingPageArticles from "../LandingPageArticles/LandingPageArticles";
-
-import "./DiscountArticles.css";
 
 const DiscountArticles = (props) => {
   const navigate = useNavigate();
+  const { setDiscountOnly } = useFilter();
 
   const { data, error, isError, isSuccess, isFetching, refetch } = useQuery(
     "discount",
@@ -21,7 +19,7 @@ const DiscountArticles = (props) => {
   );
 
   const showAllDiscount = () => {
-    props.selectDiscount(true);
+    setDiscountOnly(true);
     navigate("/artikli");
   };
 
@@ -38,10 +36,4 @@ const DiscountArticles = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    selectDiscount: (isDiscount) => dispatch(discountSelectOnly(isDiscount)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(DiscountArticles);
+export default DiscountArticles;

@@ -1,15 +1,13 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { connect } from "react-redux";
+import { useFilter } from "../../context/FilterContext";
 import { useNavigate } from "react-router-dom";
 import { getArticles } from "../../api";
-import { popularSelectOnly } from "../../redux/actions/search.action";
 import LandingPageArticles from "../LandingPageArticles/LandingPageArticles";
-
-import "./PopularArticles.css";
 
 const PopularArticles = (props) => {
   const navigate = useNavigate();
+  const { setPopularOnly } = useFilter();
 
   const { data, error, isError, isSuccess, isFetching, refetch } = useQuery(
     "popular",
@@ -19,7 +17,7 @@ const PopularArticles = (props) => {
     }
   );
   const showAllPopular = () => {
-    props.selectPopular(true);
+    setPopularOnly(true);
     navigate("/artikli");
   };
 
@@ -36,10 +34,4 @@ const PopularArticles = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    selectPopular: (isPopular) => dispatch(popularSelectOnly(isPopular)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(PopularArticles);
+export default PopularArticles;

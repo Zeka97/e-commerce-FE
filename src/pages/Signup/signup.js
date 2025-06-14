@@ -2,8 +2,8 @@ import React from "react";
 import "./signup.css";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
-import { Form, Input, message, notification } from "antd";
-import { register } from "../../api";
+import { Form, Input, notification } from "antd";
+import { registerUser } from "../../api";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import CustomLinkButton from "../../components/customLinkButton/customLinkButton";
 
@@ -12,7 +12,7 @@ const Signup = () => {
 
   const [signupForm] = Form.useForm();
 
-  const { mutate } = useMutation((params) => register(params));
+  const { mutate } = useMutation((params) => registerUser(params));
 
   const registerProfile = (e) => {
     e.preventDefault();

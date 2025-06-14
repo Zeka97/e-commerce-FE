@@ -14,7 +14,12 @@ module.exports = {
       100: "100px",
       128: "128px",
     },
-    extend: {},
+    extend: {
+      backgroundImage: {
+        "cart-icon": "url('/public/Cart.png')",
+        login: "url('/public/login.png')",
+      },
+    },
   },
   plugins: [],
 };

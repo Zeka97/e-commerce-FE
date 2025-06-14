@@ -1,54 +1,30 @@
 import React from "react";
+import { useCart } from "../../context/CartContext";
 import "./CartItem.css";
 
-import {
-  addItemToCart,
-  decreaseItemQuantity,
-  removeItemFromCart,
-} from "../../redux/actions/cart.action";
-import { connect } from "react-redux";
+const CartItem = ({ item }) => {
+  const { removeFromCart, updateQuantity } = useCart();
+  const { id, naziv, kolicina, cijena, akcijska_cijena, photo } = item;
 
-const CartItem = ({ key, item, ...props }) => {
   return (
-    <div className="cart_item" key={key}>
-      <img
-        className="cart_item_photo"
-        src={item.photo}
-        alt={`slika ${item.photo}`}
-      />
-      <div className="cart_item_naziv flex justify-center">{item.naziv}</div>
-      <div className="cart_item_kolicina">
-        <span
-          className="cart_item_kolicina_edit"
-          onClick={() => props.decrease(item)}
-        >
-          {"<"}
-        </span>
-        <span className="cart_item_kolicina_value">{item.kolicina}</span>
-        <span
-          className="cart_item_kolicina_edit"
-          onClick={() => props.increase({ ...item, kolicina: 1 })}
-        >
-          {">"}
+    <div className="flex items-center justify-between gap-4">
+      <img src={photo} alt={naziv} className="w-[50px] h-[50px]" />
+      <div className="flex gap-16">
+        <span className="text-wrap">{naziv}</span>
+        <span>
+          {kolicina} x ${akcijska_cijena || cijena}
         </span>
       </div>
-      <span className="cart_item_cijena">
-        {" "}
-        {item.akcijska_cijena ? item.akcijska_cijena : item.cijena}
-      </span>
-      <span className="cart_item_removeall" onClick={() => props.remove(item)}>
-        X
-      </span>
+      <div className="flex items-center gap-2">
+        <div onClick={() => updateQuantity(id, Math.max(1, kolicina - 1))}>
+          &#10094;
+        </div>
+        <span> {kolicina}</span>
+        <div onClick={() => updateQuantity(id, kolicina + 1)}> &#10095;</div>
+      </div>
+      <div onClick={() => removeFromCart(id)}>&#10005;</div>
     </div>
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    decrease: (item) => dispatch(decreaseItemQuantity(item)),
-    remove: (item) => dispatch(removeItemFromCart(item)),
-    increase: (item) => dispatch(addItemToCart(item)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(CartItem);
+export default CartItem;

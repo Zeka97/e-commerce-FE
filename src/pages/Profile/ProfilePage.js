@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./ProfilePage.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
 import Header from "../../components/Header/header";
@@ -10,11 +10,11 @@ import { updateUserProfile, userGetOrders } from "../../api";
 import StatisticCard from "../../components/StatisticCard/StatisticCard";
 import OrdersTable from "../../components/Table/OrdersTable/OrdersTable";
 import { useSearchContext } from "../../components/context/SearchContext";
-import { userLogin } from "../../redux/actions/user.action";
+import { useUser } from "../../context/UserContext";
 import ChangePasswordModal from "./components/ChangePasswordModal";
 
 const ProfilePage = () => {
-  const user = useSelector((state) => state.auth.currentUser);
+  const { user, login, logout } = useUser();
   const { searchOrdersDateFrom, searchOrdersDateTo } = useSearchContext();
 
   const [narudzbe, setNarudzbe] = useState(null);
@@ -25,8 +25,6 @@ const ProfilePage = () => {
   const [changePassword, setChangePassword] = useState(false);
 
   const [editProfileForm] = Form.useForm();
-
-  const dispatch = useDispatch();
 
   const {
     data,
@@ -79,16 +77,8 @@ const ProfilePage = () => {
             message: "Edit profile",
             description: "U have sucessfully updated your profile",
           });
-          localStorage.removeItem("user");
-          dispatch(userLogin(data));
-          localStorage.setItem(
-            "user",
-            JSON.stringify({
-              admin: null,
-              currentUser: data.user,
-              isLogged: true,
-            })
-          );
+          logout();
+          localStorage.setItem("user", JSON.stringify(data.user));
         },
         onError: (err) => {
           notification.error({

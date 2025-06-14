@@ -1,19 +1,22 @@
 import React from "react";
-
 import Header from "../Header/header";
 import AdminHeader from "../AdminHeader/AdminHeader";
-
-import { useSelector } from "react-redux";
+import { useUser } from "../../context/UserContext";
+import { Spin } from "antd";
 
 const Layout = ({ children }) => {
-  const user = useSelector((state) => state.auth);
-
-  console.log(user);
+  const { user } = useUser();
 
   return (
-    <div className="layout">
-      {user.admin ? <AdminHeader /> : user.currentUser ? <Header /> : null}
-      {children}
+    <div className="flex flex-col w-full items-center">
+      <div className="max-w-[1500px] w-full">
+        {user && user?.isAdmin ? (
+          <AdminHeader />
+        ) : user && !user?.isAdmin ? (
+          <Header />
+        ) : null}
+        {children}
+      </div>
     </div>
   );
 };

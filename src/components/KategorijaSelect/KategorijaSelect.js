@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 import { useQuery } from "react-query";
 import { getAllCategories } from "../../api";
 
-import { categorySelect } from "../../redux/actions/search.action";
 import { CustomSelect } from "../../styledComponents/styled";
+import { useFilter } from "../../context/FilterContext";
 
 const KategorijaSelect = (props) => {
   const { Option } = CustomSelect;
@@ -16,12 +16,10 @@ const KategorijaSelect = (props) => {
     getAllCategories
   );
 
-  const onChange = (value) => {
-    props.select(value);
-  };
+  const { setCategory } = useFilter();
 
-  const onSearch = (value) => {
-    console.log("search:", value);
+  const onChange = (value) => {
+    setCategory(value);
   };
 
   return (
@@ -31,8 +29,7 @@ const KategorijaSelect = (props) => {
       className="w-full"
       optionFilterProp="children"
       onChange={onChange}
-      onSearch={onSearch}
-      defaultValue={props.defaultValue}
+      defaultValue={props.value}
       filterOption={(input, option) =>
         option.children.toLowerCase().includes(input.toLowerCase())
       }
@@ -46,10 +43,4 @@ const KategorijaSelect = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    select: (item) => dispatch(categorySelect(item)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(KategorijaSelect);
+export default KategorijaSelect;

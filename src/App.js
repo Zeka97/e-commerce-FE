@@ -6,6 +6,9 @@ import CustomRoutes from "./components/Routes/CustomRoutes";
 import ContextProvider from "./components/context/Provider";
 import Layout from "./components/Layout/Layout";
 import { BrowserRouter } from "react-router-dom";
+import { CartProvider } from "./context/CartContext";
+import { UserProvider } from "./context/UserContext";
+import { FilterProvider } from "./context/FilterContext";
 
 function App() {
   const queryClient = new QueryClient();
@@ -13,11 +16,17 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ContextProvider>
-        <BrowserRouter>
-          <Layout>
-            <CustomRoutes />
-          </Layout>
-        </BrowserRouter>
+        <FilterProvider>
+          <UserProvider>
+            <CartProvider>
+              <BrowserRouter>
+                <Layout>
+                  <CustomRoutes />
+                </Layout>
+              </BrowserRouter>
+            </CartProvider>
+          </UserProvider>
+        </FilterProvider>
       </ContextProvider>
     </QueryClientProvider>
   );

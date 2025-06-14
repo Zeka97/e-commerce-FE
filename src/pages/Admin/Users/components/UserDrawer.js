@@ -12,7 +12,6 @@ const UserDrawer = ({ userId, openDrawer, setOpenDrawer }) => {
     { enabled: !!openDrawer }
   );
 
-  console.log(data);
   const { mutate: blockUserMutate } = useMutation(blockUser, {
     onSuccess: () => {
       notification.success({
@@ -28,7 +27,6 @@ const UserDrawer = ({ userId, openDrawer, setOpenDrawer }) => {
         message: "Block User",
         description: `There was an error while blocking a user ${data.ime_i_prezime}`,
       });
-      console.log(error);
     },
   });
 

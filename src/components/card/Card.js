@@ -1,44 +1,24 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./Card.css";
 
-import { addItemToCart } from "../../redux/actions/cart.action";
-import { startOfWeek } from "date-fns";
+import { useUser } from "../../context/UserContext";
 
 const Card = ({ item, index, arrLen }) => {
-  const [kolicina, setKolicina] = useState(1);
-
   const navigate = useNavigate();
 
-  const state = useSelector((state) => state.cart);
-  const user = useSelector((state) => state.auth.currentUser);
-  console.log(state);
-  const dispatch = useDispatch();
-
-  const smanjiKolicinu = () => {
-    if (kolicina < 2) return null;
-    else {
-      setKolicina(kolicina - 1);
-    }
-  };
-
-  const povecajKolicinu = () => {
-    if (kolicina == item.kolicina) return null;
-    else {
-      setKolicina(kolicina + 1);
-    }
-  };
-
-  const dodajUKorpu = (item) => {
-    console.log("item:", item);
-    dispatch(addItemToCart(item));
-    setKolicina(1);
-  };
+  const { user } = useUser();
 
   return (
     <div className="card grow" key={item.id}>
-      <img src={item.photo} alt={`slika proizvoda ${item.naziv}`} />
+      <img
+        src={
+          item.photo.startsWith("uploads")
+            ? `${process.env.REACT_APP_BASE_URL}/${item.photo}`
+            : item.photo
+        }
+        alt={`slika proizvoda ${item.naziv}`}
+      />
       <div className="opis">
         <div className="opis_header">
           <span className="naziv_proizvoda">
@@ -63,9 +43,9 @@ const Card = ({ item, index, arrLen }) => {
           <span
             className="kolicina_dugme"
             onClick={
-              user
-                ? () => navigate(`/artikli/${item.id}`)
-                : () => navigate(`/admin/articles/${item.id}`)
+              user?.isAdmin
+                ? () => navigate(`/admin/articles/${item.id}`)
+                : () => navigate(`/artikli/${item.id}`)
             }
           >
             +

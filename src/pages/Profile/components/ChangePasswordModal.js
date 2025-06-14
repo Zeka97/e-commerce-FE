@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
 import { message, notification } from "antd";
+import { useUser } from "../../../context/UserContext";
 
 import { Modal, Form, Input } from "antd";
 import { changeUserPassword, userCreateOrder } from "../../../api";
 
 const ChangePasswordModal = ({ changePassword, setChangePassword, userId }) => {
   const { mutate } = useMutation((params) => changeUserPassword(params));
+  const { logout } = useUser();
 
   const [changePasswordForm] = Form.useForm();
 
@@ -15,18 +17,20 @@ const ChangePasswordModal = ({ changePassword, setChangePassword, userId }) => {
       { values, userId },
       {
         onSuccess: (data) => {
-          notification.success({message: "Change password",
-          description: 'Succesfully changed password'
-        });
-          localStorage.removeItem("user");
+          notification.success({
+            message: "Change password",
+            description: "Succesfully changed password",
+          });
+          logout();
           setTimeout(() => {
             window.location.reload();
           }, 2000);
         },
         onError: (err) => {
-          notification.error({message: "Change password",
-          description: 'There was an error while changing the password'
-        })
+          notification.error({
+            message: "Change password",
+            description: "There was an error while changing the password",
+          });
         },
       }
     );

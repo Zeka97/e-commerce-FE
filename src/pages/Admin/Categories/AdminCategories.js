@@ -8,12 +8,10 @@ import CategoryBox from "../../../components/CategoryBox/CategoryBox";
 import "./AdminCategories.css";
 
 const AdminCategoriesPage = () => {
-  const { data, error, isError, isFetching, isLoading, isSuccess } = useQuery(
+  const { data, refetch, isFetching, isSuccess } = useQuery(
     "kategorije",
     getAllCategories
   );
-
-  console.log(data, isFetching);
 
   return (
     <div className="categories_page">
@@ -21,7 +19,10 @@ const AdminCategoriesPage = () => {
         <h3>Sve kategorije</h3>
         <div className="categories_list">
           <AddCategoryBox />
-          {isSuccess && data.map((category) => <CategoryBox {...category} />)}
+          {isSuccess &&
+            data.map((category) => (
+              <CategoryBox key={category.id} {...category} refetch={refetch} />
+            ))}
         </div>
       </div>
     </div>

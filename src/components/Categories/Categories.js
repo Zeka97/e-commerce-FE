@@ -1,24 +1,25 @@
 import React from "react";
 
-import "./Categories.css";
 import { useQuery } from "react-query";
 import { getAllCategories } from "../../api";
 import CategoryBox from "../CategoryBox/CategoryBox";
 
 const Categories = () => {
-  const { data, error, isError, isFetching, isLoading, isSuccess } = useQuery(
-    "getCategories",
-    () => getAllCategories({ limit: 6 })
+  const { data, refetch, isSuccess } = useQuery("getCategories", () =>
+    getAllCategories({ limit: 6 })
   );
 
   return (
-    <div className="Categories_box">
-      <div className="Categories_header">
-        <h3>Kategorije</h3>
-        <span>Vidi sve...</span>
+    <div className="mt-[30px] flex flex-col gap-8">
+      <div className="flex justify-between items-center">
+        <h3 className="font-bold text-2xl">Kategorije</h3>
+        <span className="cursor-pointer font-bold underline">Vidi sve...</span>
       </div>
-      <div className="Categories_list">
-        {isSuccess && data.map((category) => <CategoryBox {...category} />)}
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-8">
+        {isSuccess &&
+          data.map((category) => (
+            <CategoryBox {...category} refetch={refetch} />
+          ))}
       </div>
     </div>
   );

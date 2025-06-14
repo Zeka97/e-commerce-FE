@@ -1,48 +1,46 @@
 import React from "react";
-import { connect } from "react-redux";
-import {
-  addItemToCart,
-  decreaseItemQuantity,
-  removeItemFromCart,
-} from "../../redux/actions/cart.action";
+import { useCart } from "../../context/CartContext";
 
-import "./checkout-item.css";
-
-const CheckoutItem = ({ cartItem, clearItem, addItem, removeItem }) => {
-  const { naziv, photo, kolicina, cijena, akcijska_cijena } = cartItem;
+const CheckoutItem = ({ cartItem }) => {
+  const { id, naziv, kolicina, cijena, akcijska_cijena, photo } = cartItem;
+  const { removeFromCart, updateQuantity } = useCart();
 
   return (
-    <div className="checkout-item">
-      <div className="image-container">
-        <img src={photo} alt="item" />
+    <div className="flex items-center justify-between w-full h-full p-4 mb-4  rounded-lg  ">
+      <div className="w-1/4 flex items-center justify-center">
+        <img
+          src={photo}
+          alt={naziv}
+          className="w-[100px] h-[100px] object-cover rounded-lg"
+        />
       </div>
-
-      <span className="name">{naziv}</span>
-      <span className="quantity">
-        <div className="arrow" onClick={() => removeItem(cartItem)}>
+      <span className="w-1/4 font-medium text-lg">{naziv}</span>
+      <div className="w-1/4 flex items-center justify-center space-x-3">
+        <button
+          className="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full hover:bg-gray-300 transition-colors"
+          onClick={() => updateQuantity(id, Math.max(1, kolicina - 1))}
+        >
           &#10094;
-        </div>
-        <span className="value">{kolicina}</span>
-        <div className="arrow" onClick={() => addItem(cartItem)}>
+        </button>
+        <span className="w-10 text-center text-lg font-bold">{kolicina}</span>
+        <button
+          className="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-full hover:bg-gray-300 transition-colors"
+          onClick={() => updateQuantity(id, kolicina + 1)}
+        >
           &#10095;
-        </div>
-      </span>
-      <span className="price">
-        {akcijska_cijena ? akcijska_cijena : cijena}$
-      </span>
-      <div className="remove-button" onClick={() => clearItem(cartItem)}>
-        &#10005;
+        </button>
       </div>
+      <span className="w-1/4 text-right font-bold text-lg">
+        ${akcijska_cijena || cijena}
+      </span>
+      <button
+        className="w-1/4 text-red-500 hover:text-red-700 transition-colors"
+        onClick={() => removeFromCart(id)}
+      >
+        &#10005;
+      </button>
     </div>
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addItem: (item) => dispatch(addItemToCart(item)),
-    removeItem: (item) => dispatch(decreaseItemQuantity(item)),
-    clearItem: (item) => dispatch(removeItemFromCart(item)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(CheckoutItem);
+export default CheckoutItem;

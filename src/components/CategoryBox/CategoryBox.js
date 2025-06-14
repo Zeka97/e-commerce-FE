@@ -1,22 +1,28 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Modal, Form, Input, notification } from "antd";
+import { Modal, Form, Input, notification, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
-import { categorySelectOnly } from "../../redux/actions/search.action";
 import "./CategoryBox.css";
 import { useMutation } from "react-query";
 import { updateCategory } from "../../api";
 import CustomButton from "../CustomButton/CustomButton";
+import { useFilter } from "../../context/FilterContext";
+import { useUser } from "../../context/UserContext";
+import FileUpload from "../FileUpload/FileUpload";
 
 const CategoryBox = (props) => {
   const navigate = useNavigate();
+  const { setCategoryOnly } = useFilter();
 
   const [editCategoryModal, setEditCategoryModal] = useState(false);
+  const [categoryPicture, setCategoryPicture] = useState(null);
+
+  const { user, isLoading } = useUser();
 
   const [updateCategoryForm] = Form.useForm();
 
   const selectedCategory = (id) => {
-    props.select(id);
+    setCategoryOnly(id);
     navigate("/artikli");
   };
 
@@ -25,7 +31,7 @@ const CategoryBox = (props) => {
   const editCategory = () => {
     updateCategoryForm.validateFields().then((values) => {
       mutate(
-        { values, id: props.id },
+        { ...values, id: props.id, categoryPicture: categoryPicture },
         {
           onSuccess: (data) => {
             notification.success({
@@ -34,7 +40,7 @@ const CategoryBox = (props) => {
             });
             setEditCategoryModal(false);
             updateCategoryForm.resetFields();
-            setTimeout(() => window.location.reload(), 1000);
+            props.refetch();
           },
           onError: (err) => {
             notification.error({
@@ -47,29 +53,45 @@ const CategoryBox = (props) => {
     });
   };
 
+  if (isLoading) {
+    return <Spin />;
+  }
+
   return (
     <>
-      <div className="CategoryBox" id={props.id}>
-        <div className="CategoryBox_textcontent">
-          <h3 className="text-[22px]">{props.naziv}</h3>
-          {props.user ? (
+      <div
+        className="w-full h-[200px] flex border border-black rounded-[5px] px-8 bg-[#0e1514]"
+        id={props.id}
+        key={props.id}
+      >
+        <div className="flex flex-col items-center justify-center w-1/2">
+          <h3 className="text-[22px] text-white">{props.naziv}</h3>
+          {user && user.isAdmin === false ? (
             <button
-              className="bg-white px-4 py-2"
+              className="text-black w-[100px] rounded-[6px] bg-white px-4 py-2"
               onClick={() => selectedCategory(props.id)}
             >
               Pogledaj
             </button>
           ) : (
             <button
-              className="bg-white px-4 py-2"
+              className="text-black w-[100px] rounded-[6px] bg-white px-4 py-2"
               onClick={() => setEditCategoryModal(true)}
             >
-              Uredi{" "}
+              Uredi
             </button>
           )}
         </div>
-        <div className="CategoryBox_img">
-          <img src={props.photo} alt="slika" />
+        <div className="flex items-center justify-center w-1/2">
+          <img
+            src={
+              props.photo?.startsWith("uploads")
+                ? `${process.env.REACT_APP_BASE_URL}/${props?.photo}`
+                : props?.photo
+            }
+            alt="slika"
+            className="w-[200px] h-[150px] filter rounded-[100px] drop-shadow-[-10px_0px_30px_#4cd5e4]"
+          />
         </div>
       </div>
 
@@ -78,23 +100,25 @@ const CategoryBox = (props) => {
         centered
         open={editCategoryModal}
         onCancel={() => setEditCategoryModal(false)}
-        footer={[
-          <CustomButton className="bg-red-300 mr-8 px-16 py-4">
-            Delete
-          </CustomButton>,
-          <CustomButton
-            className="mr-8 px-16 py-4 border-[1px]"
-            onClick={() => setEditCategoryModal(false)}
-          >
-            Cancel
-          </CustomButton>,
-          <CustomButton
-            className="bg-blue-400 px-16 py-4"
-            onClick={editCategory}
-          >
-            Save
-          </CustomButton>,
-        ]}
+        footer={
+          <div className="flex flex-row justify-end">
+            <CustomButton className="bg-red-300 mr-8 px-16 py-4">
+              Delete
+            </CustomButton>
+            <CustomButton
+              className="mr-8 px-16 py-4 border-[1px]"
+              onClick={() => setEditCategoryModal(false)}
+            >
+              Cancel
+            </CustomButton>
+            <CustomButton
+              className="bg-blue-400 px-16 py-4"
+              onClick={editCategory}
+            >
+              Save
+            </CustomButton>
+          </div>
+        }
         width={700}
       >
         <Form
@@ -103,44 +127,26 @@ const CategoryBox = (props) => {
           wrapperCol={{ span: 16 }}
           autoComplete="off"
           form={updateCategoryForm}
+          initialValues={{
+            categoryName: props.naziv,
+          }}
         >
           <Form.Item
             label="Naziv Kategorije"
             name="categoryName"
             rules={[{ required: true, message: "Polje ne smije biti prazno!" }]}
-            initialValue={props.naziv}
           >
             <Input name="categoryName" />
           </Form.Item>
-          <Form.Item
-            label="Slika Kategorije(link)"
-            name="categoryPicture"
-            rules={[
-              {
-                required: true,
-                message: "Polje ne smije biti prazno!",
-              },
-            ]}
-            initialValue={props.photo}
-          >
-            <Input name="categoryPicture" />
+          <Form.Item label="Slika Kategorije" name="categoryPicture">
+            <FileUpload
+              onFileChange={setCategoryPicture}
+              initialImageUrl={props.photo}
+            />
           </Form.Item>
         </Form>
       </Modal>
     </>
   );
 };
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    select: (category_id) => dispatch(categorySelectOnly(category_id)),
-  };
-};
-
-const mapStateToProps = (state) => {
-  return {
-    user: state.auth.currentUser,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryBox);
+export default CategoryBox;

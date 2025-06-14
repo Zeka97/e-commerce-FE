@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from "react";
-
-import { connect } from "react-redux";
+import React from "react";
 
 import "./DiscountSelect.css";
-import { discountSelect } from "../../redux/actions/search.action";
 import { CustomSelect } from "../../styledComponents/styled";
+import { useFilter } from "../../context/FilterContext";
 
 const DiscountSelect = (props) => {
   const { Option } = CustomSelect;
+  const { setDiscount } = useFilter();
 
   const onChange = (value) => {
-    props.select(value);
+    setDiscount(value);
   };
 
   return (
@@ -20,7 +19,7 @@ const DiscountSelect = (props) => {
       className="w-full"
       optionFilterProp="children"
       onChange={onChange}
-      defaultValue={props.defaultValue}
+      defaultValue={props.value}
     >
       <Option value={true}>DA</Option>
       <Option value={null}>NE</Option>
@@ -28,10 +27,4 @@ const DiscountSelect = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    select: (item) => dispatch(discountSelect(item)),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(DiscountSelect);
+export default DiscountSelect;
