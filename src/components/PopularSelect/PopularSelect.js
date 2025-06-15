@@ -1,7 +1,5 @@
 import React from "react";
 import { useFilter } from "../../context/FilterContext";
-
-import "./PopularSelect.css";
 import { CustomSelect } from "../../styledComponents/styled";
 
 const PopularSelect = (props) => {

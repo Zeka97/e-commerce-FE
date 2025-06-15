@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Form, Input } from "antd";
-import "./login.css";
 import { useMutation } from "react-query";
 import { login, loginUser } from "../../api";
 import CustomButton from "../../components/CustomButton/CustomButton";
@@ -91,7 +90,9 @@ const Login = () => {
             </p>
           )}
 
-          <CustomButton onClick={onSubmit}>Log in</CustomButton>
+          <CustomButton type="light" className="w-full mb-8" onClick={onSubmit}>
+            Log in
+          </CustomButton>
           <CustomLinkButton className="dark" to="/register">
             Sign up
           </CustomLinkButton>

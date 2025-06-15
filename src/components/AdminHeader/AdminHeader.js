@@ -3,8 +3,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useUser } from "../../context/UserContext";
 
-import "./AdminHeader.css";
-
 const AdminHeader = () => {
   const { logout } = useUser();
 

@@ -2,10 +2,7 @@ import React from "react";
 import { useQuery } from "react-query";
 import { getAllCategories } from "../../../api";
 import AddCategoryBox from "../../../components/AddCategoryBox/AddCategoryBox";
-import AdminHeader from "../../../components/AdminHeader/AdminHeader";
 import CategoryBox from "../../../components/CategoryBox/CategoryBox";
-
-import "./AdminCategories.css";
 
 const AdminCategoriesPage = () => {
   const { data, refetch, isFetching, isSuccess } = useQuery(
@@ -14,10 +11,10 @@ const AdminCategoriesPage = () => {
   );
 
   return (
-    <div className="categories_page">
-      <div className="content_box">
+    <div className="flex flex-col items-center">
+      <div className="mt-[100px] w-[90%]">
         <h3>Sve kategorije</h3>
-        <div className="categories_list">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-5">
           <AddCategoryBox />
           {isSuccess &&
             data.map((category) => (

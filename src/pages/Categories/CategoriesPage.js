@@ -3,8 +3,6 @@ import { useQuery } from "react-query";
 import { getAllCategories } from "../../api";
 import CategoryBox from "../../components/CategoryBox/CategoryBox";
 
-import "./CategoriesPage.css";
-
 const CategoriesPage = () => {
   const { data, isFetching, refetch, isSuccess } = useQuery(
     "kategorije",
@@ -12,10 +10,10 @@ const CategoriesPage = () => {
   );
 
   return (
-    <div className="categories_page">
-      <div className="content_box">
+    <div className="flex flex-col items-center">
+      <div className="mt-[100px] w-[90%]">
         <h3>Sve kategorije</h3>
-        <div className="categories_list">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-8">
           {isSuccess &&
             data.map((category) => (
               <CategoryBox key={category.id} {...category} refetch={refetch} />

@@ -1,6 +1,5 @@
 import React from "react";
 
-import "./DiscountSelect.css";
 import { CustomSelect } from "../../styledComponents/styled";
 import { useFilter } from "../../context/FilterContext";
 

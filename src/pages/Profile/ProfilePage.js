@@ -125,14 +125,13 @@ const ProfilePage = () => {
                 </button>
               </div>
               <div className="flex">
-                <div className="user_image">
-                  <img
-                    className="rounded-[10px]"
-                    src={user.slika}
-                    alt="slika"
-                  />
-                </div>
-                <div className="user_description">
+                <img
+                  className="w-[190px] h-[190px] rounded-[10px]"
+                  src={user.slika}
+                  alt="slika"
+                />
+
+                <div className="flex flex-col w-1/2 ml-5">
                   <h3 className="font-bold text-[32px]">
                     {user.ime + " " + user.prezime}{" "}
                   </h3>
@@ -146,12 +145,12 @@ const ProfilePage = () => {
               <h3 className="font-bold text-[24px]">Statistika</h3>
               <div className="flex gap-16">
                 <StatisticCard
-                  header={"Spendings"}
+                  header="Spendings"
                   desc={user.potrosen_novac}
                   isFetched={true}
                 />
                 <StatisticCard
-                  header={"Orders"}
+                  header="Orders"
                   desc={total}
                   isFetched={isFetched}
                 />

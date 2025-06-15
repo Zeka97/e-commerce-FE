@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./header.css";
-
 import Searchbar from "../Searchbar/searchbar";
 import Avatar from "../Avatar/avatar";
 import Cart from "../Cart/cart";

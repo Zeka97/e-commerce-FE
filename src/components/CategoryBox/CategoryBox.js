@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import { Modal, Form, Input, notification, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
-import "./CategoryBox.css";
 import { useMutation } from "react-query";
 import { updateCategory } from "../../api";
 import CustomButton from "../CustomButton/CustomButton";

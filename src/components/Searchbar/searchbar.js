@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./searchbar.css";
 import { SearchOutlined } from "@ant-design/icons";
-import { Input } from "antd";
 import { CustomAutocomplete } from "../../styledComponents/styled";
 import { useNavigate } from "react-router-dom";
 

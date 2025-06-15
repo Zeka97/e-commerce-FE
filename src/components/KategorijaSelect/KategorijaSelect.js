@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-
-import { connect } from "react-redux";
+import React from "react";
 
 import { useQuery } from "react-query";
 import { getAllCategories } from "../../api";
@@ -11,10 +9,7 @@ import { useFilter } from "../../context/FilterContext";
 const KategorijaSelect = (props) => {
   const { Option } = CustomSelect;
 
-  const { data, error, isError, isFetching, isLoading, isSuccess } = useQuery(
-    "getAllCategories",
-    getAllCategories
-  );
+  const { data, isSuccess } = useQuery("getAllCategories", getAllCategories);
 
   const { setCategory } = useFilter();
 

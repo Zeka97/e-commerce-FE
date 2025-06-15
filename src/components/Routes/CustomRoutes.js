@@ -7,7 +7,6 @@ import AdminPrivateRoute from "../AdminPrivateRoute/AdminPrivateRoute";
 import UserPrivateRoute from "../UserPrivateRoute/UserPrivateRoute";
 import Login from "../../pages/Login/login";
 
-import "./CustomRoutes.css";
 import Signup from "../../pages/Signup/signup";
 import NaslovnaPage from "../../pages/Naslovna/NaslovnaPage";
 import ArticlePage from "../../pages/Article/ArticlePage";

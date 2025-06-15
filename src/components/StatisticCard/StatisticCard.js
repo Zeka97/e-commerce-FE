@@ -4,41 +4,32 @@ import NumberCounter from "number-counter";
 
 import { Spin, Tag } from "antd";
 
-import "./StatisticCard.css";
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 
-const StatisticCard = (props) => {
+const StatisticCard = ({ header, desc, statisticChange, isFetched }) => {
+  const isPositive = statisticChange >= 0;
+  const ArrowIcon = isPositive ? ArrowUpOutlined : ArrowDownOutlined;
+  const tagColor = isPositive ? "green" : "red";
+  const changeValue = Math.abs(statisticChange);
+
   return (
-    <div className="statistic-box">
-      <div className="statistic-box_header">
-        <h3 className="font-bold text-[20px]">{props.header}</h3>
-      </div>
-      {props.isFetched ? (
-        <div className="description">
+    <div className="w-[190px] h-[190px] rounded-[5px] pl-8 shadow-[0_5px_15px_rgba(0,0,0,0.35)] flex justify-center flex-col pl-5">
+      <h3 className="font-bold text-[20px]">{header}</h3>
+
+      {isFetched ? (
+        <div className=" flex flex-col justify-center">
           <b>
-            <NumberCounter end={parseInt(props.desc)} delay={0.2} />
+            <NumberCounter end={parseInt(desc)} delay={0.2} />
           </b>
-          {props.statisticChange >= 0 ? (
-            <div className="flex">
-              <Tag color="green">
-                <ArrowUpOutlined />
-                <span>
-                  <b>{props.statisticChange} %</b>
-                </span>
-              </Tag>
-              <span>since last month</span>
-            </div>
-          ) : (
-            <div className="flex mt-12">
-              <Tag color="red">
-                <ArrowDownOutlined />
-                <span>
-                  <b>{Math.abs(props.statisticChange)} %</b>
-                </span>
-              </Tag>
-              <span>since last month</span>
-            </div>
-          )}
+          <div className="flex">
+            <Tag color={tagColor}>
+              <ArrowIcon />
+              <span>
+                <b>{changeValue} %</b>
+              </span>
+            </Tag>
+            <span>since last month</span>
+          </div>
         </div>
       ) : (
         <Spin size="large" />

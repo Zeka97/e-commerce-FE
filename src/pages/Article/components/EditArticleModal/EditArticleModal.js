@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, Form, Input, notification, Select, message } from "antd";
 import { useMutation, useQuery } from "react-query";
 
-import "./EditArticleModal.css";
 import { addArticle, editArticle, getAllCategories } from "../../../../api";
-import { useNavigate } from "react-router-dom";
 import FileUpload from "../../../../components/FileUpload/FileUpload";
 
 const EditArticleModal = (props) => {
